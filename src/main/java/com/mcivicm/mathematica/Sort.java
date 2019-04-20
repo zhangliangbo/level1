@@ -30,7 +30,7 @@ public class Sort {
          * ArrayList#sort() was added in API level 24 and runtimes below API level 24 don't have that method. Looks like your compileSdkVersion is at 24 so you got the code to compile in the first place.
          */
         //记得使用Collections.sort()
-        Collections.sort(result, new Comparator<T>() {
+        result.sort(new Comparator<T>() {
             @Override
             public int compare(T o1, T o2) {
                 return finalOne.apply(o1, o2);

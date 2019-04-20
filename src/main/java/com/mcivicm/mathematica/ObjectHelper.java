@@ -9,13 +9,14 @@ import java.util.List;
 public class ObjectHelper {
     /**
      * 如果对象为空，则抛出异常
-     *
-     * @param object
-     * @param param
      */
-    public static void requireNonNull(Object object, String param) {
-        if (object == null) {
-            throw new IllegalArgumentException(param + "==null");
+    public static void requireNonNull(Object... objects) {
+        if (objects != null) {
+            for (Object o : objects) {
+                if (o == null) {
+                    throw new IllegalArgumentException("parameter==null");
+                }
+            }
         }
     }
 

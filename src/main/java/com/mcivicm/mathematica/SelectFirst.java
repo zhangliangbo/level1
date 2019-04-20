@@ -20,14 +20,12 @@ public class SelectFirst {
      * @throws ItemNotFoundException
      */
     public static <T> T selectFirst(List<T> list, Predicate<T> criteria) throws ItemNotFoundException {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
-        for (T t : list) {
-            if (criteria.test(t)) {
-                return t;
-            }
+        T res = selectFirst(list, criteria, null);
+        if (res == null) {
+            throw new ItemNotFoundException("criteria");
+        } else {
+            return res;
         }
-        throw new ItemNotFoundException("criteria");
     }
 
     /**
