@@ -1,28 +1,37 @@
 package com.mcivicm.mathematica.string;
 
 import com.mcivicm.mathematica.ObjectHelper;
+import com.mcivicm.mathematica.function.Function;
 
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 用分隔符连接字符串
+ */
 public class StringRiffle {
 
-    public static <T> String stringRiffle(List<T> l, String s) {
-        ObjectHelper.requireNonNull(l, s);
+    public static <T> String stringRiffle(List<T> l, Function<T, String> f, String start, String splitter, String end) {
+        ObjectHelper.requireNonNull(l, f, start, splitter, end);
         StringBuilder sb = new StringBuilder();
+        sb.append(start);
         for (int i = 0; i < l.size() - 1; i++) {
-            sb.append(l.get(i)).append(s);
+            sb.append(f.apply(l.get(i))).append(splitter);
         }
-        sb.append(l.get(l.size() - 1));
+        sb.append(f.apply(l.get(l.size() - 1)));
+        sb.append(end);
         return sb.toString();
     }
 
-    public static <T> String stringRiffle(T[] a, String s) {
-        return stringRiffle(Arrays.asList(a), s);
+    public static <T> String stringRiffle(List<T> l, String splitter) {
+        return stringRiffle(l, new Function<T, String>() {
+            @Override
+            public String apply(T t) {
+                return t.toString();
+            }
+        }, "", splitter, "");
     }
 
-    public static void main(String[] args) {
-        System.out.println(stringRiffle(new Integer[]{1, 2, 3}, ":"));
+    public static <T> String stringRiffle(List<T> l) {
+        return stringRiffle(l, " ");
     }
-
 }

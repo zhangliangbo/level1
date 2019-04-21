@@ -14,7 +14,17 @@ public class ObjectHelper {
         if (objects != null) {
             for (Object o : objects) {
                 if (o == null) {
-                    throw new IllegalArgumentException("parameter==null");
+                    throw new IllegalArgumentException("parameter is null");
+                }
+            }
+        }
+    }
+
+    public static void requirePositive(Number... numbers) {
+        if (numbers != null) {
+            for (Number n : numbers) {
+                if (n.intValue() <= 0) {
+                    throw new IllegalArgumentException("parameter is not positive");
                 }
             }
         }

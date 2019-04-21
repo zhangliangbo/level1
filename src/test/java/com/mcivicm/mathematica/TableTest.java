@@ -33,7 +33,7 @@ public class TableTest {
             @Override
             public Student apply(Integer integer) {
                 Student student = new Student();
-                student.name = "name" + integer;
+                student.name = "splitter" + integer;
                 return student;
             }
         }, range(10));
@@ -50,7 +50,7 @@ public class TableTest {
             @Override
             public Student apply(Integer integer, Integer integer2) {
                 Student student = new Student();
-                student.name = "name" + integer + "" + integer2;
+                student.name = "splitter" + integer + "" + integer2;
                 return student;
             }
         }, range(10), range(10)));
@@ -63,7 +63,7 @@ public class TableTest {
             @Override
             public Student apply(Integer integer) {
                 Student student = new Student();
-                student.name = "name" + integer;
+                student.name = "splitter" + integer;
                 return student;
             }
         }, range(3, 100, 2));
@@ -80,7 +80,7 @@ public class TableTest {
             @Override
             public Student apply(Integer integer, Integer integer2) {
                 Student student = new Student();
-                student.name = "name" + integer + "" + integer2;
+                student.name = "splitter" + integer + "" + integer2;
                 return student;
             }
         }, range(4, 8, 3), range(8, 11, 1)));
@@ -93,7 +93,7 @@ public class TableTest {
             @Override
             public Student apply(Integer integer, Integer integer2) {
                 Student student = new Student();
-                student.name = "name" + integer + "" + integer2;
+                student.name = "splitter" + integer + "" + integer2;
                 return student;
             }
         }, Arrays.asList(1, 3, 5), Arrays.asList(2, 4, 6)));
