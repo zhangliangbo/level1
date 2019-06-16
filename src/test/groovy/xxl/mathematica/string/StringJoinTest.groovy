@@ -1,7 +1,11 @@
 package xxl.mathematica.string
 
-class StringJoinTest extends GroovyTestCase {
-    void all() {
 
+import java.nio.charset.Charset
+
+class StringJoinTest extends GroovyTestCase {
+
+    void testAbc() {
+        println(Charset.availableCharsets())
     }
 }

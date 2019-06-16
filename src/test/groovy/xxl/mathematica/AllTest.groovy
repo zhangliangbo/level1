@@ -17,7 +17,7 @@ class AllTest extends GroovyTestCase {
     }
 
     @Test
-    void name() {
+    void testName() {
         final List<Integer> score = RandomInteger.randomInteger(0, 100, 10)
         printList(score)
         List<Student> list = Array.array(new Function<Integer, Student>() {
