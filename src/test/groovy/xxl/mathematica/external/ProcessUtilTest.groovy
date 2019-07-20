@@ -1,4 +1,4 @@
-package xxl.mathematica.process
+package xxl.mathematica.external
 
 
 import org.apache.commons.cli.*
