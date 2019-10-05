@@ -1,8 +1,10 @@
 package xxl.ffmpeg;
 
+import xxl.mathematica.external.External;
+
 public class FFmpeg implements Iffmpeg {
 
-  public static String exec = null;
+  private static String exec;
 
   static {
     String os = System.getProperty("os.name");
@@ -13,20 +15,9 @@ public class FFmpeg implements Iffmpeg {
     }
   }
 
-  private FFmpeg() {
-
-  }
-
-  public FFmpeg getInstance() {
-    return Holder.ffmpeg;
-  }
-
   @Override
   public String getLicense() {
-    return
+    return External.runProcess(exec + "-h");
   }
 
-  private static class Holder {
-    private static FFmpeg ffmpeg = new FFmpeg();
-  }
 }
