@@ -37,6 +37,10 @@ public class FFmpeg implements Iffmpeg {
     return Holder.ffmpeg;
   }
 
+  public static void main(String[] args) {
+    System.out.println(FFmpeg.getInstance().getLicense());
+  }
+
   @Override
   public String getLicense() {
     try {

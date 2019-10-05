@@ -3,7 +3,8 @@
 .gradle
 .idea
 out
-/build/
+build/
+META-INF/
 
 
 # Ignore Gradle GUI config
