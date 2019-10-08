@@ -19,10 +19,10 @@ package xxl.codec.binary;
 
 import java.util.Arrays;
 
-import org.apache.commons.codec.BinaryDecoder;
-import org.apache.commons.codec.BinaryEncoder;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.EncoderException;
+import xxl.codec.BinaryDecoder;
+import xxl.codec.BinaryEncoder;
+import xxl.codec.DecoderException;
+import xxl.codec.EncoderException;
 
 /**
  * Abstract superclass for Base-N encoders and decoders.

@@ -17,7 +17,7 @@
 
 package xxl.codec.net;
 
-import org.apache.commons.codec.DecoderException;
+import xxl.codec.DecoderException;
 
 /**
  * Utility methods for this package.

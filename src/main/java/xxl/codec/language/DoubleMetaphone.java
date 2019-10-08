@@ -17,9 +17,9 @@
 
 package xxl.codec.language;
 
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.StringEncoder;
-import org.apache.commons.codec.binary.StringUtils;
+import xxl.codec.EncoderException;
+import xxl.codec.StringEncoder;
+import xxl.codec.binary.StringUtils;
 
 /**
  * Encodes a string into a double metaphone value. This Implementation is based on the algorithm by <CITE>Lawrence

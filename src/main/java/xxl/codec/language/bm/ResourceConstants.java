@@ -17,7 +17,7 @@
 
 package xxl.codec.language.bm;
 
-import org.apache.commons.codec.CharEncoding;
+import xxl.codec.CharEncoding;
 
 /**
  * Constants used to process resource files.

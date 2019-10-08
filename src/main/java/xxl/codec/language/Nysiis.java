@@ -19,8 +19,8 @@ package xxl.codec.language;
 
 import java.util.regex.Pattern;
 
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.StringEncoder;
+import xxl.codec.EncoderException;
+import xxl.codec.StringEncoder;
 
 /**
  * Encodes a string into a NYSIIS value. NYSIIS is an encoding used to relate similar names, but can also be used as a

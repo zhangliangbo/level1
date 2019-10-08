@@ -17,8 +17,8 @@
 
 package xxl.codec.language;
 
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.StringEncoder;
+import xxl.codec.EncoderException;
+import xxl.codec.StringEncoder;
 
 /**
  * Utility methods for {@link Soundex} and {@link RefinedSoundex} classes.

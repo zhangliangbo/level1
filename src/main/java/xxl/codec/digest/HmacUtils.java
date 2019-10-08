@@ -30,8 +30,8 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.binary.StringUtils;
+import xxl.codec.binary.Hex;
+import xxl.codec.binary.StringUtils;
 
 /**
  * Simplifies common {@link Mac} tasks. This class is immutable and thread-safe.

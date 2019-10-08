@@ -27,10 +27,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import org.apache.commons.codec.CharEncoding;
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.Resources;
-import org.apache.commons.codec.StringEncoder;
+import xxl.codec.CharEncoding;
+import xxl.codec.EncoderException;
+import xxl.codec.Resources;
+import xxl.codec.StringEncoder;
 
 /**
  * Encodes a string into a Daitch-Mokotoff Soundex value.
@@ -213,7 +213,7 @@ public class DaitchMokotoffSoundex implements StringEncoder {
     private static final String MULTILINE_COMMENT_START = "/*";
 
     /** The resource file containing the replacement and folding rules */
-    private static final String RESOURCE_FILE = "org/apache/commons/codec/language/dmrules.txt";
+    private static final String RESOURCE_FILE = "xxl/codec/language/dmrules.txt";
 
     /** The code length of a DM soundex value. */
     private static final int MAX_LENGTH = 6;

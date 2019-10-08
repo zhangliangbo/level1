@@ -26,8 +26,8 @@ import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.binary.StringUtils;
+import xxl.codec.binary.Hex;
+import xxl.codec.binary.StringUtils;
 
 /**
  * Operations to simplify common {@link MessageDigest} tasks.
@@ -42,7 +42,7 @@ import org.apache.commons.codec.binary.StringUtils;
  * This approach requires lots of methods for each algorithm, and quickly becomes unwieldy.
  * The following code works with all algorithms:
  * <pre>
- * import static org.apache.commons.codec.digest.MessageDigestAlgorithms.SHA_224;
+ * import static xxl.codec.digest.MessageDigestAlgorithms.SHA_224;
  * ...
  * byte [] digest = new DigestUtils(SHA_224).digest(dataToDigest);
  * String hdigest = new DigestUtils(SHA_224).digestAsHex(new File("pom.xml"));

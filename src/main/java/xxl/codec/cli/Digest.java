@@ -23,9 +23,9 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Locale;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.digest.MessageDigestAlgorithms;
+import xxl.codec.binary.Hex;
+import xxl.codec.digest.DigestUtils;
+import xxl.codec.digest.MessageDigestAlgorithms;
 
 /**
  * A minimal command line to run digest over files, directories or a string

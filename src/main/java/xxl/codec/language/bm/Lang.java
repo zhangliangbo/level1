@@ -29,7 +29,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.commons.codec.Resources;
+import xxl.codec.Resources;
 
 /**
  * Language guessing utility.
@@ -95,7 +95,7 @@ public class Lang {
 
     private static final Map<NameType, Lang> Langs = new EnumMap<>(NameType.class);
 
-    private static final String LANGUAGE_RULES_RN = "org/apache/commons/codec/language/bm/%s_lang.txt";
+    private static final String LANGUAGE_RULES_RN = "xxl/codec/language/bm/%s_lang.txt";
 
     static {
         for (final NameType s : NameType.values()) {

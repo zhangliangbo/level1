@@ -19,8 +19,8 @@ package xxl.codec.language;
 
 import java.util.Locale;
 
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.StringEncoder;
+import xxl.codec.EncoderException;
+import xxl.codec.StringEncoder;
 
 /**
  * Encodes a string into a Cologne Phonetic value.

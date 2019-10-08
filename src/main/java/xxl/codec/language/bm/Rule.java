@@ -31,8 +31,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.codec.Resources;
-import org.apache.commons.codec.language.bm.Languages.LanguageSet;
+import xxl.codec.Resources;
+import xxl.codec.language.bm.Languages.LanguageSet;
 
 /**
  * A phoneme rule.
@@ -247,7 +247,7 @@ public class Rule {
     }
 
     private static String createResourceName(final NameType nameType, final RuleType rt, final String lang) {
-        return String.format("org/apache/commons/codec/language/bm/%s_%s_%s.txt",
+        return String.format("xxl/codec/language/bm/%s_%s_%s.txt",
                              nameType.getName(), rt.getName(), lang);
     }
 
@@ -257,7 +257,7 @@ public class Rule {
     }
 
     private static Scanner createScanner(final String lang) {
-        final String resName = String.format("org/apache/commons/codec/language/bm/%s.txt", lang);
+        final String resName = String.format("xxl/codec/language/bm/%s.txt", lang);
         return new Scanner(Resources.getInputStream(resName), ResourceConstants.ENCODING);
     }
 

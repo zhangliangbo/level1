@@ -21,11 +21,11 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.BitSet;
 
-import org.apache.commons.codec.Charsets;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.StringDecoder;
-import org.apache.commons.codec.StringEncoder;
+import xxl.codec.Charsets;
+import xxl.codec.DecoderException;
+import xxl.codec.EncoderException;
+import xxl.codec.StringDecoder;
+import xxl.codec.StringEncoder;
 
 /**
  * Similar to the Quoted-Printable content-transfer-encoding defined in

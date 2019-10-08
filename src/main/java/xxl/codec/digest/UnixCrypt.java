@@ -19,7 +19,7 @@ package xxl.codec.digest;
 import java.security.SecureRandom;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.apache.commons.codec.Charsets;
+import xxl.codec.Charsets;
 
 /**
  * Unix crypt(3) algorithm implementation.

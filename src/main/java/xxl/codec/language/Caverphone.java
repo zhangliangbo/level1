@@ -17,8 +17,8 @@
 
 package xxl.codec.language;
 
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.StringEncoder;
+import xxl.codec.EncoderException;
+import xxl.codec.StringEncoder;
 
 /**
  * Encodes a string into a Caverphone 2.0 value. Delegate to a {@link Caverphone2} instance.

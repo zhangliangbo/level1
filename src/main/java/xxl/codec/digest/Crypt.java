@@ -19,7 +19,7 @@ package xxl.codec.digest;
 import java.security.SecureRandom;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.apache.commons.codec.Charsets;
+import xxl.codec.Charsets;
 
 /**
  * GNU libc crypt(3) compatible hash method.

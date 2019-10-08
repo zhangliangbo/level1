@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
 
-import org.apache.commons.codec.Resources;
+import xxl.codec.Resources;
 
 /**
  * Language codes.
@@ -196,7 +196,7 @@ public class Languages {
     }
 
     private static String langResourceName(final NameType nameType) {
-        return String.format("org/apache/commons/codec/language/bm/%s_languages.txt", nameType.getName());
+        return String.format("xxl/codec/language/bm/%s_languages.txt", nameType.getName());
     }
 
     private final Set<String> languages;

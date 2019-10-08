@@ -25,7 +25,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.codec.Charsets;
+import xxl.codec.Charsets;
 
 /**
  * SHA2-based Unix crypt implementation.

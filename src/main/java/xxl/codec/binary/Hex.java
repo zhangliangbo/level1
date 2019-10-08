@@ -20,12 +20,12 @@ package xxl.codec.binary;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-import org.apache.commons.codec.BinaryDecoder;
-import org.apache.commons.codec.BinaryEncoder;
-import org.apache.commons.codec.CharEncoding;
-import org.apache.commons.codec.Charsets;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.EncoderException;
+import xxl.codec.BinaryDecoder;
+import xxl.codec.BinaryEncoder;
+import xxl.codec.CharEncoding;
+import xxl.codec.Charsets;
+import xxl.codec.DecoderException;
+import xxl.codec.EncoderException;
 
 /**
  * Converts hexadecimal Strings. The charset used for certain operation can be set, the default is set in
