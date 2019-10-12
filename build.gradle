@@ -27,6 +27,8 @@ dependencies {
     implementation 'commons-cli:commons-cli:1.4'
 
     implementation 'org.osgeo:proj4j:0.1.0'
+
+    implementation 'com.alibaba:easyexcel:2.0.5'
     
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.7'
     
