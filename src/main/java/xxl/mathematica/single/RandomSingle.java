@@ -1,4 +1,4 @@
-package xxl.mathematica.internal;
+package xxl.mathematica.single;
 
 import java.util.Random;
 

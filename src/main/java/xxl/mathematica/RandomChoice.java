@@ -1,6 +1,6 @@
 package xxl.mathematica;
 
-import xxl.mathematica.internal.RandomSingle;
+import xxl.mathematica.single.RandomSingle;
 
 import java.util.ArrayList;
 import java.util.List;
