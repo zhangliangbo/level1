@@ -19,7 +19,7 @@ class ILabTest extends GroovyTestCase {
     void testUploadFile() {
         println(new ILab().uploadFile(new File("C:\\Users\\zhang\\Desktop\\comm.pdf")))
     }
-
+//18674068268
     void testUploadResult() {
         Do.loop(new Consumer<Integer>() {
             @Override

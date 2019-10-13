@@ -73,7 +73,11 @@ public final class ILab {
                              String model, int status, int score,
                              long startDate, int timeUsed, File file) {
     Map<String, Object> query = new HashMap<>();
-    query.put("username", getUserName(username, pwd));
+    String[] user = getUserName(username, pwd);
+    if (user == null) {
+      return null;
+    }
+    query.put("username", user[0]);
     query.put("projectTitle", "人工社会建模虚拟仿真实验项目");
     query.put("childProjectTitle", model);
     query.put("status", status);
@@ -106,7 +110,12 @@ public final class ILab {
   public String uploadState(String username, String pwd) {
     Map<String, String> map = new HashMap<>();
     map.put("issuerId", String.valueOf(KEY.issueId));
-    map.put("username", getUserName(username, pwd));
+    String[] user = getUserName(username, pwd);
+    if (user == null) {
+      return null;
+    }
+    map.put("username", user[0]);
+    map.put("name", user[1]);
     String json = gson.toJson(map);
     String xjwt;
     try {
@@ -137,14 +146,13 @@ public final class ILab {
     }
   }
 
-  private String getUserName(String name, String pwd) {
+  private String[] getUserName(String name, String pwd) {
     String userJson = getUserInfo(name, pwd);
     if (userJson == null) {
       return null;
     }
     Map<String, String> mapUser = gson.fromJson(userJson, new TypeToken<Map<String, String>>() {
     }.getType());
-    return mapUser.get("username");
+    return new String[]{mapUser.get("username"), mapUser.get("name")};
   }
-
 }
