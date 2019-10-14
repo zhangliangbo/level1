@@ -115,7 +115,7 @@ public final class ILab {
       return null;
     }
     map.put("username", user[0]);
-    map.put("name", user[1]);
+//    map.put("name", user[1]);
     String json = gson.toJson(map);
     String xjwt;
     try {

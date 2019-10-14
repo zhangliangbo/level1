@@ -45,7 +45,7 @@ public class XJWT {
     try {
       String data;
       // =================示例：解密xjwt (token也是一个xjwt);
-      String xjwt = "AAABbcBEFcsBAAAAAAABiDA%3D.oihgY%2Bw%2FDg8JdufoizwfFs06CDajqgFF5HjiHHois8fpQmAEY2UNo6mKlUhqoOF0Rn%2BSW5%2B4jy7zOMV3ln9v4yboIF%2FaQbOdRBNW%2B95DLBpNzmCNWSENZTG8jfkyUlYKYaEJWcC1Kibj0S3hH%2BJ0C2CycasXpo6NpBkWlKBHxTPCIAXVBZBlmOrJnJdi8SW6AXQN1c5cY8Bf6mok%2B3WD0qsRtj70uHSuPGX%2Bb%2B0z5pTFc5kpvbSjhoUoY%2FElv%2BvKoDgELURGsK0yDaAySzqEK8SM%2B%2FqnY3oZHFaVr6ULZTM%3D.uN0rlc7FK%2B2JtPJ13Drym2%2BJ5Knzu3YiTZE3uO%2FfbrQ%3D";
+      String xjwt = "AAABbcmcwLkBAAAAAAABjf0%3D.mGU%2BGNv242V%2BXKMEqvxbQDJiVP4a8m70MAg%2BWFvToXVIaXtS0XM3MCf75HTdOWqramgD4g%2FnHfqbHVGrtr4zC1uwRQZ7arOpsCcTMIQmylgy7FIsf1%2ByWFWqpYUxo9YOxVRuE7LCIu%2F8wO4mqdCVGkSqlYpWddlztVWHsNaX0NezamtJ5PiTgYKBQxlbEEiC7NijQuEvhEYxmyfo0kTor81HqpOm%2BTgRFqzCNWna%2B63eXRFgrssYOXS4ZXPQ3VpP7%2BlYCPMjIQazeIy%2FWJ5q5WkhZDHGf%2FgCCHy2idkzOJgr0yC%2FINczYN2fyhIbv8Ym7Zj8cuaFn%2BfkjbOh0ydMvQ%3D%3D.m0IbtGA9pCVucHDDzv%2FKGeoi2%2B9NpY4ERPK57%2FKa3W8%3D";
       data = dencrty(xjwt);
       System.out.println(data);
 
