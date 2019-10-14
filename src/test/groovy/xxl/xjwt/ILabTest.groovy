@@ -24,7 +24,7 @@ class ILabTest extends GroovyTestCase {
         Do.loop(new Consumer<Integer>() {
             @Override
             void accept(Integer integer) {
-                println(new ILab().uploadResult("18674068268", "18674068268",
+                println(new ILab().uploadResult("15172384938", "mancivic",
                         "社会舆情演化模型", 1, RandomInteger.randomInteger(100), System.currentTimeMillis(), RandomInteger.randomInteger(1, 10),
                         new File("C:\\Users\\zhang\\Desktop\\comm.pdf")))
                 Thread.sleep(10000)

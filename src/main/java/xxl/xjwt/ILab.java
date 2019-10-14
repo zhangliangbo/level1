@@ -50,7 +50,7 @@ public final class ILab {
     try {
       xjwt = XJWT.encrty("SYS");
     } catch (Exception e) {
-      e.printStackTrace();
+      return null;
     }
     int totalChunks = 1;
     int current = 0;
@@ -97,7 +97,7 @@ public final class ILab {
       return null;
     }
     Request request = new Request.Builder()
-        .url("http://www.ilab-x.com/project/log/upload?xjwt=" + xjwt)
+        .url(baseUrl + "/project/log/upload?xjwt=" + xjwt)
         .build();
     try {
       Response response = okHttpClient.newCall(request).execute();
