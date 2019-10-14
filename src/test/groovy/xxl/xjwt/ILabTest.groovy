@@ -31,4 +31,8 @@ class ILabTest extends GroovyTestCase {
             }
         }, 3)
     }
+
+    void testGetToken() {
+        println(new ILab().getToken("AAABbcnBHUABAAAAAAABjf0%3D.J%2FSmXAjX%2FILMYSx8utVvqJOa3o7nECCrvc5GybYqxvJerQbYKuOINvwqJg%2F4020dltcaRNidBSpf%2FQOwEUYIYB3xbRp70KFCPhQcSefcrshNOvr4c7Q%2BNen%2BXHwUxoc9EjEzk0hpGxoeknJQXXnhzqWEjPdq7Iv4Ilb4p6OP0S1soezxu8ws674F2is5vb%2FzJRNoTDA6wgK6iRJxYtJ4aXs%2BWh9y0Q99jenEAa7h1iLXi9b7ThWSkZBu67z6RmNytucGm5%2FXDdp9QmbcAvLNGVJ7fayHJGgoZwMk64eae%2B3RSXdLgTx39Y2Fb5lwqYyDBAFU%2B7JZebUWGqvcLeTvXg%3D%3D.TXZ0eItIw8ct%2Bg9wLVF0RybOgA5BjYmcQGBbuRsTr7g%3D"))
+    }
 }

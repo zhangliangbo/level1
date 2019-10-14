@@ -146,6 +146,14 @@ public final class ILab {
     }
   }
 
+  public String getToken(String xjwt) {
+    try {
+      return XJWT.dencrty(xjwt);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   private String[] getUserName(String name, String pwd) {
     String userJson = getUserInfo(name, pwd);
     if (userJson == null) {
