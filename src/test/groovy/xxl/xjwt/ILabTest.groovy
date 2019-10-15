@@ -33,7 +33,7 @@ class ILabTest extends GroovyTestCase {
     }
 
     void testGetToken() {
-        println(new ILab().getToken("AAABbcnBHUABAAAAAAABjf0%3D.J%2FSmXAjX%2FILMYSx8utVvqJOa3o7nECCrvc5GybYqxvJerQbYKuOINvwqJg%2F4020dltcaRNidBSpf%2FQOwEUYIYB3xbRp70KFCPhQcSefcrshNOvr4c7Q%2BNen%2BXHwUxoc9EjEzk0hpGxoeknJQXXnhzqWEjPdq7Iv4Ilb4p6OP0S1soezxu8ws674F2is5vb%2FzJRNoTDA6wgK6iRJxYtJ4aXs%2BWh9y0Q99jenEAa7h1iLXi9b7ThWSkZBu67z6RmNytucGm5%2FXDdp9QmbcAvLNGVJ7fayHJGgoZwMk64eae%2B3RSXdLgTx39Y2Fb5lwqYyDBAFU%2B7JZebUWGqvcLeTvXg%3D%3D.TXZ0eItIw8ct%2Bg9wLVF0RybOgA5BjYmcQGBbuRsTr7g%3D"))
+        println(new ILab().getToken("AAABbc47ktwBAAAAAAABjf0%3D.jRnYV%2B1H0aVgyRM4I4tX5Pgu5nUFfb5PTsxrMfbVnzp4PY6XxLwl9ujaaKhe9sJDHTSZjsoJnuW88AYMttPipc5uIwCrh96O2%2BnLK2%2Fbj67%2FTj2e4LDGJdMh%2BoviDscyH4Qyx9opn109PEJzNBDniaDTGs1EPXCpxza3CHIG%2B9%2BUzytKoIKOyT8gg7%2B9Wu%2Bo63HdzJQfFLWST2e7cLGMIVyyDaUZDBv6v3m7oIJS8TtwRMQ51pdJ4kexGlcitMhDFi8dQD2sZkg3c0IjbagM8%2B0Vf%2FSqv2OwZ4P101nGTJcY%2FnH2Iercx2LDog5wjDWtCV%2BRwvSIPQeQcOufUin1cA%3D%3D.GAD%2Fn%2B%2BqyWBwSizEv%2FpSchV0xPL%2FqsYNr6BxlG7k8xk%3D"))
     }
 
     void testUploadResultFromToken() {
