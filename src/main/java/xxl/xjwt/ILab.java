@@ -53,6 +53,22 @@ public final class ILab {
     }
   }
 
+  /**
+   * 解密获取用户名称，如果成功则通过实验
+   *
+   * @param token
+   * @return
+   */
+  public String getUserNameFromToken(String token) {
+    String tokenDe = getToken(token);
+    if (tokenDe == null) {
+      return null;
+    }
+    Map<String, String> tokenMap = gson.fromJson(tokenDe, new TypeToken<Map<String, String>>() {
+    }.getType());
+    return tokenMap.get("un");
+  }
+
   public String uploadFile(File file) {
     String xjwt = null;
     try {
@@ -75,16 +91,6 @@ public final class ILab {
     } catch (IOException e) {
       return null;
     }
-  }
-
-  public String uploadResult(String username, String pwd,
-                             String model, int status, int score,
-                             long startDate, int timeUsed, File file) {
-    String[] user = getUserName(username, pwd);
-    if (user == null) {
-      return null;
-    }
-    return uploadResult(user[0], model, status, score, startDate, timeUsed, file);
   }
 
   public String uploadResult(String username,
@@ -121,6 +127,39 @@ public final class ILab {
     }
   }
 
+  public String uploadResult(String username, String pwd,
+                             String model, int status, int score,
+                             long startDate, int timeUsed, File file) {
+    String[] user = getUserName(username, pwd);
+    if (user == null) {
+      return null;
+    }
+    return uploadResult(user[0], model, status, score, startDate, timeUsed, file);
+  }
+
+  /**
+   * 从Token获取用户信息并上报分数
+   *
+   * @param token
+   * @param model
+   * @param status
+   * @param score
+   * @param startDate
+   * @param timeUsed
+   * @param file
+   * @return
+   */
+  public String uploadResultFromToken(String token,
+                                      String model, int status, int score,
+                                      long startDate, int timeUsed, File file) {
+
+    String username = getUserNameFromToken(token);
+    if (username == null) {
+      return null;
+    }
+    return uploadResult(username, model, status, score, startDate, timeUsed, file);
+  }
+
   public String uploadState(String username) {
     Map<String, String> map = new HashMap<>();
     map.put("issuerId", String.valueOf(KEY.issueId));
@@ -152,6 +191,26 @@ public final class ILab {
     return uploadState(user[0]);
   }
 
+  /**
+   * 从token获取用户信息并上报状态
+   *
+   * @param token
+   * @return
+   */
+  public String uploadStateFromToken(String token) {
+    String username = getUserNameFromToken(token);
+    if (username == null) {
+      return null;
+    }
+    return uploadState(username);
+  }
+
+  /**
+   * 获取上报的文件ID
+   *
+   * @param file
+   * @return
+   */
   private String getFileId(File file) {
     String json = uploadFile(file);
     if (json != null) {
