@@ -13,7 +13,7 @@ class ILabTest extends GroovyTestCase {
     }
 
     void testUploadState() {
-        println(new ILab().uploadState("15172384938", "mancivic"))
+        println(new ILab().uploadState("zhangliangbo"))
     }
 
     void testUploadFile() {

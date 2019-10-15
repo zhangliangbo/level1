@@ -22,6 +22,14 @@ public final class ILab {
   private Gson gson = GsonSingle.instance();
   private OkHttpClient okHttpClient = OkHttpSingle.instance();
 
+  public String getToken(String xjwt) {
+    try {
+      return XJWT.dencrty(xjwt);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   /**
    * 获取用户信息
    *
@@ -72,12 +80,18 @@ public final class ILab {
   public String uploadResult(String username, String pwd,
                              String model, int status, int score,
                              long startDate, int timeUsed, File file) {
-    Map<String, Object> query = new HashMap<>();
     String[] user = getUserName(username, pwd);
     if (user == null) {
       return null;
     }
-    query.put("username", user[0]);
+    return uploadResult(user[0], model, status, score, startDate, timeUsed, file);
+  }
+
+  public String uploadResult(String username,
+                             String model, int status, int score,
+                             long startDate, int timeUsed, File file) {
+    Map<String, Object> query = new HashMap<>();
+    query.put("username", username);
     query.put("projectTitle", "人工社会建模虚拟仿真实验项目");
     query.put("childProjectTitle", model);
     query.put("status", status);
@@ -107,15 +121,10 @@ public final class ILab {
     }
   }
 
-  public String uploadState(String username, String pwd) {
+  public String uploadState(String username) {
     Map<String, String> map = new HashMap<>();
     map.put("issuerId", String.valueOf(KEY.issueId));
-    String[] user = getUserName(username, pwd);
-    if (user == null) {
-      return null;
-    }
-    map.put("username", user[0]);
-//    map.put("name", user[1]);
+    map.put("username", username);
     String json = gson.toJson(map);
     String xjwt;
     try {
@@ -135,6 +144,14 @@ public final class ILab {
     }
   }
 
+  public String uploadState(String username, String pwd) {
+    String[] user = getUserName(username, pwd);
+    if (user == null) {
+      return null;
+    }
+    return uploadState(user[0]);
+  }
+
   private String getFileId(File file) {
     String json = uploadFile(file);
     if (json != null) {
@@ -142,14 +159,6 @@ public final class ILab {
       }.getType());
       return map.get("id");
     } else {
-      return null;
-    }
-  }
-
-  public String getToken(String xjwt) {
-    try {
-      return XJWT.dencrty(xjwt);
-    } catch (Exception e) {
       return null;
     }
   }
