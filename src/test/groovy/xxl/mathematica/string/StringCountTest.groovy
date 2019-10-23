@@ -7,4 +7,8 @@ class StringCountTest extends GroovyTestCase {
         String file = ImportText.importText(new File("D:\\xxlun\\xxlun\\netlogo\\20190921\\netlogo-vue\\src\\components\\Ask.vue"))
         println(StringCount.stringCount(file, "\n"))
     }
+
+    void test1() {
+        println(StringCount.stringCount("\n\n\n\n\n\n\n\n\n\n", "\n"))
+    }
 }
