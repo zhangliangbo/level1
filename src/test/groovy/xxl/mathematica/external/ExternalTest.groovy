@@ -23,4 +23,11 @@ class ExternalTest extends GroovyTestCase {
             return new Pojo("姓名" + t, RandomInteger.randomInteger(100), RandomChoice.randomChoice(["男", "女"]))
         }, 10))
     }
+
+
+    void testExportXlsxWithJxl() {
+        Export.exportXlsx("C:\\Users\\zhang\\Desktop\\jxl.xlsx", Table.table({ t ->
+            return new Pojo("姓名" + (t + 1), RandomInteger.randomInteger(100), RandomChoice.randomChoice(["男", "女"]))
+        }, 100))
+    }
 }
