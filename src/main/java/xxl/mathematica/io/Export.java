@@ -50,7 +50,7 @@ public class Export {
               if (fields[j].isAnnotationPresent(ExcelColumnName.class)) {
                 cell.setCellValue(fields[j].getAnnotation(ExcelColumnName.class).value());
               } else {
-                cell.setCellValue("");
+                cell.setCellValue("Column" + (j + 1));
               }
             }
           }
