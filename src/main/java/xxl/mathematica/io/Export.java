@@ -47,8 +47,8 @@ public class Export {
             for (int j = 0; j < fields.length; j++) {
               XSSFCell cell = row.createCell(j);
               cell.setCellType(CellType.STRING);
-              if (fields[0].isAnnotationPresent(ExcelColumnName.class)) {
-                cell.setCellValue(fields[0].getAnnotation(ExcelColumnName.class).value());
+              if (fields[j].isAnnotationPresent(ExcelColumnName.class)) {
+                cell.setCellValue(fields[j].getAnnotation(ExcelColumnName.class).value());
               } else {
                 cell.setCellValue("");
               }
@@ -61,11 +61,17 @@ public class Export {
             XSSFRow row = sheet.createRow(i);
             for (int j = 0; j < fields.length; j++) {
               XSSFCell cell = row.createCell(j);
-              cell.setCellType(CellType.STRING);
               if (!fields[j].isAccessible()) {
                 fields[j].setAccessible(true);
               }
-              cell.setCellValue(fields[j].get(object).toString());
+              Class<?> cls = fields[j].getType();
+              if (cls.isPrimitive()) {
+                cell.setCellType(CellType.NUMERIC);
+                cell.setCellValue(Double.valueOf(fields[j].get(object).toString()));
+              } else {
+                cell.setCellType(CellType.STRING);
+                cell.setCellValue((String) fields[j].get(object));
+              }
             }
           }
         }
