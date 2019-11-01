@@ -7,7 +7,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class ImportText {
+/**
+ * 导入
+ */
+public class Import {
   /**
    * 以文本形式导入
    *
