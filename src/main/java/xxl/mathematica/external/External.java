@@ -74,4 +74,14 @@ public class External {
     }
   }
 
+  /**
+   * 发送邮件
+   *
+   * @param subject
+   * @param content
+   */
+  public static void sendMail(String subject, String content) {
+
+  }
+
 }
