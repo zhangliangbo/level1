@@ -4,13 +4,13 @@ import xxl.mathematica.io.excel.ExcelColumnName;
 
 public class Pojo {
 
-  @ExcelColumnName("名称")
+  @ExcelColumnName(value = "名称", order = 2)
   private String name;
 
-  @ExcelColumnName("年龄")
+  @ExcelColumnName(value = "年龄", order = 1)
   private int age;
 
-  @ExcelColumnName("性别")
+  @ExcelColumnName(value = "性别", order = 3)
   private String sex;
 
   public Pojo(String name, int age, String sex) {

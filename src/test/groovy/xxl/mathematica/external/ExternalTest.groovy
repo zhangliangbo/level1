@@ -4,6 +4,7 @@ import xxl.mathematica.RandomChoice
 import xxl.mathematica.RandomInteger
 import xxl.mathematica.Table
 import xxl.mathematica.io.Export
+import xxl.mathematica.io.excel.IExcel
 
 class ExternalTest extends GroovyTestCase {
     void testExec() {
@@ -19,15 +20,16 @@ class ExternalTest extends GroovyTestCase {
     }
 
     void testExportXlsx() {
-        Export.exportXlsx("C:\\Users\\zhang\\Desktop\\shu.xls", Table.table({ t ->
-            return new Pojo("姓名" + t, RandomInteger.randomInteger(100), RandomChoice.randomChoice(["男", "女"]))
-        }, 10))
+        Export.exportXlsx(IExcel.POI, "C:\\Users\\zhang\\Desktop\\poi.xls",
+                Table.table({ t ->
+                    return new Pojo("姓名" + t, RandomInteger.randomInteger(100), null)
+                }, 33),
+                Table.table({ t ->
+                    return new Pojo("姓名" + t, RandomInteger.randomInteger(100), RandomChoice.randomChoice(["男", "女"]))
+                }, 55),
+                Table.table({ t ->
+                    return new Pojo("姓名" + t, RandomInteger.randomInteger(100), RandomChoice.randomChoice(["男", "女"]))
+                }, 66))
     }
 
-
-    void testExportXlsxWithJxl() {
-        Export.exportXlsx("C:\\Users\\zhang\\Desktop\\jxl.xlsx", Table.table({ t ->
-            return new Pojo("姓名" + (t + 1), RandomInteger.randomInteger(100), RandomChoice.randomChoice(["男", "女"]))
-        }, 100))
-    }
 }
