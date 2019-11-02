@@ -1,6 +1,6 @@
 package xxl.mathematica.external;
 
-import xxl.mathematica.annotation.ExcelColumnName;
+import xxl.mathematica.io.excel.ExcelColumnName;
 
 public class Pojo {
 

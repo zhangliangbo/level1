@@ -6,7 +6,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import xxl.mathematica.ObjectHelper;
-import xxl.mathematica.annotation.ExcelColumnName;
 
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * poi实现
  */
-public class PoiExcel implements IExcel {
+final class PoiExcel implements IExcel {
 
   private PoiExcel() {
 

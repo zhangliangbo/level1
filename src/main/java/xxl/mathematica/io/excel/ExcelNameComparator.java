@@ -1,7 +1,5 @@
 package xxl.mathematica.io.excel;
 
-import xxl.mathematica.annotation.ExcelColumnName;
-
 import java.lang.reflect.Field;
 import java.util.Comparator;
 

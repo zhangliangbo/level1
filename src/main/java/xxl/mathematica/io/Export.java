@@ -1,8 +1,6 @@
 package xxl.mathematica.io;
 
-import xxl.mathematica.io.excel.IExcel;
-import xxl.mathematica.io.excel.JxlExcel;
-import xxl.mathematica.io.excel.PoiExcel;
+import xxl.mathematica.io.excel.AbsExcel;
 
 import java.util.List;
 
@@ -30,18 +28,7 @@ public class Export {
    * @throws Exception
    */
   public static boolean exportXlsx(int method, String file, List<Object>... list) throws Exception {
-    return getExcelImpl(method).exportXlsx(file, list);
-  }
-
-  private static IExcel getExcelImpl(int method) {
-    switch (method) {
-      case IExcel.POI:
-        return PoiExcel.getInstance();
-      case IExcel.JXL:
-        return JxlExcel.getInstance();
-      default:
-        throw new IllegalArgumentException("no such implementation");
-    }
+    return AbsExcel.getExcelImpl(method).exportXlsx(file, list);
   }
 
 }

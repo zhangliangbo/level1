@@ -4,7 +4,6 @@ import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
-import xxl.mathematica.annotation.ExcelColumnName;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * jxl实现，可用于android
  */
-public class JxlExcel implements IExcel {
+final class JxlExcel implements IExcel {
 
   private JxlExcel() {
 

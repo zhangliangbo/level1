@@ -1,4 +1,4 @@
-package xxl.mathematica.annotation;
+package xxl.mathematica.io.excel;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
