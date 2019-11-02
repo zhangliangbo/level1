@@ -6,7 +6,7 @@ import java.util.Comparator;
 /**
  * excel名称比较器
  */
-public class ExcelNameComparator implements Comparator<Field> {
+final class ExcelNameComparator implements Comparator<Field> {
 
   private ExcelNameComparator() {
 
