@@ -36,7 +36,7 @@ public class ImageCollage {
         int dst_width = origins[0].getWidth();
         //合成图片像素
         for (BufferedImage image : origins) {
-            dst_width = dst_width > image.getWidth() ? dst_width : image.getWidth();
+            dst_width = Math.max(dst_width, image.getWidth());
             dst_height += image.getHeight();
         }
         //合成后的图片
