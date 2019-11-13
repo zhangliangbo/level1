@@ -5,6 +5,7 @@
 out
 build/
 META-INF/
+src/test/
 
 
 # Ignore Gradle GUI config
