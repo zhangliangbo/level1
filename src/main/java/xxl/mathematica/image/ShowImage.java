@@ -30,13 +30,13 @@ public class ShowImage extends JFrame {
     Path file = f.toPath();
     try {
       ImageIcon imageIcon = new ImageIcon(file.toUri().toURL());
-      window.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight() + 100);
+      window.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
       imageLabel.setIcon(imageIcon);
     } catch (MalformedURLException e) {
       return;
     }
     //打开窗口
-    window.setTitle(f.getName());
+    window.setTitle(f.getAbsolutePath());
     window.addWindowListener(new WindowAdapter() {
 
       @Override
