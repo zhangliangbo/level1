@@ -658,5 +658,30 @@ public class WXPay {
 
   }
 
+  /**
+   * 获取沙箱测试Key
+   * @return
+   */
+  public String getSandboxSignKey() {
+    try {
+      Map<String, String> params = new HashMap<>();
+      params.put("mch_id", config.getMchID());
+      params.put("nonce_str", WXPayUtil.generateNonceStr());
+      params.put("sign", WXPayUtil.generateSignature(params, config.getKey()));
+      String strXML = this.requestWithoutCert(
+          WXPayConstants.SANDBOX_GET_SIGN_KEY_URL_SUFFIX,
+          params,
+          config.getHttpConnectTimeoutMs(),
+          config.getHttpReadTimeoutMs());
+      Map<String, String> result = WXPayUtil.xmlToMap(strXML);
+      if ("SUCCESS".equals(result.get("return_code"))) {
+        return result.get("sandbox_signkey");
+      }
+      return null;
+    } catch (Exception e) {
+      System.out.println("获取sandbox_signkey异常=" + e.getMessage());
+      return null;
+    }
+  }
 
 } // end class
