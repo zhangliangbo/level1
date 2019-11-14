@@ -37,13 +37,14 @@ public class Pay {
    * @param timeoutExpress 交易超时时间
    * @return
    */
-  public static AlipayTradePrecreateResponse aliBarcode(String appId, String outTradeNo, long totalAmount, String subject, String storeId, String timeoutExpress, String notifyUrl) {
+  public static AlipayTradePrecreateResponse aliBarcode(String appId, String outTradeNo, long totalAmount, String subject, String body, String storeId, String timeoutExpress, String notifyUrl) {
     AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
-    request.setNotifyUrl(notifyUrl);
+//    request.setNotifyUrl(notifyUrl);
     Map<String, String> map = new HashMap<>();
     map.put("out_trade_no", outTradeNo);
     map.put("total_amount", String.format(Locale.CHINA, "%.2f", totalAmount / 100f));
     map.put("subject", subject);
+    map.put("body", body);
     map.put("store_id", storeId);
     map.put("timeout_express", timeoutExpress);
     request.setBizContent(ExportString.exportStringJson(map));
@@ -72,6 +73,7 @@ public class Pay {
     } else {
       map.put("out_trade_no", outTradeNo);
     }
+    request.setBizContent(ExportString.exportStringJson(map));
     try {
       return getAli(appId).execute(request);
     } catch (AlipayApiException e) {
@@ -113,7 +115,7 @@ public class Pay {
    * @param notifyUrl
    * @return
    */
-  public static AlipayTradeRefundResponse aliOrderRefund(String appId, String tradeNo, String outTradeNo, String notifyUrl) {
+  public static AlipayTradeRefundResponse aliOrderRefund(String appId, String tradeNo, String outTradeNo, long refundMoney, String refundReason, String notifyUrl) {
     AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
     request.setNotifyUrl(notifyUrl);
     Map<String, String> map = new HashMap<>();
@@ -122,6 +124,8 @@ public class Pay {
     } else {
       map.put("out_trade_no", outTradeNo);
     }
+    map.put("refund_amount", String.format(Locale.CHINA, "%.2f", refundMoney / 100f));
+    map.put("refund_reason", refundReason);
     request.setBizContent(ExportString.exportStringJson(map));
     try {
       return getAli(appId).execute(request);
@@ -134,17 +138,14 @@ public class Pay {
    * 注册阿里平台信息
    *
    * @param serverUrl
-   * @param appId
-   * @param privateKey
-   * @param format
-   * @param charset
-   * @param publicKey
-   * @param signType
+   * @param appId      程序ID
+   * @param privateKey 私钥（建议使用工具生成）
+   * @param publicKey  阿里公钥
    */
-  public static void registerAli(String serverUrl, String appId, String privateKey, String format, String charset, String publicKey, String signType) {
+  public static void registerAli(String serverUrl, String appId, String privateKey, String publicKey) {
     AlipayClient client = aliMap.get(appId);
     if (client == null) {
-      aliMap.put(appId, new DefaultAlipayClient(serverUrl, appId, privateKey, format, charset, publicKey, signType));
+      aliMap.put(appId, new DefaultAlipayClient(serverUrl, appId, privateKey, "json", "UTF-8", publicKey, "RSA2"));
     }
   }
 
