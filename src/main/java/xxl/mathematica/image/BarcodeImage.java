@@ -5,9 +5,9 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,21 +25,21 @@ public class BarcodeImage {
    * @param height
    * @return
    */
-  public static boolean barcodeImage(String content, BarcodeFormat format, int width, int height, String outPath) {
+  public static String barcodeImage(String content, BarcodeFormat format, int width, int height, String outPath) {
     Map<EncodeHintType, Object> hints = new HashMap<>();
     hints.put(EncodeHintType.CHARACTER_SET, "UTF8");
     try {
       BitMatrix bitMatrix = new MultiFormatWriter().encode(content, format, width, height, hints);
       Path file = new File(outPath).toPath();
       MatrixToImageWriter.writeToPath(bitMatrix, outPath.substring(1 + outPath.lastIndexOf(".")), file);
-      return true;
+      return outPath;
     } catch (Exception e) {
-      return false;
+      return null;
     }
   }
 
   /**
-   * 生成二维码
+   * 宽和高一致
    *
    * @param content
    * @param format
@@ -47,19 +47,48 @@ public class BarcodeImage {
    * @param outPath
    * @return
    */
-  public static boolean barcodeImage(String content, BarcodeFormat format, int size, String outPath) {
+  public static String barcodeImage(String content, BarcodeFormat format, int size, String outPath) {
     return barcodeImage(content, format, size, size, outPath);
   }
 
   /**
-   * 生成二维码
+   * 默认QR
    *
    * @param content 内容
    * @param size
    * @param outPath
    * @return
    */
-  public static boolean barcodeImage(String content, int size, String outPath) {
+  public static String barcodeImage(String content, int size, String outPath) {
     return barcodeImage(content, BarcodeFormat.QR_CODE, size, size, outPath);
+  }
+
+  /**
+   * 使用临时文件创建
+   *
+   * @param content
+   * @param size
+   * @return
+   */
+  public static String barcodeImage(String content, int size) {
+    try {
+      return barcodeImage(content, BarcodeFormat.QR_CODE, size, size, File.createTempFile(BarcodeImage.class.getName(), ".png").getAbsolutePath());
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
+   * 默认大小500
+   *
+   * @param content
+   * @return
+   */
+  public static String barcodeImage(String content) {
+    try {
+      return barcodeImage(content, BarcodeFormat.QR_CODE, 500, 500, File.createTempFile(BarcodeImage.class.getName(), ".png").getAbsolutePath());
+    } catch (IOException e) {
+      return null;
+    }
   }
 }

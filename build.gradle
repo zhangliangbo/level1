@@ -57,6 +57,8 @@ dependencies {
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'com.google.zxing:javase:3.4.0'
 
+    implementation 'com.alipay.sdk:alipay-sdk-java:4.8.10.ALL'
+
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.7'
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'

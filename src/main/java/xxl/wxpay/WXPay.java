@@ -14,28 +14,28 @@ public class WXPay {
   private String notifyUrl;
   private WXPayRequest wxPayRequest;
 
-  public WXPay(final WXPayConfig config) throws Exception {
+  public WXPay(final WXPayConfig config) {
     this(config, null, true, false);
   }
 
-  public WXPay(final WXPayConfig config, final boolean autoReport) throws Exception {
+  public WXPay(final WXPayConfig config, final boolean autoReport) {
     this(config, null, autoReport, false);
   }
 
 
-  public WXPay(final WXPayConfig config, final boolean autoReport, final boolean useSandbox) throws Exception {
+  public WXPay(final WXPayConfig config, final boolean autoReport, final boolean useSandbox) {
     this(config, null, autoReport, useSandbox);
   }
 
-  public WXPay(final WXPayConfig config, final String notifyUrl) throws Exception {
+  public WXPay(final WXPayConfig config, final String notifyUrl) {
     this(config, notifyUrl, true, false);
   }
 
-  public WXPay(final WXPayConfig config, final String notifyUrl, final boolean autoReport) throws Exception {
+  public WXPay(final WXPayConfig config, final String notifyUrl, final boolean autoReport) {
     this(config, notifyUrl, autoReport, false);
   }
 
-  public WXPay(final WXPayConfig config, final String notifyUrl, final boolean autoReport, final boolean useSandbox) throws Exception {
+  public WXPay(final WXPayConfig config, final String notifyUrl, final boolean autoReport, final boolean useSandbox) {
     this.config = config;
     this.notifyUrl = notifyUrl;
     this.autoReport = autoReport;
@@ -632,6 +632,33 @@ public class WXPay {
     return this.processResponseXml(respXml);
   }
 
+  /**
+   * 获取沙箱测试Key
+   *
+   * @return
+   */
+  public String getSandboxSignKey() {
+    try {
+      Map<String, String> params = new HashMap<>();
+      params.put("mch_id", config.getMchID());
+      params.put("nonce_str", WXPayUtil.generateNonceStr());
+      params.put("sign", WXPayUtil.generateSignature(params, config.getKey()));
+      String strXML = this.requestWithoutCert(
+          WXPayConstants.SANDBOX_GET_SIGN_KEY_URL_SUFFIX,
+          params,
+          config.getHttpConnectTimeoutMs(),
+          config.getHttpReadTimeoutMs());
+      Map<String, String> result = WXPayUtil.xmlToMap(strXML);
+      if ("SUCCESS".equals(result.get("return_code"))) {
+        return result.get("sandbox_signkey");
+      }
+      return null;
+    } catch (Exception e) {
+      System.out.println("获取sandbox_signkey异常=" + e.getMessage());
+      return null;
+    }
+  }
+
   private void checkWXPayConfig() throws Exception {
     if (this.config == null) {
       throw new Exception("config is null");
@@ -656,32 +683,6 @@ public class WXPay {
       throw new Exception("http read timeout is too small");
     }
 
-  }
-
-  /**
-   * 获取沙箱测试Key
-   * @return
-   */
-  public String getSandboxSignKey() {
-    try {
-      Map<String, String> params = new HashMap<>();
-      params.put("mch_id", config.getMchID());
-      params.put("nonce_str", WXPayUtil.generateNonceStr());
-      params.put("sign", WXPayUtil.generateSignature(params, config.getKey()));
-      String strXML = this.requestWithoutCert(
-          WXPayConstants.SANDBOX_GET_SIGN_KEY_URL_SUFFIX,
-          params,
-          config.getHttpConnectTimeoutMs(),
-          config.getHttpReadTimeoutMs());
-      Map<String, String> result = WXPayUtil.xmlToMap(strXML);
-      if ("SUCCESS".equals(result.get("return_code"))) {
-        return result.get("sandbox_signkey");
-      }
-      return null;
-    } catch (Exception e) {
-      System.out.println("获取sandbox_signkey异常=" + e.getMessage());
-      return null;
-    }
   }
 
 } // end class
