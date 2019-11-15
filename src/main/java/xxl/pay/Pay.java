@@ -13,6 +13,7 @@ import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import xxl.mathematica.io.ExportString;
 import xxl.wxpay.WXPay;
+import xxl.wxpay.WXPayUtil;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -218,6 +219,23 @@ public class Pay {
   }
 
   /**
+   * 微信回调 回复失败
+   *
+   * @param reason
+   * @return
+   */
+  public static String wxFail(String reason) {
+    Map<String, String> map = new HashMap<>();
+    map.put("return_code", "FAIL");
+    map.put("return_msg", reason);
+    try {
+      return WXPayUtil.mapToXml(map);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
    * 关闭微信订单
    *
    * @param mchId
@@ -327,6 +345,22 @@ public class Pay {
       Map<String, String> map = new HashMap<>();
       map.put("long_url", longUrl);
       return getWxPay(mchId).shortUrl(map);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
+   * 微信回调 回复成功
+   *
+   * @return
+   */
+  public static String wxSuccess() {
+    Map<String, String> map = new HashMap<>();
+    map.put("return_code", "SUCCESS");
+    map.put("return_msg", "OK");
+    try {
+      return WXPayUtil.mapToXml(map);
     } catch (Exception e) {
       return null;
     }
