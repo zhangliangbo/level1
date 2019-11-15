@@ -198,23 +198,35 @@ public class Pay {
   }
 
   /**
+   * 微信下载对账单
+   *
+   * @param mchId
+   * @param billDate 日期，格式：yyyMMdd
+   * @param billType 类型，可选值：ALL/SUCCESS/REFUND/RECHARGE_REFUND
+   * @return
+   */
+  public static Map<String, String> wxDownloadBill(String mchId, String billDate, String billType) {
+    Map<String, String> map = new HashMap<>();
+    map.put("bill_date", billDate);
+    map.put("bill_type", "ALL");
+    try {
+      return getWxPay(mchId).downloadBill(map);
+    } catch (Exception e) {
+      System.err.println(e.getMessage());
+      return null;
+    }
+  }
+
+  /**
    * 关闭微信订单
    *
    * @param mchId
-   * @param tradeNo
-   * @param outTradeNo
+   * @param outTradeNo 商户订单号
    * @return
    */
-  public static Map<String, String> wxOrderCancel(String mchId, String tradeNo, String outTradeNo, String notifyUrl) {
+  public static Map<String, String> wxOrderCancel(String mchId, String outTradeNo) {
     Map<String, String> map = new HashMap<>();
-    if (tradeNo != null) {
-      map.put("transaction_id", tradeNo);
-    } else {
-      map.put("out_trade_no", outTradeNo);
-    }
-    if (notifyUrl != null) {
-      map.put("notify_url", notifyUrl);
-    }
+    map.put("out_trade_no", outTradeNo);
     try {
       return getWxPay(mchId).closeOrder(map);
     } catch (Exception e) {
@@ -230,16 +242,13 @@ public class Pay {
    * @param outTradeNo 商户订单号
    * @return
    */
-  public static Map<String, String> wxOrderQuery(String mchId, String tradeNo, String outTradeNo, String notifyUrl) {
+  public static Map<String, String> wxOrderQuery(String mchId, String tradeNo, String outTradeNo) {
     try {
       Map<String, String> map = new HashMap<>();
       if (tradeNo != null) {
         map.put("transaction_id", tradeNo);
       } else {
         map.put("out_trade_no", outTradeNo);
-      }
-      if (notifyUrl != null) {
-        map.put("notify_url", notifyUrl);
       }
       return getWxPay(mchId).orderQuery(map);
     } catch (Exception e) {
@@ -250,12 +259,12 @@ public class Pay {
   /**
    * 微信退款
    *
-   * @param mchId
-   * @param tradeNo
-   * @param outTradeNo
-   * @param outRefundNo
-   * @param totalFee
-   * @param refundFee
+   * @param mchId       商户号
+   * @param tradeNo     微信订单号
+   * @param outTradeNo  商户订单号
+   * @param outRefundNo 退款单号
+   * @param totalFee    订单总金额
+   * @param refundFee   退款总金额
    * @return
    */
   public static Map<String, String> wxOrderRefund(String mchId, String tradeNo, String outTradeNo, String outRefundNo, long totalFee, long refundFee, String notifyUrl) {
@@ -272,7 +281,35 @@ public class Pay {
       if (notifyUrl != null) {
         map.put("notify_url", notifyUrl);
       }
-      return getWxPay(mchId).orderQuery(map);
+      return getWxPay(mchId).refund(map);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
+   * 查询退款订单
+   *
+   * @param mchId
+   * @param refundNo    微信退款单号
+   * @param outRefundNo 商家退款单号
+   * @param tradeNo     微信订单号
+   * @param outTradeNo  商家订单号
+   * @return
+   */
+  public static Map<String, String> wxOrderRefundQuery(String mchId, String refundNo, String outRefundNo, String tradeNo, String outTradeNo) {
+    try {
+      Map<String, String> map = new HashMap<>();
+      if (refundNo != null) {
+        map.put("refund_id", refundNo);
+      } else if (outRefundNo != null) {
+        map.put("out_refund_no", outRefundNo);
+      } else if (tradeNo != null) {
+        map.put("transaction_id", tradeNo);
+      } else {
+        map.put("out_trade_no", outTradeNo);
+      }
+      return getWxPay(mchId).refundQuery(map);
     } catch (Exception e) {
       return null;
     }

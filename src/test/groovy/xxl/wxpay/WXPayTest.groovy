@@ -39,7 +39,12 @@ class WXPayTest extends GroovyTestCase {
     }
 
     void testCancelWxOrder() {
-        Map<String, String> res = Pay.wxOrderCancel(mchId, "4200000438201911131835523164", null)
+        Map<String, String> res = Pay.wxOrderCancel(mchId, "4200000438201911131835523164")
+        println(res)
+    }
+
+    void testWxDownloadBill() {
+        def res = Pay.wxDownloadBill(mchId, "20191113", "ALL")
         println(res)
     }
 

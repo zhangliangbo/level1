@@ -3,7 +3,6 @@ package xxl.mathematica.string;
 import xxl.mathematica.ObjectHelper;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,15 +10,15 @@ import java.util.List;
  */
 public class StringSplit {
   /**
-   * 按照给定的字符串列表分割字符
+   * 一个或多个分割符
    *
    * @param str
    * @param splitter
    * @return
    */
-  public static List<String> stringSplit(String str, List<String> splitter) {
+  public static List<String> stringSplit(String str, String... splitter) {
     ObjectHelper.requireNonNull(str, splitter);
-    String split = StringRiffle.stringRiffle(splitter, "|");
+    String split = StringRiffle.stringRiffle(Arrays.asList(splitter), "|");
     String[] a = str.split(split);
     return Arrays.asList(a);
   }
@@ -31,6 +30,6 @@ public class StringSplit {
    * @return
    */
   public static List<String> stringSplit(String str) {
-    return stringSplit(str, Collections.singletonList(" "));
+    return stringSplit(str, " ");
   }
 }
