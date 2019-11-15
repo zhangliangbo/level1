@@ -208,7 +208,7 @@ public class Pay {
   public static Map<String, String> wxDownloadBill(String mchId, String billDate, String billType) {
     Map<String, String> map = new HashMap<>();
     map.put("bill_date", billDate);
-    map.put("bill_type", "ALL");
+    map.put("bill_type", billType);
     try {
       return getWxPay(mchId).downloadBill(map);
     } catch (Exception e) {
@@ -310,6 +310,23 @@ public class Pay {
         map.put("out_trade_no", outTradeNo);
       }
       return getWxPay(mchId).refundQuery(map);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
+   * 微信短链接
+   *
+   * @param mchId
+   * @param longUrl
+   * @return
+   */
+  public static Map<String, String> wxShortUrl(String mchId, String longUrl) {
+    try {
+      Map<String, String> map = new HashMap<>();
+      map.put("long_url", longUrl);
+      return getWxPay(mchId).shortUrl(map);
     } catch (Exception e) {
       return null;
     }
