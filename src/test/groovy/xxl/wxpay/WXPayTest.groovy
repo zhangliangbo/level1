@@ -16,7 +16,7 @@ class WXPayTest extends GroovyTestCase {
     protected void setUp() throws Exception {
         Map<String, Object> hello = Import.importJson("D:\\xxlun\\xxlun\\微信平台\\微信商户平台\\hello.json")
         mchId = hello.get("mch_id")
-        Pay.registerWx(hello.get("mch_id") as String, hello.get("cert") as String, hello.get("appid") as String, hello.get("key") as String, "http://www.weixin.qq.com/wxpay/pay.php")
+        Pay.registerWx(hello.get("mch_id") as String, hello.get("cert") as String, hello.get("appid") as String, hello.get("key") as String)
         Map<String, Object> ali = Import.importJson("D:\\xxlun\\xxlun\\阿里平台\\ali.json")
         aliAppId = ali.get("appId") as String
         Pay.registerAli(ali.get("url") as String, aliAppId, ali.get("private") as String, ali.get("public") as String)
@@ -26,19 +26,21 @@ class WXPayTest extends GroovyTestCase {
 
     }
 
-    void testUnifyQuery() {
-        Map<String, String> code = Pay.wxBarcode(mchId, "121.60.117.78", ID.snowflake(1), "A座-1509", 1)
+
+    void testWxOrder() {
+        Map<String, String> code = Pay.wxBarcode(mchId, ID.snowflake(1), 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", null);
         println(code)
         ShowImage.showImage(BarcodeImage.barcodeImage(code.get("code_url")))
     }
 
-    void testQueryByWx() {
-        Map<String, String> res = Pay.wxOrderQueryByWxNum(mchId, "4200000438201911131835523164")
+    void testQueryWxOrder() {
+        Map<String, String> res = Pay.wxOrderQuery(mchId, "4200000438201911131835523164", null)
         println(res)
     }
 
-    void testQueryByMch() {
-        println(Pay.wxOrderQueryByMchNum(mchId, "6600286964014911488"))
+    void testCancelWxOrder() {
+        Map<String, String> res = Pay.wxOrderCancel(mchId, "4200000438201911131835523164", null)
+        println(res)
     }
 
     void testAliOrder() {

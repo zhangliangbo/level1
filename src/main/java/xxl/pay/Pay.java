@@ -39,7 +39,7 @@ public class Pay {
    */
   public static AlipayTradePrecreateResponse aliBarcode(String appId, String outTradeNo, long totalAmount, String subject, String body, String storeId, String timeoutExpress, String notifyUrl) {
     AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
-//    request.setNotifyUrl(notifyUrl);
+    request.setNotifyUrl(notifyUrl);
     Map<String, String> map = new HashMap<>();
     map.put("out_trade_no", outTradeNo);
     map.put("total_amount", String.format(Locale.CHINA, "%.2f", totalAmount / 100f));
@@ -152,16 +152,15 @@ public class Pay {
   /**
    * 注册微信平台信息
    *
-   * @param mchId     商户平台账号
-   * @param certFile  证书文件
-   * @param appId     公众平台账号
-   * @param key       商户平台校验值
-   * @param notifyUrl 通知回调地址
+   * @param mchId    商户平台账号
+   * @param certFile 证书文件
+   * @param appId    公众平台账号
+   * @param key      商户平台校验值
    */
-  public static void registerWx(String mchId, String certFile, String appId, String key, String notifyUrl) {
+  public static void registerWx(String mchId, String certFile, String appId, String key) {
     WXPay wxPay = payMap.get(mchId);
     if (wxPay == null) {
-      payMap.put(mchId, new WXPay(new SimpleWxConfig(appId, certFile, key, mchId), notifyUrl, false));
+      payMap.put(mchId, new WXPay(new SimpleWxConfig(appId, certFile, key, mchId), null, false));
     }
   }
 
@@ -169,37 +168,79 @@ public class Pay {
    * 微信支付二维码
    *
    * @param mchId
-   * @param ip
-   * @param orderSim
-   * @param goods
+   * @param outTradeNo
    * @param money
+   * @param goods
+   * @param detail
+   * @param deviceInfo
+   * @param ip
+   * @param notifyUrl
    * @return
    */
-  public static Map<String, String> wxBarcode(String mchId, String ip, String orderSim, String goods, long money) {
+  public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goods, String detail, String deviceInfo, String ip, String notifyUrl) {
     Map<String, String> map = new HashMap<>();
-    map.put("body", goods);
-    map.put("out_trade_no", orderSim);
+    map.put("out_trade_no", outTradeNo);
     map.put("total_fee", String.valueOf(money));
+    map.put("body", goods);
+    map.put("detail", detail);
+    map.put("device_info", deviceInfo);
     map.put("spbill_create_ip", ip);
     map.put("trade_type", "NATIVE");
+    if (notifyUrl != null) {
+      map.put("notify_url", notifyUrl);
+    }
     try {
       return getWxPay(mchId).unifiedOrder(map);
+    } catch (Exception e) {
+      System.err.println(e.getMessage());
+      return null;
+    }
+  }
+
+  /**
+   * 关闭微信订单
+   *
+   * @param mchId
+   * @param tradeNo
+   * @param outTradeNo
+   * @return
+   */
+  public static Map<String, String> wxOrderCancel(String mchId, String tradeNo, String outTradeNo, String notifyUrl) {
+    Map<String, String> map = new HashMap<>();
+    if (tradeNo != null) {
+      map.put("transaction_id", tradeNo);
+    } else {
+      map.put("out_trade_no", outTradeNo);
+    }
+    if (notifyUrl != null) {
+      map.put("notify_url", notifyUrl);
+    }
+    try {
+      return getWxPay(mchId).closeOrder(map);
     } catch (Exception e) {
       return null;
     }
   }
 
   /**
-   * 根据微信订单号查询
+   * 查询微信订单
    *
-   * @param mchId
-   * @param mchNum
+   * @param mchId      微信商户号
+   * @param tradeNo    微信订单号
+   * @param outTradeNo 商户订单号
    * @return
    */
-  public static Map<String, String> wxOrderQueryByMchNum(String mchId, String mchNum) {
+  public static Map<String, String> wxOrderQuery(String mchId, String tradeNo, String outTradeNo, String notifyUrl) {
     try {
       Map<String, String> map = new HashMap<>();
-      map.put("out_trade_no", mchNum);
+      if (tradeNo != null) {
+        map.put("transaction_id", tradeNo);
+      } else {
+        map.put("out_trade_no", outTradeNo);
+      }
+      if (notifyUrl != null) {
+        map.put("notify_url", notifyUrl);
+      }
       return getWxPay(mchId).orderQuery(map);
     } catch (Exception e) {
       return null;
@@ -207,16 +248,30 @@ public class Pay {
   }
 
   /**
-   * 根据商户订单号查询
+   * 微信退款
    *
    * @param mchId
-   * @param wxNum
+   * @param tradeNo
+   * @param outTradeNo
+   * @param outRefundNo
+   * @param totalFee
+   * @param refundFee
    * @return
    */
-  public static Map<String, String> wxOrderQueryByWxNum(String mchId, String wxNum) {
+  public static Map<String, String> wxOrderRefund(String mchId, String tradeNo, String outTradeNo, String outRefundNo, long totalFee, long refundFee, String notifyUrl) {
     try {
       Map<String, String> map = new HashMap<>();
-      map.put("transaction_id", wxNum);
+      if (tradeNo != null) {
+        map.put("transaction_id", tradeNo);
+      } else {
+        map.put("out_trade_no", outTradeNo);
+      }
+      map.put("out_refund_no", outRefundNo);
+      map.put("total_fee", String.valueOf(totalFee));
+      map.put("refund_fee", String.valueOf(refundFee));
+      if (notifyUrl != null) {
+        map.put("notify_url", notifyUrl);
+      }
       return getWxPay(mchId).orderQuery(map);
     } catch (Exception e) {
       return null;
