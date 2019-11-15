@@ -28,13 +28,15 @@ class WXPayTest extends GroovyTestCase {
 
 
     void testWxOrder() {
-        Map<String, String> code = Pay.wxBarcode(mchId, ID.snowflake(1), 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", null);
+        String outTradeNo = ID.snowflake(1)
+        println(outTradeNo)
+        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", "http://www.weixin.qq.com/wxpay/pay.php")
         println(code)
         ShowImage.showImage(BarcodeImage.barcodeImage(code.get("code_url")))
     }
 
     void testQueryWxOrder() {
-        Map<String, String> res = Pay.wxOrderQuery(mchId, "4200000438201911131835523164", null)
+        Map<String, String> res = Pay.wxOrderQuery(mchId, "4200000425201911130947370764", null)
         println(res)
     }
 
