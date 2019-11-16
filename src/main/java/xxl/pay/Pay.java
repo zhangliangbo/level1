@@ -62,12 +62,10 @@ public class Pay {
    * @param appId
    * @param tradeNo
    * @param outTradeNo
-   * @param notifyUrl
    * @return
    */
-  public static AlipayTradeCancelResponse aliOrderCancel(String appId, String tradeNo, String outTradeNo, String notifyUrl) {
+  public static AlipayTradeCancelResponse aliOrderCancel(String appId, String tradeNo, String outTradeNo) {
     AlipayTradeCancelRequest request = new AlipayTradeCancelRequest();
-    request.setNotifyUrl(notifyUrl);
     Map<String, String> map = new HashMap<>();
     if (tradeNo != null) {
       map.put("trade_no", tradeNo);
@@ -90,9 +88,8 @@ public class Pay {
    * @param outTradeNo 商家订单号
    * @return
    */
-  public static AlipayTradeQueryResponse aliOrderQuery(String appId, String tradeNo, String outTradeNo, String notifyUrl) {
+  public static AlipayTradeQueryResponse aliOrderQuery(String appId, String tradeNo, String outTradeNo) {
     AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
-    request.setNotifyUrl(notifyUrl);
     Map<String, String> map = new HashMap<>();
     if (tradeNo != null) {
       map.put("trade_no", tradeNo);
@@ -113,12 +110,10 @@ public class Pay {
    * @param appId
    * @param tradeNo
    * @param outTradeNo
-   * @param notifyUrl
    * @return
    */
-  public static AlipayTradeRefundResponse aliOrderRefund(String appId, String tradeNo, String outTradeNo, long refundMoney, String refundReason, String notifyUrl) {
+  public static AlipayTradeRefundResponse aliOrderRefund(String appId, String tradeNo, String outTradeNo, long refundMoney, String refundReason) {
     AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
-    request.setNotifyUrl(notifyUrl);
     Map<String, String> map = new HashMap<>();
     if (tradeNo != null) {
       map.put("trade_no", tradeNo);
