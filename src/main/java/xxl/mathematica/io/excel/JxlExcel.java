@@ -1,5 +1,7 @@
 package xxl.mathematica.io.excel;
 
+import jxl.Cell;
+import jxl.Sheet;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -7,7 +9,9 @@ import jxl.write.WritableWorkbook;
 import xxl.mathematica.Select;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,10 +29,10 @@ final class JxlExcel implements IExcel {
   }
 
   @Override
-  public boolean exportExcel(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
+  public boolean exportExcel(String file, boolean withAnnotationQ, List<List<Object>> sheets) throws Exception {
     WritableWorkbook workbook = Workbook.createWorkbook(new File(file));
-    for (int k = 0; k < lists.length; k++) {
-      List<Object> list = lists[k];
+    for (int k = 0; k < sheets.size(); k++) {
+      List<Object> list = sheets.get(k);
       WritableSheet sheet = workbook.createSheet("Sheet" + (k + 1), k);
       if (list.size() > 0) {
         for (int i = 0; i < list.size() + 1; i++) {
@@ -87,6 +91,29 @@ final class JxlExcel implements IExcel {
     workbook.write();
     workbook.close();
     return true;
+  }
+
+  @Override
+  public List<List<String[]>> importExcel(String file) throws Exception {
+    FileInputStream fis = new FileInputStream(file);
+    Workbook rwb = Workbook.getWorkbook(fis);
+    Sheet[] sheet = rwb.getSheets();
+    List<List<String[]>> sheetList = new ArrayList<>();
+    for (int i = 0; i < sheet.length; i++) {
+      Sheet rs = rwb.getSheet(i);
+      List<String[]> rowList = new ArrayList<>();
+      for (int j = 0; j < rs.getRows(); j++) {
+        Cell[] cells = rs.getRow(j);
+        String[] columnArray = new String[cells.length];
+        for (int k = 0; k < cells.length; k++) {
+          columnArray[k] = cells[k].getContents();
+        }
+        rowList.add(columnArray);
+      }
+      sheetList.add(rowList);
+    }
+    fis.close();
+    return sheetList;
   }
 
   private static class Holder {

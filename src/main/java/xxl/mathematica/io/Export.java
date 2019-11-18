@@ -14,12 +14,12 @@ public class Export {
    * 默认导出所有字段，包括不带{@link xxl.mathematica.io.excel.ExcelColumnName}标注的
    *
    * @param file
-   * @param list
+   * @param sheets
    * @return
    * @throws Exception
    */
-  public static boolean exportExcel(int method, String file, List<Object>... list) throws Exception {
-    return exportExcel(method, file, false, list);
+  public static boolean exportExcel(int method, String file, List<List<Object>> sheets) throws Exception {
+    return exportExcel(method, file, false, sheets);
   }
 
   /**
@@ -27,12 +27,12 @@ public class Export {
    *
    * @param method
    * @param file
-   * @param list
+   * @param sheets
    * @return
    * @throws Exception
    */
-  public static boolean exportExcel(int method, String file, boolean withAnnotationQ, List<Object>... list) throws Exception {
-    return AbsExcel.getExcelImpl(method).exportExcel(file, withAnnotationQ, list);
+  public static boolean exportExcel(int method, String file, boolean withAnnotationQ, List<List<Object>> sheets) throws Exception {
+    return AbsExcel.getExcelImpl(method).exportExcel(file, withAnnotationQ, sheets);
   }
 
   /**
@@ -40,24 +40,24 @@ public class Export {
    *
    * @param file
    * @param withAnnotationQ
-   * @param list
+   * @param sheets
    * @return
    * @throws Exception
    */
-  public static boolean exportExcel(String file, boolean withAnnotationQ, List<Object>... list) throws Exception {
-    return exportExcel(IExcel.JXL, file, withAnnotationQ, list);
+  public static boolean exportExcel(String file, boolean withAnnotationQ, List<List<Object>> sheets) throws Exception {
+    return exportExcel(IExcel.JXL, file, withAnnotationQ, sheets);
   }
 
   /**
    * 默认jxl，支持android
    *
    * @param file
-   * @param list
+   * @param sheets
    * @return
    * @throws Exception
    */
-  public static boolean exportExcel(String file, List<Object>... list) throws Exception {
-    return exportExcel(IExcel.JXL, file, list);
+  public static boolean exportExcel(String file, List<List<Object>> sheets) throws Exception {
+    return exportExcel(IExcel.JXL, file, sheets);
   }
 
 }

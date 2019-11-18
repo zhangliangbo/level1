@@ -1,6 +1,10 @@
 package xxl.mathematica.io.excel;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -8,9 +12,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import xxl.mathematica.ObjectHelper;
 import xxl.mathematica.Select;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,12 +34,12 @@ final class PoiExcel implements IExcel {
   }
 
   @Override
-  public boolean exportExcel(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
-    ObjectHelper.requireNonNull(file, lists);
+  public boolean exportExcel(String file, boolean withAnnotationQ, List<List<Object>> sheets) throws Exception {
+    ObjectHelper.requireNonNull(file, sheets);
     // 创建新的Excel 工作簿
     XSSFWorkbook workbook = new XSSFWorkbook();
-    for (int k = 0; k < lists.length; k++) {
-      List<Object> list = lists[k];
+    for (int k = 0; k < sheets.size(); k++) {
+      List<Object> list = sheets.get(k);
       // 在Excel工作簿中建一工作表，其名为缺省值
       XSSFSheet sheet = workbook.createSheet("Sheet" + (k + 1));
       //添加数据
@@ -109,6 +116,41 @@ final class PoiExcel implements IExcel {
     // 操作结束，关闭文件
     fos.close();
     return true;
+  }
+
+  @Override
+  public List<List<String[]>> importExcel(String file) throws Exception {
+    FileInputStream fis = new FileInputStream(file);
+    HSSFWorkbook wb = new HSSFWorkbook(fis);
+    Iterator<Sheet> sheetIterator = wb.sheetIterator();
+    List<List<String[]>> sheetList = new ArrayList<>();
+    while (sheetIterator.hasNext()) {
+      Sheet sheet = sheetIterator.next();
+      Iterator<Row> rowIterator = sheet.rowIterator();
+      List<String[]> rowList = new ArrayList<>();
+      while (rowIterator.hasNext()) {
+        Row row = rowIterator.next();
+        Iterator<Cell> cellIterator = row.cellIterator();
+        List<String> columnList = new ArrayList<>();
+        while (cellIterator.hasNext()) {
+          Cell cell = cellIterator.next();
+          switch (cell.getCellType()) {
+            case STRING:
+              columnList.add(cell.getStringCellValue());
+              break;
+            case BOOLEAN:
+              columnList.add(String.valueOf(cell.getBooleanCellValue()));
+              break;
+            case NUMERIC:
+              columnList.add(String.valueOf(cell.getNumericCellValue()));
+              break;
+          }
+        }
+        rowList.add(columnList.toArray(new String[0]));
+      }
+      sheetList.add(rowList);
+    }
+    return sheetList;
   }
 
   private static class Holder {

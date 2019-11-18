@@ -1,10 +1,9 @@
 package xxl.mathematica.io
 
 import xxl.mathematica.external.Pojo
-import xxl.mathematica.io.excel.IExcel
 
 class ExportTest extends GroovyTestCase {
     void testExportXlsx() {
-        Export.exportExcel("C:\\Users\\zhang\\Desktop\\helloworld.xlsx", true, [new Pojo("zlb", 18, "男")])
+        println(Export.exportExcel("C:\\Users\\zhang\\Desktop\\helloworld.xlsx", true, [[new Pojo("zlb", 18, "男")]]))
     }
 }

@@ -15,10 +15,19 @@ public interface IExcel {
   /**
    * 导出excel
    *
-   * @param file
-   * @param withAnnotationQ
-   * @param lists
+   * @param file            excel文件
+   * @param withAnnotationQ 是否有注解
+   * @param sheets          表格
    * @return
    */
-  boolean exportExcel(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception;
+  boolean exportExcel(String file, boolean withAnnotationQ, List<List<Object>> sheets) throws Exception;
+
+  /**
+   * 导入excel为文本
+   *
+   * @param file excel文件
+   * @return
+   * @throws Exception
+   */
+  List<List<String[]>> importExcel(String file) throws Exception;
 }
