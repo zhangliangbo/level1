@@ -25,6 +25,7 @@ final class PoiExcel implements IExcel {
     return Holder.poiExcel;
   }
 
+
   @Override
   public boolean exportXls(String file, List<Object>... lists) throws Exception {
     return exportXlsx(file, lists);
@@ -32,6 +33,16 @@ final class PoiExcel implements IExcel {
 
   @Override
   public boolean exportXlsx(String file, List<Object>... lists) throws Exception {
+    return exportXlsx(file, false, lists);
+  }
+
+  @Override
+  public boolean exportXls(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
+    return exportXlsx(file, withAnnotationQ, lists);
+  }
+
+  @Override
+  public boolean exportXlsx(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
     ObjectHelper.requireNonNull(file, lists);
     // 创建新的Excel 工作簿
     XSSFWorkbook workbook = new XSSFWorkbook();
@@ -49,12 +60,16 @@ final class PoiExcel implements IExcel {
               Arrays.sort(fields, ExcelNameComparator.getInstance());
               XSSFRow row = sheet.createRow(0);
               for (int j = 0; j < fields.length; j++) {
-                XSSFCell cell = row.createCell(j);
-                cell.setCellType(CellType.STRING);
                 if (fields[j].isAnnotationPresent(ExcelColumnName.class)) {
+                  XSSFCell cell = row.createCell(j);
+                  cell.setCellType(CellType.STRING);
                   cell.setCellValue(fields[j].getAnnotation(ExcelColumnName.class).value());
                 } else {
-                  cell.setCellValue("Column" + (j + 1));
+                  if (!withAnnotationQ) {
+                    XSSFCell cell = row.createCell(j);
+                    cell.setCellType(CellType.STRING);
+                    cell.setCellValue("Column" + (j + 1));
+                  }
                 }
               }
             }
@@ -65,27 +80,29 @@ final class PoiExcel implements IExcel {
               Arrays.sort(fields, ExcelNameComparator.getInstance());
               XSSFRow row = sheet.createRow(i);
               for (int j = 0; j < fields.length; j++) {
-                XSSFCell cell = row.createCell(j);
-                if (!fields[j].isAccessible()) {
-                  fields[j].setAccessible(true);
-                }
-                String value = fields[j].get(object) == null ? "" : fields[j].get(object).toString();
-                //确定单元格类型
-                Class<?> cls = fields[j].getType();
-                if (cls.isPrimitive()) {
-                  if (cls == boolean.class || cls == Boolean.class) {
-                    cell.setCellType(CellType.BOOLEAN);
-                    cell.setCellValue(Boolean.valueOf(value));
-                  } else if (cls == char.class || cls == Character.class) {
+                if (fields[j].isAnnotationPresent(ExcelColumnName.class) || !withAnnotationQ) {
+                  XSSFCell cell = row.createCell(j);
+                  if (!fields[j].isAccessible()) {
+                    fields[j].setAccessible(true);
+                  }
+                  String value = fields[j].get(object) == null ? "" : fields[j].get(object).toString();
+                  //确定单元格类型
+                  Class<?> cls = fields[j].getType();
+                  if (cls.isPrimitive()) {
+                    if (cls == boolean.class || cls == Boolean.class) {
+                      cell.setCellType(CellType.BOOLEAN);
+                      cell.setCellValue(Boolean.valueOf(value));
+                    } else if (cls == char.class || cls == Character.class) {
+                      cell.setCellType(CellType.STRING);
+                      cell.setCellValue(value);
+                    } else {
+                      cell.setCellType(CellType.NUMERIC);
+                      cell.setCellValue(Double.valueOf(value));
+                    }
+                  } else {
                     cell.setCellType(CellType.STRING);
                     cell.setCellValue(value);
-                  } else {
-                    cell.setCellType(CellType.NUMERIC);
-                    cell.setCellValue(Double.valueOf(value));
                   }
-                } else {
-                  cell.setCellType(CellType.STRING);
-                  cell.setCellValue(value);
                 }
               }
             }

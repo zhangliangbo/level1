@@ -29,4 +29,24 @@ public interface IExcel {
    * @return
    */
   boolean exportXlsx(String file, List<Object>... lists) throws Exception;
+
+  /**
+   * 导出xls
+   *
+   * @param file
+   * @param withAnnotationQ
+   * @param lists
+   * @return
+   */
+  boolean exportXls(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception;
+
+  /**
+   * 导出xlsx
+   *
+   * @param file
+   * @param withAnnotationQ
+   * @param lists
+   * @return
+   */
+  boolean exportXlsx(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception;
 }

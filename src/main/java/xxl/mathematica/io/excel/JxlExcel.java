@@ -30,6 +30,16 @@ final class JxlExcel implements IExcel {
 
   @Override
   public boolean exportXlsx(String file, List<Object>... lists) throws Exception {
+    return exportXlsx(file, false, lists);
+  }
+
+  @Override
+  public boolean exportXls(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
+    return exportXlsx(file, withAnnotationQ, lists);
+  }
+
+  @Override
+  public boolean exportXlsx(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
     WritableWorkbook workbook = Workbook.createWorkbook(new File(file));
     for (int k = 0; k < lists.length; k++) {
       List<Object> list = lists[k];
@@ -45,7 +55,9 @@ final class JxlExcel implements IExcel {
                 if (fields[j].isAnnotationPresent(ExcelColumnName.class)) {
                   sheet.addCell(new Label(j, i, fields[j].getAnnotation(ExcelColumnName.class).value()));
                 } else {
-                  sheet.addCell(new Label(j, i, "Column" + (j + 1)));
+                  if (!withAnnotationQ) {
+                    sheet.addCell(new Label(j, i, "Column" + (j + 1)));
+                  }
                 }
               }
             }
@@ -55,22 +67,24 @@ final class JxlExcel implements IExcel {
               Field[] fields = object.getClass().getDeclaredFields();
               Arrays.sort(fields, ExcelNameComparator.getInstance());
               for (int j = 0; j < fields.length; j++) {
-                if (!fields[j].isAccessible()) {
-                  fields[j].setAccessible(true);
-                }
-                String value = fields[j].get(object) == null ? "" : fields[j].get(object).toString();
-                //确定单元格类型
-                Class<?> cls = fields[j].getType();
-                if (cls.isPrimitive()) {
-                  if (cls == boolean.class || cls == Boolean.class) {
-                    sheet.addCell(new jxl.write.Boolean(j, i, Boolean.valueOf(value)));
-                  } else if (cls == char.class || cls == Character.class) {
-                    sheet.addCell(new jxl.write.Label(j, i, value));
-                  } else {
-                    sheet.addCell(new jxl.write.Number(j, i, Double.valueOf(value)));
+                if (fields[j].isAnnotationPresent(ExcelColumnName.class) || !withAnnotationQ) {
+                  if (!fields[j].isAccessible()) {
+                    fields[j].setAccessible(true);
                   }
-                } else {
-                  sheet.addCell(new Label(j, i, value));
+                  String value = fields[j].get(object) == null ? "" : fields[j].get(object).toString();
+                  //确定单元格类型
+                  Class<?> cls = fields[j].getType();
+                  if (cls.isPrimitive()) {
+                    if (cls == boolean.class || cls == Boolean.class) {
+                      sheet.addCell(new jxl.write.Boolean(j, i, Boolean.valueOf(value)));
+                    } else if (cls == char.class || cls == Character.class) {
+                      sheet.addCell(new jxl.write.Label(j, i, value));
+                    } else {
+                      sheet.addCell(new jxl.write.Number(j, i, Double.valueOf(value)));
+                    }
+                  } else {
+                    sheet.addCell(new Label(j, i, value));
+                  }
                 }
               }
             }
