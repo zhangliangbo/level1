@@ -6,6 +6,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import xxl.mathematica.ObjectHelper;
+import xxl.mathematica.Select;
 
 import java.io.FileOutputStream;
 import java.lang.reflect.Field;
@@ -57,6 +58,9 @@ final class PoiExcel implements IExcel {
             Object object = list.get(0);
             if (object != null) {
               Field[] fields = object.getClass().getDeclaredFields();
+              if (withAnnotationQ) {
+                fields = Select.select(Arrays.asList(fields), t -> t.isAnnotationPresent(ExcelColumnName.class)).toArray(new Field[0]);
+              }
               Arrays.sort(fields, ExcelNameComparator.getInstance());
               XSSFRow row = sheet.createRow(0);
               for (int j = 0; j < fields.length; j++) {
@@ -77,6 +81,9 @@ final class PoiExcel implements IExcel {
             Object object = list.get(i - 1);
             if (object != null) {
               Field[] fields = object.getClass().getDeclaredFields();
+              if (withAnnotationQ) {
+                fields = Select.select(Arrays.asList(fields), t -> t.isAnnotationPresent(ExcelColumnName.class)).toArray(new Field[0]);
+              }
               Arrays.sort(fields, ExcelNameComparator.getInstance());
               XSSFRow row = sheet.createRow(i);
               for (int j = 0; j < fields.length; j++) {
@@ -91,13 +98,13 @@ final class PoiExcel implements IExcel {
                   if (cls.isPrimitive()) {
                     if (cls == boolean.class || cls == Boolean.class) {
                       cell.setCellType(CellType.BOOLEAN);
-                      cell.setCellValue(Boolean.valueOf(value));
+                      cell.setCellValue(Boolean.parseBoolean(value));
                     } else if (cls == char.class || cls == Character.class) {
                       cell.setCellType(CellType.STRING);
                       cell.setCellValue(value);
                     } else {
                       cell.setCellType(CellType.NUMERIC);
-                      cell.setCellValue(Double.valueOf(value));
+                      cell.setCellValue(Double.parseDouble(value));
                     }
                   } else {
                     cell.setCellType(CellType.STRING);

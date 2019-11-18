@@ -4,6 +4,7 @@ import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
+import xxl.mathematica.Select;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -50,6 +51,9 @@ final class JxlExcel implements IExcel {
             Object object = list.get(0);
             if (object != null) {
               Field[] fields = object.getClass().getDeclaredFields();
+              if (withAnnotationQ) {
+                fields = Select.select(Arrays.asList(fields), t -> t.isAnnotationPresent(ExcelColumnName.class)).toArray(new Field[0]);
+              }
               Arrays.sort(fields, ExcelNameComparator.getInstance());
               for (int j = 0; j < fields.length; j++) {
                 if (fields[j].isAnnotationPresent(ExcelColumnName.class)) {
@@ -65,6 +69,9 @@ final class JxlExcel implements IExcel {
             Object object = list.get(i - 1);
             if (object != null) {
               Field[] fields = object.getClass().getDeclaredFields();
+              if (withAnnotationQ) {
+                fields = Select.select(Arrays.asList(fields), t -> t.isAnnotationPresent(ExcelColumnName.class)).toArray(new Field[0]);
+              }
               Arrays.sort(fields, ExcelNameComparator.getInstance());
               for (int j = 0; j < fields.length; j++) {
                 if (fields[j].isAnnotationPresent(ExcelColumnName.class) || !withAnnotationQ) {
@@ -76,11 +83,11 @@ final class JxlExcel implements IExcel {
                   Class<?> cls = fields[j].getType();
                   if (cls.isPrimitive()) {
                     if (cls == boolean.class || cls == Boolean.class) {
-                      sheet.addCell(new jxl.write.Boolean(j, i, Boolean.valueOf(value)));
+                      sheet.addCell(new jxl.write.Boolean(j, i, Boolean.parseBoolean(value)));
                     } else if (cls == char.class || cls == Character.class) {
                       sheet.addCell(new jxl.write.Label(j, i, value));
                     } else {
-                      sheet.addCell(new jxl.write.Number(j, i, Double.valueOf(value)));
+                      sheet.addCell(new jxl.write.Number(j, i, Double.parseDouble(value)));
                     }
                   } else {
                     sheet.addCell(new Label(j, i, value));

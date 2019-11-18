@@ -10,7 +10,7 @@ public class Pojo {
   @ExcelColumnName(value = "年龄", order = 1)
   private int age;
 
-  @ExcelColumnName(value = "性别", order = 3)
+//  @ExcelColumnName(value = "性别", order = 3)
   private String sex;
 
   public Pojo(String name, int age, String sex) {
