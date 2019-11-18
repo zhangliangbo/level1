@@ -1,11 +1,11 @@
 package xxl.mathematica.io.excel;
 
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
+import jxl.*;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
+import xxl.mathematica.First;
+import xxl.mathematica.Position;
 import xxl.mathematica.Select;
 
 import java.io.File;
@@ -109,6 +109,55 @@ final class JxlExcel implements IExcel {
           columnArray[k] = cells[k].getContents();
         }
         rowList.add(columnArray);
+      }
+      sheetList.add(rowList);
+    }
+    fis.close();
+    return sheetList;
+  }
+
+  @Override
+  public <T> List<List<T>> importExcel(String file, Class<T> cls) throws Exception {
+    FileInputStream fis = new FileInputStream(file);
+    Workbook rwb = Workbook.getWorkbook(fis);
+    Sheet[] sheets = rwb.getSheets();
+    List<List<T>> sheetList = new ArrayList<>();
+    for (int i = 0; i < sheets.length; i++) {
+      Sheet rs = rwb.getSheet(i);
+      //拿到表头，后续需要查找字段索引
+      List<String> columnNames = new ArrayList<>();
+      Cell[] heads = rs.getRow(0);
+      for (Cell cell : heads) {
+        columnNames.add(cell.getContents());
+      }
+      //处理数据
+      List<T> rowList = new ArrayList<>();
+      for (int j = 1; j < rs.getRows(); j++) {
+        Cell[] cells = rs.getRow(j);
+        T obj = cls.newInstance();
+        //首先要排序字段，保证一一对应
+        Field[] fields = Select.select(Arrays.asList(obj.getClass().getDeclaredFields()), t -> t.isAnnotationPresent(ExcelColumnName.class)).toArray(new Field[0]);
+        for (Field field : fields) {
+          String columnName = field.getAnnotation(ExcelColumnName.class).value();
+          int columnIndex = First.first(Position.position(columnNames, t -> t.equals(columnName)), -1);
+          if (columnIndex > -1) {
+            if (!field.isAccessible()) {
+              field.setAccessible(true);
+            }
+            Cell cell = cells[columnIndex];
+            CellType type = cell.getType();
+            if (CellType.BOOLEAN.equals(type)) {
+              field.setBoolean(obj, ((BooleanCell) cell).getValue());
+            } else if (CellType.NUMBER.equals(type)) {
+              field.setDouble(obj, ((NumberCell) cell).getValue());
+            } else if (CellType.LABEL.equals(type)) {
+              field.set(obj, ((LabelCell) cell).getString());
+            }
+          } else {
+            throw new Exception("未找到名称为" + columnName + "的列");
+          }
+        }
+        rowList.add(obj);
       }
       sheetList.add(rowList);
     }

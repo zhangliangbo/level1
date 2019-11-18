@@ -9,7 +9,9 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import xxl.mathematica.First;
 import xxl.mathematica.ObjectHelper;
+import xxl.mathematica.Position;
 import xxl.mathematica.Select;
 
 import java.io.FileInputStream;
@@ -147,6 +149,65 @@ final class PoiExcel implements IExcel {
           }
         }
         rowList.add(columnList.toArray(new String[0]));
+      }
+      sheetList.add(rowList);
+    }
+    return sheetList;
+  }
+
+  @Override
+  public <T> List<List<T>> importExcel(String file, Class<T> cls) throws Exception {
+    FileInputStream fis = new FileInputStream(file);
+    HSSFWorkbook wb = new HSSFWorkbook(fis);
+    Iterator<Sheet> sheetIterator = wb.sheetIterator();
+    List<List<T>> sheetList = new ArrayList<>();
+    while (sheetIterator.hasNext()) {
+      Sheet sheet = sheetIterator.next();
+      Iterator<Row> rowIterator = sheet.rowIterator();
+      //拿到表头
+      Row head = rowIterator.next();
+      Iterator<Cell> headIterator = head.cellIterator();
+      List<String> columnNames = new ArrayList<>();
+      while (headIterator.hasNext()) {
+        Cell cell = headIterator.next();
+        columnNames.add(cell.getStringCellValue());
+      }
+      //装载数据
+      List<T> rowList = new ArrayList<>();
+      while (rowIterator.hasNext()) {
+        Row row = rowIterator.next();
+        List<Cell> cellList = new ArrayList<>();
+        Iterator<Cell> cellIterator = row.cellIterator();
+        while (cellIterator.hasNext()) {
+          cellList.add(cellIterator.next());
+        }
+        T obj = cls.newInstance();
+        //首先要排序字段，保证一一对应
+        Field[] fields = Select.select(Arrays.asList(obj.getClass().getDeclaredFields()), t -> t.isAnnotationPresent(ExcelColumnName.class)).toArray(new Field[0]);
+        for (Field field : fields) {
+          String columnName = field.getAnnotation(ExcelColumnName.class).value();
+          int columnIndex = First.first(Position.position(columnNames, t -> t.equals(columnName)), -1);
+          if (columnIndex > -1) {
+            if (!fields[columnIndex].isAccessible()) {
+              fields[columnIndex].setAccessible(true);
+            }
+            Cell cell = cellList.get(columnIndex);
+            switch (cell.getCellType()) {
+              case STRING:
+                fields[columnIndex].set(obj, cell.getStringCellValue());
+                break;
+              case BOOLEAN:
+                fields[columnIndex].setBoolean(obj, cell.getBooleanCellValue());
+                break;
+              case NUMERIC:
+                fields[columnIndex].setDouble(obj, cell.getNumericCellValue());
+                break;
+            }
+          } else {
+            throw new Exception("未找到名称为" + columnName + "的列");
+          }
+        }
+        rowList.add(obj);
       }
       sheetList.add(rowList);
     }

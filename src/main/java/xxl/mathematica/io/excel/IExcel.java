@@ -30,4 +30,14 @@ public interface IExcel {
    * @throws Exception
    */
   List<List<String[]>> importExcel(String file) throws Exception;
+
+  /**
+   * 导入excel为对象
+   *
+   * @param file
+   * @param <T>
+   * @return
+   * @throws Exception
+   */
+  <T> List<List<T>> importExcel(String file, Class<T> cls) throws Exception;
 }
