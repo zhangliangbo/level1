@@ -25,22 +25,7 @@ final class JxlExcel implements IExcel {
   }
 
   @Override
-  public boolean exportXls(String file, List<Object>... lists) throws Exception {
-    return exportXlsx(file, lists);
-  }
-
-  @Override
-  public boolean exportXlsx(String file, List<Object>... lists) throws Exception {
-    return exportXlsx(file, false, lists);
-  }
-
-  @Override
-  public boolean exportXls(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
-    return exportXlsx(file, withAnnotationQ, lists);
-  }
-
-  @Override
-  public boolean exportXlsx(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
+  public boolean exportExcel(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
     WritableWorkbook workbook = Workbook.createWorkbook(new File(file));
     for (int k = 0; k < lists.length; k++) {
       List<Object> list = lists[k];

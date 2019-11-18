@@ -11,59 +11,15 @@ import java.util.List;
 public class Export {
 
   /**
-   * 默认jxl，支持android
-   *
-   * @param list
-   */
-  public static boolean exportXls(String file, List<Object>... list) throws Exception {
-    return exportXlsx(file, list);
-  }
-
-  /**
-   * 默认导出所有字段，无论有没有注解
-   *
-   * @param list
-   */
-  public static boolean exportXls(int method, String file, List<Object>... list) throws Exception {
-    return exportXlsx(method, file, list);
-  }
-
-  /**
-   * 导出xls
-   *
-   * @param method
-   * @param file
-   * @param withAnnotationQ
-   * @param list
-   * @return
-   * @throws Exception
-   */
-  public static boolean exportXls(int method, String file, boolean withAnnotationQ, List<Object>... list) throws Exception {
-    return exportXlsx(method, file, withAnnotationQ, list);
-  }
-
-  /**
-   * 默认jxl，支持android
+   * 默认导出所有字段，包括不带{@link xxl.mathematica.io.excel.ExcelColumnName}标注的
    *
    * @param file
    * @param list
    * @return
    * @throws Exception
    */
-  public static boolean exportXlsx(String file, List<Object>... list) throws Exception {
-    return AbsExcel.getExcelImpl(IExcel.JXL).exportXlsx(file, list);
-  }
-
-  /**
-   * 默认导出所有字段，包括不带标注的
-   *
-   * @param file
-   * @param list
-   * @return
-   * @throws Exception
-   */
-  public static boolean exportXlsx(int method, String file, List<Object>... list) throws Exception {
-    return exportXlsx(method, file, false, list);
+  public static boolean exportExcel(int method, String file, List<Object>... list) throws Exception {
+    return exportExcel(method, file, false, list);
   }
 
   /**
@@ -75,8 +31,20 @@ public class Export {
    * @return
    * @throws Exception
    */
-  public static boolean exportXlsx(int method, String file, boolean withAnnotationQ, List<Object>... list) throws Exception {
-    return AbsExcel.getExcelImpl(method).exportXlsx(file, withAnnotationQ, list);
+  public static boolean exportExcel(int method, String file, boolean withAnnotationQ, List<Object>... list) throws Exception {
+    return AbsExcel.getExcelImpl(method).exportExcel(file, withAnnotationQ, list);
+  }
+
+  /**
+   * 默认jxl，支持android
+   *
+   * @param file
+   * @param list
+   * @return
+   * @throws Exception
+   */
+  public static boolean exportExcel(String file, List<Object>... list) throws Exception {
+    return exportExcel(IExcel.JXL, file, list);
   }
 
 }

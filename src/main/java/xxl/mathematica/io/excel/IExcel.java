@@ -13,40 +13,12 @@ public interface IExcel {
   int JXL = 2;
 
   /**
-   * 导出xls
-   *
-   * @param file
-   * @param lists
-   * @return
-   */
-  boolean exportXls(String file, List<Object>... lists) throws Exception;
-
-  /**
-   * 导出xlsx
-   *
-   * @param file
-   * @param lists
-   * @return
-   */
-  boolean exportXlsx(String file, List<Object>... lists) throws Exception;
-
-  /**
-   * 导出xls
+   * 导出excel
    *
    * @param file
    * @param withAnnotationQ
    * @param lists
    * @return
    */
-  boolean exportXls(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception;
-
-  /**
-   * 导出xlsx
-   *
-   * @param file
-   * @param withAnnotationQ
-   * @param lists
-   * @return
-   */
-  boolean exportXlsx(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception;
+  boolean exportExcel(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception;
 }

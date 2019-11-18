@@ -26,24 +26,8 @@ final class PoiExcel implements IExcel {
     return Holder.poiExcel;
   }
 
-
   @Override
-  public boolean exportXls(String file, List<Object>... lists) throws Exception {
-    return exportXlsx(file, lists);
-  }
-
-  @Override
-  public boolean exportXlsx(String file, List<Object>... lists) throws Exception {
-    return exportXlsx(file, false, lists);
-  }
-
-  @Override
-  public boolean exportXls(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
-    return exportXlsx(file, withAnnotationQ, lists);
-  }
-
-  @Override
-  public boolean exportXlsx(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
+  public boolean exportExcel(String file, boolean withAnnotationQ, List<Object>... lists) throws Exception {
     ObjectHelper.requireNonNull(file, lists);
     // 创建新的Excel 工作簿
     XSSFWorkbook workbook = new XSSFWorkbook();
