@@ -39,6 +39,19 @@ public class Export {
    * 默认jxl，支持android
    *
    * @param file
+   * @param withAnnotationQ
+   * @param list
+   * @return
+   * @throws Exception
+   */
+  public static boolean exportExcel(String file, boolean withAnnotationQ, List<Object>... list) throws Exception {
+    return exportExcel(IExcel.JXL, file, withAnnotationQ, list);
+  }
+
+  /**
+   * 默认jxl，支持android
+   *
+   * @param file
    * @param list
    * @return
    * @throws Exception
