@@ -13,6 +13,9 @@ public class Pojo {
   @ExcelColumnName(value = "性别", order = 3)
   private String sex;
 
+  public Pojo() {
+  }
+
   public Pojo(String name, int age, String sex) {
     this.name = name;
     this.age = age;

@@ -29,7 +29,7 @@ public class Import {
   }
 
   /**
-   * 导入excel
+   * 导入excel为字符串
    *
    * @param method
    * @param file
@@ -38,6 +38,31 @@ public class Import {
   public static List<List<String[]>> importExcel(int method, String file) {
     try {
       return AbsExcel.getExcelImpl(method).importExcel(file);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
+   * 默认jxl，支持android
+   *
+   * @param file
+   * @return
+   */
+  public static <T> List<List<T>> importExcel(String file, Class<T> cls) {
+    return importExcel(IExcel.JXL, file, cls);
+  }
+
+  /**
+   * 导入excel为对象
+   *
+   * @param method
+   * @param file
+   * @return
+   */
+  public static <T> List<List<T>> importExcel(int method, String file, Class<T> cls) {
+    try {
+      return AbsExcel.getExcelImpl(method).importExcel(file, cls);
     } catch (Exception e) {
       return null;
     }

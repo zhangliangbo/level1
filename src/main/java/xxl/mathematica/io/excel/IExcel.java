@@ -35,6 +35,7 @@ public interface IExcel {
    * 导入excel为对象
    *
    * @param file
+   * @param cls  必须提供无参构造函数，否则无法初始化对象
    * @param <T>
    * @return
    * @throws Exception

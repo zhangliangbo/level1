@@ -188,19 +188,20 @@ final class PoiExcel implements IExcel {
           String columnName = field.getAnnotation(ExcelColumnName.class).value();
           int columnIndex = First.first(Position.position(columnNames, t -> t.equals(columnName)), -1);
           if (columnIndex > -1) {
-            if (!fields[columnIndex].isAccessible()) {
-              fields[columnIndex].setAccessible(true);
+            if (!field.isAccessible()) {
+              field.setAccessible(true);
             }
             Cell cell = cellList.get(columnIndex);
             switch (cell.getCellType()) {
               case STRING:
-                fields[columnIndex].set(obj, cell.getStringCellValue());
+                field.set(obj, cell.getStringCellValue());
                 break;
               case BOOLEAN:
-                fields[columnIndex].setBoolean(obj, cell.getBooleanCellValue());
+                field.setBoolean(obj, cell.getBooleanCellValue());
                 break;
               case NUMERIC:
-                fields[columnIndex].setDouble(obj, cell.getNumericCellValue());
+                double value = cell.getNumericCellValue();
+                AbsExcel.setNumber(obj, field, value);
                 break;
             }
           } else {
