@@ -11,7 +11,7 @@ import java.util.List;
 public class Export {
 
   /**
-   * 导出xls，默认jxl，支持android
+   * 默认jxl，支持android
    *
    * @param list
    */
@@ -20,7 +20,7 @@ public class Export {
   }
 
   /**
-   * 导出xls
+   * 默认导出所有字段，无论有没有注解
    *
    * @param list
    */
@@ -29,7 +29,21 @@ public class Export {
   }
 
   /**
-   * 导出xlsx
+   * 导出xls
+   *
+   * @param method
+   * @param file
+   * @param withAnnotationQ
+   * @param list
+   * @return
+   * @throws Exception
+   */
+  public static boolean exportXls(int method, String file, boolean withAnnotationQ, List<Object>... list) throws Exception {
+    return exportXlsx(method, file, withAnnotationQ, list);
+  }
+
+  /**
+   * 默认jxl，支持android
    *
    * @param file
    * @param list
@@ -41,7 +55,7 @@ public class Export {
   }
 
   /**
-   * 导出xlsx
+   * 默认导出所有字段，包括不带标注的
    *
    * @param file
    * @param list
@@ -49,7 +63,20 @@ public class Export {
    * @throws Exception
    */
   public static boolean exportXlsx(int method, String file, List<Object>... list) throws Exception {
-    return AbsExcel.getExcelImpl(method).exportXlsx(file, list);
+    return exportXlsx(method, file, false, list);
+  }
+
+  /**
+   * 导出xlsx
+   *
+   * @param method
+   * @param file
+   * @param list
+   * @return
+   * @throws Exception
+   */
+  public static boolean exportXlsx(int method, String file, boolean withAnnotationQ, List<Object>... list) throws Exception {
+    return AbsExcel.getExcelImpl(method).exportXlsx(file, withAnnotationQ, list);
   }
 
 }
