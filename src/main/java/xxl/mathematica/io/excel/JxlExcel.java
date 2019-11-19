@@ -152,7 +152,7 @@ final class JxlExcel implements IExcel {
               double value = ((NumberCell) cell).getValue();
               AbsExcel.setNumber(obj, field, value);
             } else {
-              field.set(obj, ((LabelCell) cell).getString());
+              field.set(obj, cell.getContents());
             }
           } else {
             throw new Exception("未找到名称为" + columnName + "的列");
