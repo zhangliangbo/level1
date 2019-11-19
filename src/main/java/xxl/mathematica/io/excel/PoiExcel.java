@@ -138,6 +138,7 @@ final class PoiExcel implements IExcel {
           Cell cell = cellIterator.next();
           switch (cell.getCellType()) {
             case STRING:
+            default:
               columnList.add(cell.getStringCellValue());
               break;
             case BOOLEAN:
@@ -194,6 +195,7 @@ final class PoiExcel implements IExcel {
             Cell cell = cellList.get(columnIndex);
             switch (cell.getCellType()) {
               case STRING:
+              default:
                 field.set(obj, cell.getStringCellValue());
                 break;
               case BOOLEAN:

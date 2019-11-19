@@ -151,7 +151,7 @@ final class JxlExcel implements IExcel {
             } else if (CellType.NUMBER.equals(type)) {
               double value = ((NumberCell) cell).getValue();
               AbsExcel.setNumber(obj, field, value);
-            } else if (CellType.LABEL.equals(type)) {
+            } else {
               field.set(obj, ((LabelCell) cell).getString());
             }
           } else {
