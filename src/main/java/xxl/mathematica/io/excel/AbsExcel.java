@@ -24,7 +24,7 @@ public abstract class AbsExcel implements IExcel {
     if (field.getType() == Byte.class || field.getType() == byte.class) {
       field.setByte(obj, (byte) value);
     } else if (field.getType() == Short.class || field.getType() == short.class) {
-      field.setShort(obj, (byte) value);
+      field.setShort(obj, (short) value);
     } else if (field.getType() == Integer.class || field.getType() == int.class) {
       field.setInt(obj, (int) value);
     } else if (field.getType() == Long.class || field.getType() == long.class) {
