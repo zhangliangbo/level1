@@ -3,7 +3,6 @@ package xxl.pay;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.domain.ExSourceRateVO;
 import com.alipay.api.request.AlipayTradeCancelRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
@@ -12,12 +11,12 @@ import com.alipay.api.response.AlipayTradeCancelResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
+import xxl.id.ID;
 import xxl.mathematica.io.ExportString;
-import xxl.mathematica.io.Import;
-import xxl.mathematica.io.ImportString;
 import xxl.wxpay.WXPay;
 import xxl.wxpay.WXPayUtil;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -36,19 +35,30 @@ public class Pay {
      * @param appId          应用ID
      * @param outTradeNo     商家交易单号
      * @param totalAmount    总金额，以分为单位
-     * @param subject        商品明细
+     * @param goodsName      商品明细
+     * @param goodsDesc      商品描述
      * @param storeId        商家门店编号
      * @param timeoutExpress 交易超时时间
      * @return
      */
-    public static Map<String, String> aliBarcode(String appId, String outTradeNo, long totalAmount, String subject, String body, String storeId, String timeoutExpress, String notifyUrl) {
+    public static Map<String, String> aliBarcode(String appId, String outTradeNo, long totalAmount, String goodsName, String goodsDesc, String json, String storeId, String timeoutExpress, String notifyUrl) {
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
         request.setNotifyUrl(notifyUrl);
         Map<String, String> map = new HashMap<>();
         map.put("out_trade_no", outTradeNo);
         map.put("total_amount", String.format(Locale.CHINA, "%.2f", totalAmount / 100f));
-        map.put("subject", subject);
-        map.put("body", body);
+        map.put("subject", goodsName);
+        map.put("body", goodsDesc);
+        if (json != null) {
+//            Map<String, Object> detailMap = new HashMap<>();
+//            detailMap.put("goods_id", ID.snowflake(1));
+//            detailMap.put("goods_name", "一个口红");
+//            detailMap.put("quantity", 1);
+//            detailMap.put("price", 1);
+//            detailMap.put("body", json);
+//            map.put("goods_detail", ExportString.exportStringJson(Arrays.asList(detailMap)));
+            map.put("goods_detail", "abc");
+        }
         map.put("store_id", storeId);
         map.put("timeout_express", timeoutExpress);
         request.setBizContent(ExportString.exportStringJson(map));
@@ -175,17 +185,21 @@ public class Pay {
      * @param money
      * @param goods
      * @param detail
+     * @param json
      * @param deviceInfo
      * @param ip
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goods, String detail, String deviceInfo, String ip, String notifyUrl) {
+    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goods, String detail, String json, String deviceInfo, String ip, String notifyUrl) {
         Map<String, String> map = new HashMap<>();
         map.put("out_trade_no", outTradeNo);
         map.put("total_fee", String.valueOf(money));
         map.put("body", goods);
-        map.put("detail", detail);
+        map.put("attach", detail);
+        if (json != null) {
+            map.put("detail", json);
+        }
         map.put("device_info", deviceInfo);
         map.put("spbill_create_ip", ip);
         map.put("trade_type", "NATIVE");

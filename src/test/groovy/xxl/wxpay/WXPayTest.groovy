@@ -32,7 +32,7 @@ class WXPayTest extends GroovyTestCase {
     void testWxOrder() {
         String outTradeNo = ID.snowflake(1)
         println(outTradeNo)
-        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder")
+        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "11111", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder")
         println(code)
         ShowImage.showImage(BarcodeImage.barcodeImage(code.get("code_url")))
     }
@@ -53,23 +53,23 @@ class WXPayTest extends GroovyTestCase {
     }
 
     void testAliOrder() {
-        def x = Pay.aliBarcode(aliAppId, ID.snowflake(1), 500, "////////", "这是一个晚餐", "5566", "60m", null)
+        def x = Pay.aliBarcode(aliAppId, ID.snowflake(1), 500, "////////", "这是一个晚餐", "aaa", "5566", "60m", null)
         println(x.get("qrCode"))
         ShowImage.showImage(BarcodeImage.barcodeImage(x.get("qrCode")))
     }
 
     void testQueryAliOrder() {
-        def x = Pay.aliOrderQuery(aliAppId, null, "6600698769744859136", null)
+        def x = Pay.aliOrderQuery(aliAppId, null, "6600698769744859136")
         println(x)
     }
 
     void testCancelAliOrder() {
-        def x = Pay.aliOrderCancel(aliAppId, null, "6600696003177746432", null)
+        def x = Pay.aliOrderCancel(aliAppId, null, "6600696003177746432")
         println(x)
     }
 
     void testRefundAliOrder() {
-        def x = Pay.aliOrderRefund(aliAppId, null, "6600696003177746432", 100, "这是一个退款。。。。", null)
+        def x = Pay.aliOrderRefund(aliAppId, null, "6600696003177746432", 100, "这是一个退款。。。。")
         println(x)
     }
 
