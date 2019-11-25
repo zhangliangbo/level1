@@ -19,7 +19,7 @@ class WXPayTest extends GroovyTestCase {
         mchId = hello.get("mch_id")
         wxNotifyPrefix = hello.get("notify")
         Pay.registerWx(hello.get("mch_id") as String, hello.get("cert") as String, hello.get("appid") as String, hello.get("key") as String)
-        Map<String, Object> ali = Import.importJson("D:\\zlb\\阿里平台\\ali.json")
+        Map<String, Object> ali = Import.importJson("D:\\zlb\\阿里平台\\release.json")
         aliAppId = ali.get("appId") as String
         Pay.registerAli(ali.get("url") as String, aliAppId, ali.get("private") as String, ali.get("public") as String)
     }
@@ -32,7 +32,7 @@ class WXPayTest extends GroovyTestCase {
     void testWxOrder() {
         String outTradeNo = ID.snowflake(1)
         println(outTradeNo)
-        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "11111", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder")
+        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder")
         println(code)
         ShowImage.showImage(BarcodeImage.barcodeImage(code.get("code_url")))
     }
@@ -53,7 +53,7 @@ class WXPayTest extends GroovyTestCase {
     }
 
     void testAliOrder() {
-        def x = Pay.aliBarcode(aliAppId, ID.snowflake(1), 500, "////////", "这是一个晚餐", "aaa", "5566", "60m", null)
+        def x = Pay.aliBarcode(aliAppId, ID.snowflake(1), 1, "////////", "这是一个晚餐", "5566", "60m", null)
         println(x.get("qrCode"))
         ShowImage.showImage(BarcodeImage.barcodeImage(x.get("qrCode")))
     }
