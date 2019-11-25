@@ -171,19 +171,19 @@ public class Pay {
      * @param mchId
      * @param outTradeNo
      * @param money
-     * @param goods
-     * @param detail
+     * @param goodsName
+     * @param goodsDesc
      * @param deviceInfo
      * @param ip
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goods, String detail, String deviceInfo, String ip, String notifyUrl) {
+    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl) {
         Map<String, String> map = new HashMap<>();
         map.put("out_trade_no", outTradeNo);
         map.put("total_fee", String.valueOf(money));
-        map.put("body", goods);
-        map.put("attach", detail);
+        map.put("body", goodsName);
+        map.put("attach", goodsDesc);
         map.put("device_info", deviceInfo);
         map.put("spbill_create_ip", ip);
         map.put("trade_type", "NATIVE");
