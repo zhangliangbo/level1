@@ -26,8 +26,8 @@ public class ExportString {
      * @return
      */
     public static Map<String, String> exportStringMap(Object object) {
-        String json = GsonSingle.instance().toJson(object);
-        return GsonSingle.instance().fromJson(json, new TypeToken<Map<String, String>>() {
+        String json = GsonSingle.oneLevelInstance().toJson(object);
+        return GsonSingle.oneLevelInstance().fromJson(json, new TypeToken<Map<String, String>>() {
         }.getType());
     }
 
@@ -39,7 +39,7 @@ public class ExportString {
      */
     public static Map<String, Object> exportObjectMap(Object object) {
         String json = GsonSingle.instance().toJson(object);
-        return GsonSingle.primitiveInstance().fromJson(json, new TypeToken<Map<String, Object>>() {
+        return GsonSingle.instance().fromJson(json, new TypeToken<Map<String, Object>>() {
         }.getType());
     }
 }

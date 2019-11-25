@@ -40,7 +40,7 @@ public class Pay {
      * @param timeoutExpress 交易超时时间
      * @return
      */
-    public static Map<String, Object> aliBarcode(String appId, String outTradeNo, long totalAmount, String subject, String body, String storeId, String timeoutExpress, String notifyUrl) {
+    public static Map<String, String> aliBarcode(String appId, String outTradeNo, long totalAmount, String subject, String body, String storeId, String timeoutExpress, String notifyUrl) {
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
         request.setNotifyUrl(notifyUrl);
         Map<String, String> map = new HashMap<>();
@@ -53,7 +53,7 @@ public class Pay {
         request.setBizContent(ExportString.exportStringJson(map));
         try {
             AlipayTradePrecreateResponse response = getAli(appId).execute(request);
-            return ExportString.exportObjectMap(response);
+            return ExportString.exportStringMap(response);
         } catch (AlipayApiException e) {
             return null;
         }

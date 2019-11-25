@@ -24,6 +24,6 @@ public class ImportString {
      * @return
      */
     public static Map<String, String> importStringMapString(String json) {
-        return GsonSingle.primitiveInstance().fromJson(json, new TypeToken<Map<String, String>>() {}.getType());
+        return GsonSingle.oneLevelInstance().fromJson(json, new TypeToken<Map<String, String>>() {}.getType());
     }
 }

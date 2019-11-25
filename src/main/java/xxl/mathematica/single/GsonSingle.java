@@ -11,15 +11,15 @@ public class GsonSingle {
         return Holder.gson;
     }
 
-    public static Gson primitiveInstance() {
-        return PrimitiveHolder.gson;
+    public static Gson oneLevelInstance() {
+        return OneLevelHolder.gson;
     }
 
     static class Holder {
         static Gson gson = new GsonBuilder().create();
     }
 
-    static class PrimitiveHolder {
+    static class OneLevelHolder {
         static ExclusionStrategy es = new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes f) {
