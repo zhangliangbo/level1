@@ -5,6 +5,8 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Date;
+
 public class GsonSingle {
 
     public static Gson instance() {
@@ -23,7 +25,9 @@ public class GsonSingle {
         static ExclusionStrategy es = new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes f) {
-                return !f.getDeclaredClass().isPrimitive() && f.getDeclaredClass() != String.class;
+                return !f.getDeclaredClass().isPrimitive() &&
+                        !f.getDeclaredClass().equals(String.class) &&
+                        !f.getDeclaredClass().isAssignableFrom(Date.class);
             }
 
             @Override

@@ -3,6 +3,7 @@ package xxl.pay;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.ExSourceRateVO;
 import com.alipay.api.request.AlipayTradeCancelRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
@@ -78,11 +79,7 @@ public class Pay {
         request.setBizContent(ExportString.exportStringJson(map));
         try {
             AlipayTradeCancelResponse response = getAli(appId).execute(request);
-            Map<String, String> res = new HashMap<>();
-            res.put("", response.getAction());
-            res.put("", response.getOutTradeNo());
-            res.put("", response.getRefundSettlementId());
-            return res;
+            return ExportString.exportStringMap(response);
         } catch (AlipayApiException e) {
             return null;
         }
@@ -96,7 +93,7 @@ public class Pay {
      * @param outTradeNo 商家订单号
      * @return
      */
-    public static Map<String, Object> aliOrderQuery(String appId, String tradeNo, String outTradeNo) {
+    public static Map<String, String> aliOrderQuery(String appId, String tradeNo, String outTradeNo) {
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         Map<String, String> map = new HashMap<>();
         if (tradeNo != null) {
@@ -106,7 +103,8 @@ public class Pay {
         }
         request.setBizContent(ExportString.exportStringJson(map));
         try {
-            return ImportString.importStringMapObject(getAli(appId).execute(request).getBody());
+            AlipayTradeQueryResponse response = getAli(appId).execute(request);
+            return ExportString.exportStringMap(response);
         } catch (AlipayApiException e) {
             return null;
         }
@@ -120,7 +118,7 @@ public class Pay {
      * @param outTradeNo
      * @return
      */
-    public static Map<String, Object> aliOrderRefund(String appId, String tradeNo, String outTradeNo, long refundMoney, String refundReason) {
+    public static Map<String, String> aliOrderRefund(String appId, String tradeNo, String outTradeNo, long refundMoney, String refundReason) {
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         Map<String, String> map = new HashMap<>();
         if (tradeNo != null) {
@@ -132,7 +130,8 @@ public class Pay {
         map.put("refund_reason", refundReason);
         request.setBizContent(ExportString.exportStringJson(map));
         try {
-            return ImportString.importStringMapObject(getAli(appId).execute(request).getBody());
+            AlipayTradeRefundResponse response = getAli(appId).execute(request);
+            return ExportString.exportStringMap(response);
         } catch (AlipayApiException e) {
             return null;
         }
