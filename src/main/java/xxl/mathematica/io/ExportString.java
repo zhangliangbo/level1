@@ -1,7 +1,6 @@
 package xxl.mathematica.io;
 
 import com.google.gson.reflect.TypeToken;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import xxl.mathematica.single.GsonSingle;
 
 import java.util.Map;
@@ -40,7 +39,7 @@ public class ExportString {
      */
     public static Map<String, Object> exportObjectMap(Object object) {
         String json = GsonSingle.instance().toJson(object);
-        return GsonSingle.instance().fromJson(json, new TypeToken<Map<String, Object>>() {
+        return GsonSingle.primitiveInstance().fromJson(json, new TypeToken<Map<String, Object>>() {
         }.getType());
     }
 }
