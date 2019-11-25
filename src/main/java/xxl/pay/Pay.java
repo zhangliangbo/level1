@@ -11,12 +11,10 @@ import com.alipay.api.response.AlipayTradeCancelResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
-import xxl.id.ID;
 import xxl.mathematica.io.ExportString;
 import xxl.wxpay.WXPay;
 import xxl.wxpay.WXPayUtil;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
