@@ -3,6 +3,7 @@ package xxl.pay;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeCancelRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
@@ -132,6 +133,19 @@ public class Pay {
             return ExportString.exportStringMap(response);
         } catch (AlipayApiException e) {
             return null;
+        }
+    }
+
+    /**
+     * 验证阿里订单回调参数
+     *
+     * @return
+     */
+    public static boolean aliRsaCheckV1(Map<String, String> params, String aliPublicKey) {
+        try {
+            return AlipaySignature.rsaCheckV1(params, aliPublicKey, "UTF-8", "RSA2");
+        } catch (AlipayApiException e) {
+            return false;
         }
     }
 
