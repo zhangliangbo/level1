@@ -58,6 +58,7 @@ dependencies {
     implementation 'com.google.zxing:javase:3.4.0'
 
     implementation 'com.alipay.sdk:alipay-sdk-java:4.8.10.ALL'
+    implementation 'com.aliyun:aliyun-java-sdk-core:4.0.3'
 
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.7'
 
