@@ -19,7 +19,7 @@ public class SendSms {
      * @param code
      * @return
      */
-    public static boolean aliVerificationCode(String phone, String name, String template, String code, String regionId, String accessKey, String accessSecret, String outId) {
+    public static boolean aliVerificationCode(String phone, String sign, String template, String code, String regionId, String accessKey, String accessSecret, String outId) {
         DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKey, accessSecret);
         IAcsClient client = new DefaultAcsClient(profile);
         CommonRequest request = new CommonRequest();
@@ -29,7 +29,7 @@ public class SendSms {
         request.setAction("SendSms");
         request.putQueryParameter("RegionId", regionId);
         request.putQueryParameter("PhoneNumbers", phone);
-        request.putQueryParameter("SignName", name);
+        request.putQueryParameter("SignName", sign);
         request.putQueryParameter("TemplateCode", template);
         request.putQueryParameter("TemplateParam", "{\"code\":\"" + code + "\"}");
         if (outId != null) {
@@ -47,7 +47,7 @@ public class SendSms {
      * 没有outId
      *
      * @param phone
-     * @param name
+     * @param sign
      * @param template
      * @param code
      * @param regionId
@@ -55,7 +55,7 @@ public class SendSms {
      * @param accessSecret
      * @return
      */
-    public static boolean aliVerificationCode(String phone, String name, String template, String code, String regionId, String accessKey, String accessSecret) {
-        return aliVerificationCode(phone, name, template, code, regionId, accessKey, accessSecret, null);
+    public static boolean aliVerificationCode(String phone, String sign, String template, String code, String regionId, String accessKey, String accessSecret) {
+        return aliVerificationCode(phone, sign, template, code, regionId, accessKey, accessSecret, null);
     }
 }

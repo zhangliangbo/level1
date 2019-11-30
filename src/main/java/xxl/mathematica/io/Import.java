@@ -7,10 +7,8 @@ import xxl.mathematica.io.excel.AbsExcel;
 import xxl.mathematica.io.excel.IExcel;
 import xxl.mathematica.single.GsonSingle;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -70,13 +68,14 @@ public class Import {
 
     /**
      * 以Json的格式导入为对象
+     * UTF-8
      *
      * @param file
      * @return
      */
     public static Map<String, Object> importJson(String file) {
         try {
-            return GsonSingle.instance().fromJson(new FileReader(file), new TypeToken<Map<String, Object>>() {
+            return GsonSingle.instance().fromJson(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8), new TypeToken<Map<String, Object>>() {
             }.getType());
         } catch (FileNotFoundException e) {
             return null;
@@ -85,13 +84,14 @@ public class Import {
 
     /**
      * 以Json的格式导入为字符串
+     * UTF-8
      *
      * @param file
      * @return
      */
     public static Map<String, String> importJsonAsString(String file) {
         try {
-            return GsonSingle.instance().fromJson(new FileReader(file), new TypeToken<Map<String, String>>() {
+            return GsonSingle.instance().fromJson(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8), new TypeToken<Map<String, String>>() {
             }.getType());
         } catch (FileNotFoundException e) {
             return null;
