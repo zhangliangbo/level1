@@ -380,6 +380,28 @@ public class Pay {
         }
     }
 
+    /**
+     * 微信map转xml
+     *
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public static String wxMapToXml(Map<String, String> map) throws Exception {
+        return WXPayUtil.mapToXml(map);
+    }
+
+    /**
+     * 微信xml转map
+     *
+     * @param xml
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> wxXmlToMap(String xml) throws Exception {
+        return WXPayUtil.xmlToMap(xml);
+    }
+
     private static AlipayClient getAli(String appId) {
         AlipayClient ali = aliMap.get(appId);
         if (ali == null) {
