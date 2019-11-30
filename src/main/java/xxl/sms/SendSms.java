@@ -7,6 +7,7 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import xxl.mathematica.io.ExportString;
 
 /**
  * 发送验证码
@@ -16,10 +17,10 @@ public class SendSms {
      * 阿里短信验证码
      *
      * @param phone
-     * @param code
+     * @param content
      * @return
      */
-    public static boolean aliVerificationCode(String phone, String sign, String template, String code, String regionId, String accessKey, String accessSecret, String outId) {
+    public static boolean aliSms(String phone, String sign, String template, Object content, String regionId, String accessKey, String accessSecret, String outId) {
         DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKey, accessSecret);
         IAcsClient client = new DefaultAcsClient(profile);
         CommonRequest request = new CommonRequest();
@@ -31,13 +32,13 @@ public class SendSms {
         request.putQueryParameter("PhoneNumbers", phone);
         request.putQueryParameter("SignName", sign);
         request.putQueryParameter("TemplateCode", template);
-        request.putQueryParameter("TemplateParam", "{\"code\":\"" + code + "\"}");
+        request.putQueryParameter("TemplateParam", ExportString.exportStringJson(content));
         if (outId != null) {
             request.putQueryParameter("OutId", outId);
         }
         try {
             CommonResponse response = client.getCommonResponse(request);
-            return true;
+            return response.getHttpStatus() == 200;
         } catch (ClientException e) {
             return false;
         }
@@ -49,13 +50,13 @@ public class SendSms {
      * @param phone
      * @param sign
      * @param template
-     * @param code
+     * @param content
      * @param regionId
      * @param accessKey
      * @param accessSecret
      * @return
      */
-    public static boolean aliVerificationCode(String phone, String sign, String template, String code, String regionId, String accessKey, String accessSecret) {
-        return aliVerificationCode(phone, sign, template, code, regionId, accessKey, accessSecret, null);
+    public static boolean aliSms(String phone, String sign, String template, Object content, String regionId, String accessKey, String accessSecret) {
+        return aliSms(phone, sign, template, content, regionId, accessKey, accessSecret, null);
     }
 }

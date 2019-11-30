@@ -13,12 +13,11 @@ class SendSmsTest extends GroovyTestCase {
         println(account)
         println(card)
         println(code)
-        String codeNum = String.valueOf(StringRiffle.stringRiffle(RandomInteger.randomInteger(0, 9, 4), ""))
-        println(SendSms.aliVerificationCode(
-                code.get("phone"),
-                code.get("sign"),
-                code.get("template"),
-                codeNum,
+        println(SendSms.aliSms(
+                card.get("phone"),
+                card.get("sign"),
+                card.get("template"),
+                ["name": card.get("phone"), "code": String.valueOf(StringRiffle.stringRiffle(RandomInteger.randomInteger(0, 9, 4), ""))],
                 account.get("region"),
                 account.get("key"),
                 account.get("secret")
