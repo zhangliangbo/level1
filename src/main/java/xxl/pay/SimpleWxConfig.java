@@ -1,8 +1,8 @@
 package xxl.pay;
 
-import xxl.wxpay.IWXPayDomain;
-import xxl.wxpay.WXPayConfig;
-import xxl.wxpay.WXPayConstants;
+import xxl.wx.pay.IWXPayDomain;
+import xxl.wx.pay.WXPayConfig;
+import xxl.wx.pay.WXPayConstants;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -13,8 +13,8 @@ import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import xxl.mathematica.io.ExportString;
-import xxl.wxpay.WXPay;
-import xxl.wxpay.WXPayUtil;
+import xxl.wx.pay.WXPay;
+import xxl.wx.pay.WXPayUtil;
 
 import java.util.HashMap;
 import java.util.Locale;

@@ -1,4 +1,4 @@
-package xxl.wxpay;
+package xxl.wx.pay;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
