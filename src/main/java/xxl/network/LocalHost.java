@@ -32,7 +32,8 @@ public class LocalHost {
                     InetAddress inetAddress = addr.getAddress();
                     information[0] = inetAddress.getHostName();
                     information[1] = inetAddress.getHostAddress();
-                    if (information[1].contains("%") && onlyIpv4) {
+                    boolean ipv6Q = information[1].contains("%");
+                    if (ipv6Q && onlyIpv4) {
                         continue;
                     }
                     NetworkInterface network = NetworkInterface.getByInetAddress(inetAddress);
