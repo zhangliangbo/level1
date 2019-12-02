@@ -19,6 +19,10 @@ class ExternalTest extends GroovyTestCase {
         println(External.sendMail("forbidden@aliyun.com", "附件", "<img src=\"https://himg2.huanqiucdn.cn/attachment2010/2019/1101/20191101072831653.jpg\"/>", [new File("C:\\Users\\zhang\\Desktop\\shu.jpg")], "2472110501@qq.com", "smtp.aliyun.com", "forbidden@aliyun.com", "forbidden"))
     }
 
+    void testIpConfig() {
+        println(new String(External.runProcess("ipconfig /all")))
+    }
+
     void testExportXlsx() {
         Export.exportXlsx(IExcel.POI, "C:\\Users\\zhang\\Desktop\\poi.xls",
                 Table.table({ t ->
