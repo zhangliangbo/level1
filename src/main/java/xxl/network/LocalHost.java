@@ -1,9 +1,14 @@
 package xxl.network;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import xxl.mathematica.DeleteDuplicates;
+
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * 本机ip地址
@@ -42,61 +47,38 @@ public class LocalHost {
      *
      * @return
      */
-    public static String mac() {
+    public static List<String> macs() {
         try {
-            if (isWindows()) {
-                return getMACAddressByWindows();
-            } else {
-                return getMACAddressByLinux();
+            Enumeration<NetworkInterface> enumeration = NetworkInterface.getNetworkInterfaces();
+            StringBuilder sb = new StringBuilder();
+            ArrayList<String> tmpMacList = new ArrayList<>();
+            while (enumeration.hasMoreElements()) {
+                NetworkInterface networkInterface = enumeration.nextElement();
+                List<InterfaceAddress> addressList = networkInterface.getInterfaceAddresses();
+                for (InterfaceAddress addr : addressList) {
+                    InetAddress ip = addr.getAddress();
+                    NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+                    if (network == null) {
+                        continue;
+                    }
+                    byte[] mac = network.getHardwareAddress();
+                    if (mac == null) {
+                        continue;
+                    }
+                    sb.delete(0, sb.length());
+                    for (int i = 0; i < mac.length; i++) {
+                        sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+                    }
+                    tmpMacList.add(sb.toString());
+                }
             }
+            if (tmpMacList.size() <= 0) {
+                return tmpMacList;
+            }
+            //去重，别忘了同一个网卡的ipv4,ipv6得到的mac都是一样的，肯定有重复，下面这段代码是。。流式处理
+            return DeleteDuplicates.deleteDuplicates(tmpMacList);
         } catch (Exception e) {
             return null;
         }
-    }
-
-    private static Boolean isWindows() {
-        String os = System.getProperty("os.name");
-        return os.toLowerCase().startsWith("win");
-    }
-
-    private static String getMACAddressByLinux() throws Exception {
-        String[] cmd = {"ifconfig"};
-
-        Process process = Runtime.getRuntime().exec(cmd);
-        process.waitFor();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
-        }
-
-        String str1 = sb.toString();
-        String str2 = str1.split("ether")[1].trim();
-        String result = str2.split("txqueuelen")[0].trim();
-        br.close();
-        return result;
-    }
-
-    private static String getMACAddressByWindows() throws Exception {
-        String result = "";
-        Process process = Runtime.getRuntime().exec("ipconfig /all");
-        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(), "GBK"));
-
-        String line;
-        int index;
-        while ((line = br.readLine()) != null) {
-            index = line.toLowerCase().indexOf("物理地址");
-            if (index >= 0) {// 找到了
-                index = line.indexOf(":");
-                if (index >= 0) {
-                    result = line.substring(index + 1).trim();
-                }
-                break;
-            }
-        }
-        br.close();
-        return result;
     }
 }

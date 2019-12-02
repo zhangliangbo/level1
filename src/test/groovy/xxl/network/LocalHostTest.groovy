@@ -4,6 +4,6 @@ class LocalHostTest extends GroovyTestCase {
     void testLocalIp() {
         println(LocalHost.ip())
         println(LocalHost.name())
-        println(LocalHost.mac())
+        println(LocalHost.macs())
     }
 }
