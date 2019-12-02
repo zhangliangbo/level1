@@ -9,6 +9,8 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import xxl.mathematica.io.ExportString;
 
+import java.util.Map;
+
 /**
  * 发送验证码
  */
@@ -38,7 +40,8 @@ public class SendSms {
         }
         try {
             CommonResponse response = client.getCommonResponse(request);
-            return response.getHttpStatus() == 200;
+            Map<String, String> map = ExportString.exportStringMap(response);
+            return map.get("code") != null && "OK".equals(map.get("code"));
         } catch (ClientException e) {
             return false;
         }
