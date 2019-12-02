@@ -8,6 +8,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import xxl.mathematica.io.ExportString;
+import xxl.mathematica.io.ImportString;
 
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class SendSms {
         }
         try {
             CommonResponse response = client.getCommonResponse(request);
-            Map<String, String> map = ExportString.exportStringMap(response.getData());
+            Map<String, String> map = ImportString.importStringMapString(response.getData());
             return map.get("Code") != null && "OK".equals(map.get("Code"));
         } catch (ClientException e) {
             return false;
