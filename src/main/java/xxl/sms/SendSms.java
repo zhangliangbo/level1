@@ -40,7 +40,7 @@ public class SendSms {
         }
         try {
             CommonResponse response = client.getCommonResponse(request);
-            Map<String, String> map = ExportString.exportStringMap(response);
+            Map<String, String> map = ExportString.exportStringMap(response.getData());
             return map.get("Code") != null && "OK".equals(map.get("Code"));
         } catch (ClientException e) {
             return false;
