@@ -2,6 +2,6 @@ package xxl.network
 
 class LocalHostTest extends GroovyTestCase {
     void testLocalIp() {
-        println(LocalHost.nameIpMac())
+        println(LocalHost.nameIpMac(true))
     }
 }

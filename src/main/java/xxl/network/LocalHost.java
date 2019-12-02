@@ -15,11 +15,11 @@ import java.util.List;
  */
 public class LocalHost {
     /**
-     *name ip mac地址
+     * name ip mac地址
      *
      * @return
      */
-    public static List<String[]> nameIpMac() {
+    public static List<String[]> nameIpMac(boolean onlyIpv4) {
         try {
             Enumeration<NetworkInterface> enumeration = NetworkInterface.getNetworkInterfaces();
             StringBuilder sb = new StringBuilder();
@@ -32,6 +32,9 @@ public class LocalHost {
                     InetAddress inetAddress = addr.getAddress();
                     information[0] = inetAddress.getHostName();
                     information[1] = inetAddress.getHostAddress();
+                    if (information[1].contains("%") && onlyIpv4) {
+                        continue;
+                    }
                     NetworkInterface network = NetworkInterface.getByInetAddress(inetAddress);
                     if (network == null) {
                         continue;
