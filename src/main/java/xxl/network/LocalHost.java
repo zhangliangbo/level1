@@ -6,6 +6,7 @@ import xxl.mathematica.function.BiPredicate;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -14,6 +15,20 @@ import java.util.List;
  * 本机ip地址
  */
 public class LocalHost {
+    /**
+     * 主机名称
+     *
+     * @return
+     */
+    public static String name() {
+        try {
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            return inetAddress.getHostName();
+        } catch (UnknownHostException e) {
+            return null;
+        }
+    }
+
     /**
      * name ip mac地址
      *
