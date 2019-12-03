@@ -441,6 +441,7 @@ public class Pay {
     public static Map<String, String> sbBarcode(String terminalId, String outTradeNo, long money, String goodsName, String deviceInfo, String notifyUrl) {
         SaobeiPay saobeiPay = getSaobei(terminalId);
         Map<String, String> map = new HashMap<>();
+        //所有参数都加密
         map.put("pay_ver", "110");
         map.put("pay_type", "000");
         map.put("service_id", "016");
@@ -449,13 +450,14 @@ public class Pay {
         map.put("terminal_trace", outTradeNo);
         map.put("terminal_time", DateString.dateString("yyyyMMddHHmmss"));
         map.put("total_fee", String.valueOf(money));
+        //非必填
         map.put("order_body", goodsName);
         if (notifyUrl != null) {
             map.put("notify_url", notifyUrl);
         }
         map.put("attach", deviceInfo);
         map.put("repeated_trace", "1");
-        map.put("key_sign", sbKeySign(map, true, saobeiPay.getTerminalId()));
+        map.put("key_sign", sbKeySign(map, true, saobeiPay.getToken()));
         try {
             return saobeiPay.aggregateCode(map);
         } catch (Exception e) {
