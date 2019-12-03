@@ -12,13 +12,15 @@ import com.alipay.api.response.AlipayTradeCancelResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
+import xxl.codec.digest.DigestUtils;
 import xxl.mathematica.io.ExportString;
+import xxl.mathematica.string.StringRiffle;
+import xxl.mathematica.time.DateString;
+import xxl.saobei.SaobeiPay;
 import xxl.wx.pay.WXPay;
 import xxl.wx.pay.WXPayUtil;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 支付
@@ -27,6 +29,7 @@ public class Pay {
 
     private static Map<String, AlipayClient> aliMap = new HashMap<>();
     private static Map<String, WXPay> payMap = new HashMap<>();
+    private static Map<String, SaobeiPay> saobeiMap = new HashMap<>();
 
     /**
      * 获取下单二维码
@@ -152,7 +155,7 @@ public class Pay {
     /**
      * 注册阿里平台信息
      *
-     * @param serverUrl
+     * @param serverUrl  服务器地址
      * @param appId      程序ID
      * @param privateKey 私钥（建议使用工具生成）
      * @param publicKey  阿里公钥
@@ -176,6 +179,21 @@ public class Pay {
         WXPay wxPay = payMap.get(mchId);
         if (wxPay == null) {
             payMap.put(mchId, new WXPay(new SimpleWxConfig(appId, certFile, key, mchId), null, false));
+        }
+    }
+
+    /**
+     * 注册扫呗平台信息
+     *
+     * @param url        服务器地址
+     * @param mchId      商户ID
+     * @param terminalId 终端ID
+     * @param token      终端token
+     */
+    public static void registerSaobei(String url, String mchId, String terminalId, String token) {
+        SaobeiPay saobeiPay = saobeiMap.get(terminalId);
+        if (saobeiPay == null) {
+            saobeiMap.put(terminalId, new SaobeiPay(url, mchId, terminalId, token));
         }
     }
 
@@ -392,6 +410,61 @@ public class Pay {
     }
 
     /**
+     * 扫呗签名参数
+     *
+     * @return
+     */
+    public static String sbKeySign(Map<String, String> map, boolean dictSortQ, String token) {
+        if (dictSortQ) {
+            map = new TreeMap<>(map);
+        }
+        List<String> params = new ArrayList<>();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            params.add(entry.getKey() + "=" + entry.getValue());
+        }
+        String riffle = StringRiffle.stringRiffle(params, "&");
+        String withToken = riffle + "&access_token=" + token;
+        return DigestUtils.md5Hex(withToken);
+    }
+
+    /**
+     * 扫呗支付二维码
+     *
+     * @param terminalId
+     * @param outTradeNo
+     * @param money
+     * @param goodsName
+     * @param deviceInfo
+     * @param notifyUrl
+     * @return
+     */
+    public static Map<String, String> sbBarcode(String terminalId, String outTradeNo, long money, String goodsName, String deviceInfo, String notifyUrl) {
+        SaobeiPay saobeiPay = getSaobei(terminalId);
+        Map<String, String> map = new HashMap<>();
+        map.put("pay_ver", "110");
+        map.put("pay_type", "000");
+        map.put("service_id", "016");
+        map.put("merchant_no", saobeiPay.getMchId());
+        map.put("terminal_id", saobeiPay.getTerminalId());
+        map.put("terminal_trace", outTradeNo);
+        map.put("terminal_time", DateString.dateString("yyyyMMddHHmmss"));
+        map.put("total_fee", String.valueOf(money));
+        map.put("order_body", goodsName);
+        if (notifyUrl != null) {
+            map.put("notify_url", notifyUrl);
+        }
+        map.put("attach", deviceInfo);
+        map.put("repeated_trace", "1");
+        map.put("key_sign", sbKeySign(map, true, saobeiPay.getTerminalId()));
+        try {
+            return saobeiPay.aggregateCode(map);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * 微信xml转map
      *
      * @param xml
@@ -416,5 +489,13 @@ public class Pay {
             throw new IllegalArgumentException("请先使用registerWx注册微信平台信息");
         }
         return wxPay;
+    }
+
+    private static SaobeiPay getSaobei(String terminalId) {
+        SaobeiPay sb = saobeiMap.get(terminalId);
+        if (sb == null) {
+            throw new IllegalArgumentException("请先使用registerSaobei注册支付宝平台信息");
+        }
+        return sb;
     }
 }

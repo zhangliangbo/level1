@@ -30,6 +30,15 @@ public class DateString {
   }
 
   /**
+   * 格式化当前时间
+   * @param format
+   * @return
+   */
+  public static String dateString(String format){
+    return dateString(new Date(),format);
+  }
+
+  /**
    * 当前时间的字符串
    *
    * @return
