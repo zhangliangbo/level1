@@ -251,23 +251,6 @@ public class Pay {
     }
 
     /**
-     * 微信回调 回复失败
-     *
-     * @param reason
-     * @return
-     */
-    public static String wxFail(String reason) {
-        Map<String, String> map = new HashMap<>();
-        map.put("return_code", "FAIL");
-        map.put("return_msg", reason);
-        try {
-            return WXPayUtil.mapToXml(map);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /**
      * 关闭微信订单
      *
      * @param mchId
@@ -383,6 +366,23 @@ public class Pay {
     }
 
     /**
+     * 微信回调 回复失败
+     *
+     * @param reason
+     * @return
+     */
+    public static String wxFail(String reason) {
+        Map<String, String> map = new HashMap<>();
+        map.put("return_code", "FAIL");
+        map.put("return_msg", reason);
+        try {
+            return WXPayUtil.mapToXml(map);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
      * 微信回调 回复成功
      *
      * @return
@@ -407,6 +407,18 @@ public class Pay {
      */
     public static String wxMapToXml(Map<String, String> map) throws Exception {
         return WXPayUtil.mapToXml(map);
+    }
+
+
+    /**
+     * 微信xml转map
+     *
+     * @param xml
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> wxXmlToMap(String xml) throws Exception {
+        return WXPayUtil.xmlToMap(xml);
     }
 
     /**
@@ -467,14 +479,36 @@ public class Pay {
     }
 
     /**
-     * 微信xml转map
+     * 微信回调 回复失败
      *
-     * @param xml
+     * @param reason
      * @return
-     * @throws Exception
      */
-    public static Map<String, String> wxXmlToMap(String xml) throws Exception {
-        return WXPayUtil.xmlToMap(xml);
+    public static String sbFail(String reason) {
+        Map<String, String> map = new HashMap<>();
+        map.put("return_code", "02");
+        map.put("return_msg", reason);
+        try {
+            return ExportString.exportStringJson(map);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 微信回调 回复成功
+     *
+     * @return
+     */
+    public static String sbSuccess() {
+        Map<String, String> map = new HashMap<>();
+        map.put("return_code", "01");
+        map.put("return_msg", "OK");
+        try {
+            return ExportString.exportStringJson(map);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private static AlipayClient getAli(String appId) {
