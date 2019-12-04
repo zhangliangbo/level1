@@ -80,6 +80,7 @@ class WXPayTest extends GroovyTestCase {
     void testSbOrder() {
         def x = Pay.sbBarcode(tid, ID.snowflake(1), 1, "扫呗商品", "设备号", null)
         println(x)
+        ShowImage.showImage(BarcodeImage.barcodeImage(x.get("qr_url")))
     }
 
 }
