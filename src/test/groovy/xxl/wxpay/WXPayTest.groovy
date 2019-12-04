@@ -23,7 +23,7 @@ class WXPayTest extends GroovyTestCase {
         Map<String, Object> ali = Import.importJsonAsString("D:\\zlb\\阿里平台\\release.json")
         aliAppId = ali.get("appId")
         Pay.registerAli(ali.get("url"), aliAppId, ali.get("private"), ali.get("public"))
-        Map<String, String> sb = Import.importJsonAsString("D:\\zlb\\扫呗平台\\debug.json")
+        Map<String, String> sb = Import.importJsonAsString("D:\\zlb\\扫呗平台\\release.json")
         Pay.registerSaobei(sb.get("url"), sb.get("mId"), sb.get("tId"), sb.get("token"))
         tid = sb.get("tId")
     }
