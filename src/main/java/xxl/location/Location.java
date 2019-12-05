@@ -38,10 +38,8 @@ public class Location {
                 if (root.has("status") && root.get("status").getAsInt() == 0 && root.has("result") && root.get("result").getAsJsonObject().has("address")) {
                     return root.get("result").getAsJsonObject().get("address").getAsString();
                 }
-                return null;
-            } else {
-                return null;
             }
+            return null;
         } catch (IOException e) {
             return null;
         }
