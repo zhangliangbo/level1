@@ -1,7 +1,5 @@
 package xxl.mathematica;
 
-import xxl.mathematica.function.BiFunction;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,12 +72,7 @@ public class Insert {
             return insert(list, t, positive.get(0));
         } else {
             //先排个序
-            List<Integer> sorted = Sort.sort(positive, new BiFunction<Integer, Integer, Integer>() {
-                @Override
-                public Integer apply(Integer integer, Integer integer2) {
-                    return integer.compareTo(integer2);
-                }
-            });
+            List<Integer> sorted = Sort.sort(positive);
             //索引将列表分成了index.size()+1段
             for (int i = 0; i < sorted.get(0); i++) {
                 result.add(list.get(i));

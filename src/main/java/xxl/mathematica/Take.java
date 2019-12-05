@@ -1,7 +1,5 @@
 package xxl.mathematica;
 
-import xxl.mathematica.function.BiFunction;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,12 +155,7 @@ public class Take {
         //删除重复的索引
         List<Integer> noDuplicates = DeleteDuplicates.deleteDuplicates(positiveIndex);
         //对索引排序
-        List<Integer> sorted = Sort.sort(noDuplicates, new BiFunction<Integer, Integer, Integer>() {
-            @Override
-            public Integer apply(Integer integer, Integer integer2) {
-                return integer.compareTo(integer2);
-            }
-        });
+        List<Integer> sorted = Sort.sort(noDuplicates);
         //开始选取
         List<T> result = new ArrayList<>();
         for (Integer integer : sorted) {
