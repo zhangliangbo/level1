@@ -6,13 +6,13 @@ package xxl.mathematica;
 
 public class BitXor {
     /**
-     * 给出整数 Subscript[n, i] 的位异或.
+     * 给出整数的位异或.
      *
      * @param integers
      * @return
      */
     public static int bitXor(Integer... integers) {
-        ObjectHelper.requireNonNull(integers, "integers");
+        ObjectHelper.requireNonNull((Object) integers);
         if (integers.length == 0) {
             return 0;
         } else if (integers.length == 1) {

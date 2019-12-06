@@ -10,18 +10,18 @@ import java.util.List;
 
 public class Count {
     /**
-     * 给出 list 中匹配 criteria 的元素个数.
+     * 给出 list中匹配 p的元素个数.
+     *
      * @param list
-     * @param criteria
+     * @param p
      * @param <T>
      * @return
      */
-    public static <T> int count(List<T> list, Predicate<T> criteria) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
+    public static <T> int count(List<T> list, Predicate<T> p) {
+        ObjectHelper.requireNonNull(list, p);
         int count = 0;
         for (T t : list) {
-            if (criteria.test(t)) {
+            if (p.test(t)) {
                 count++;
             }
         }
