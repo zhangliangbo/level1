@@ -6,7 +6,7 @@ package xxl.mathematica;
 
 public class BitXor {
     /**
-     * 给出整数的位异或.
+     * 给出整数的位异或(XOR).
      *
      * @param integers
      * @return
@@ -17,8 +17,6 @@ public class BitXor {
             return 0;
         } else if (integers.length == 1) {
             return integers[0];
-        } else if (integers.length == 2) {
-            return integers[0] ^ integers[1];
         } else {
             int result = integers[0];
             for (int i = 1; i < integers.length; i++) {

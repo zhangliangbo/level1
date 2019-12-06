@@ -17,13 +17,10 @@ public class Prepend {
      * @return
      */
     public static <T> List<T> prepend(List<T> list, T t) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(t, "t");
+        ObjectHelper.requireNonNull(list, t);
         List<T> result = new ArrayList<>();
         result.add(t);
-        for (T item : list) {
-            result.add(item);
-        }
+        result.addAll(list);
         return result;
     }
 }

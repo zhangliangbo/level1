@@ -20,9 +20,8 @@ public class NestList {
      * @return
      */
     public static <T> List<T> nestList(Function<T, T> function, T initValue, int n) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(function, "initValue");
-        ObjectHelper.requireNonNegative(n, "n");
+        ObjectHelper.requireNonNull(function, initValue);
+        ObjectHelper.requireNonNegative(n);
 
         List<T> result = new ArrayList<T>(n + 1);
         T input = initValue;

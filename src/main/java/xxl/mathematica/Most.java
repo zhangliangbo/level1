@@ -16,7 +16,7 @@ public class Most {
      * @return
      */
     public static <T> List<T> most(List<T> list) {
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
         ObjectHelper.requireLengthNotLessThan(list, 1, "list");
         List<T> result = new ArrayList<>();
         for (int i = 0; i < list.size() - 1; i++) {

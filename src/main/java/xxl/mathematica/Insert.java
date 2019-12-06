@@ -1,6 +1,7 @@
 package xxl.mathematica;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,24 +19,7 @@ public class Insert {
      * @return
      */
     public static <T> List<T> insert(List<T> list, T t, int n) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(t, "t");
-        int positive = n;
-        if (n < 0) {
-            positive += list.size();
-        }
-        if (positive < 0 || positive > list.size()) {
-            throw new IndexOutOfBoundsException("can not insert element at " + n);
-        }
-        List<T> result = new ArrayList<>();
-        for (int i = 0; i < positive; i++) {
-            result.add(list.get(i));
-        }
-        result.add(t);
-        for (int i = positive; i < list.size(); i++) {
-            result.add(list.get(i));
-        }
-        return result;
+        return insert(list, t, Collections.singletonList(n));
     }
 
     /**
@@ -48,29 +32,19 @@ public class Insert {
      * @return
      */
     public static <T> List<T> insert(List<T> list, T t, List<Integer> index) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(t, "t");
-        ObjectHelper.requireNonNull(index, "positionList");
+        ObjectHelper.requireNonNull(list, t, index);
         //转成正向索引
         List<Integer> positive = new ArrayList<>();
-        for (Integer integer : index) {
-            int raw = integer;
-            if (integer < 0) {
-                raw = integer + list.size();
-            }
+        Scan.scan(i -> {
+            int raw = i < 0 ? i + list.size() : i;
             if (raw < 0 || raw > list.size()) {
-                throw new IndexOutOfBoundsException("can not insert element at " + integer);
+                throw new IndexOutOfBoundsException("can not insert element at " + i);
             }
             positive.add(raw);
-        }
+        }, index);
         //在相应的位置插入数据
         List<T> result = new ArrayList<>();
-        if (index.size() == 0) {
-            result.addAll(list);
-            return result;
-        } else if (index.size() == 1) {
-            return insert(list, t, positive.get(0));
-        } else {
+        if (index.size() != 0) {
             //先排个序
             List<Integer> sorted = Sort.sort(positive);
             //索引将列表分成了index.size()+1段
@@ -87,7 +61,7 @@ public class Insert {
             for (int i = sorted.get(sorted.size() - 1); i < list.size(); i++) {
                 result.add(list.get(i));
             }
-            return result;
         }
+        return result;
     }
 }

@@ -22,10 +22,10 @@ public class FixedPoint {
      * @return
      */
     public static <T> T fixPoint(Function<T, T> function, T initValue, BiPredicate<T, T> sameTest) throws MaxStepException {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(initValue, "initValue");
-        ObjectHelper.requireNonNull(sameTest, "sameTest");
+        ObjectHelper.requireNonNull(function, initValue, sameTest);
+
         int steps = 0;
+
         T input = initValue;
         T output = function.apply(input);
         steps++;
@@ -51,12 +51,11 @@ public class FixedPoint {
      * @return
      */
     public static <T> T fixPoint(Function<T, T> function, T initValue, BiPredicate<T, T> sameTest, int maxStepNum) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(initValue, "initValue");
-        ObjectHelper.requireNonNull(sameTest, "sameTest");
-        ObjectHelper.verifyPositive(maxStepNum, "maxStepNum");
+        ObjectHelper.requireNonNull(function, initValue, sameTest);
+        ObjectHelper.requirePositive(maxStepNum);
 
         int steps = 0;
+
         T input = initValue;
         T output = function.apply(input);
         steps++;

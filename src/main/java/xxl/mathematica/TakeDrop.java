@@ -17,7 +17,7 @@ public class TakeDrop {
      * @return
      */
     public static <T> List<List<T>> takeDrop(List<T> list, int n) {
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
         if (Math.abs(n) > list.size()) {
             throw new IndexOutOfBoundsException("can not take " + n + " elements from list, " + "list only has " + list.size() + " elements");
         }
@@ -60,7 +60,7 @@ public class TakeDrop {
      * @return
      */
     public static <T> List<List<T>> takeDrop(List<T> list, int m, int n) {
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
         List<List<T>> result = new ArrayList<>();
         result.add(Take.take(list, m, n));
         result.add(Drop.drop(list, m, n));
@@ -78,7 +78,7 @@ public class TakeDrop {
      * @return
      */
     public static <T> List<List<T>> takeDrop(List<T> list, int m, int n, int step) {
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
         ObjectHelper.requireNonZero(step, "step");
         List<List<T>> result = new ArrayList<>();
         result.add(Take.take(list, m, n, step));

@@ -15,7 +15,7 @@ public class ParentDirectory {
      * @return
      */
     public static String parentDirectory(String dir) {
-        ObjectHelper.requireNonNull(dir, "dir");
+        ObjectHelper.requireNonNull(dir);
         File file = new File(dir);
         if (file.exists()) {
             if (file.isDirectory()) {

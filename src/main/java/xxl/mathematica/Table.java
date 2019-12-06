@@ -6,8 +6,6 @@ import xxl.mathematica.function.Function;
 import java.util.ArrayList;
 import java.util.List;
 
-import static xxl.mathematica.Range.range;
-
 /**
  * 表格
  */
@@ -23,8 +21,8 @@ public class Table {
      * @return
      */
     public static <R> List<R> table(Function<Integer, R> function, int n) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNegative(n, "n");
+        ObjectHelper.requireNonNull(function);
+        ObjectHelper.requireNonNegative(n);
 
         List<R> result = new ArrayList<>(0);
         for (Integer t : Range.range(n)) {
@@ -42,8 +40,8 @@ public class Table {
      * @return
      */
     public static <R> List<R> table(Function<Long, R> function, long n) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNegative(n, "n");
+        ObjectHelper.requireNonNull(function);
+        ObjectHelper.requireNonNegative(n);
 
         List<R> result = new ArrayList<>(0);
         for (Long t : Range.range(n)) {
@@ -62,8 +60,7 @@ public class Table {
      * @return
      */
     public static <T, R> List<R> table(Function<T, R> function, List<T> list) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(function, list);
 
         List<R> result = new ArrayList<R>(0);
         for (T t : list) {
@@ -81,8 +78,7 @@ public class Table {
      * @return
      */
     public static <T, R> List<R> table(Function<T, R> function, Range<T> range) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(range, "range");
+        ObjectHelper.requireNonNull(function, range);
 
         List<R> result = new ArrayList<>(0);
         for (T t : range) {
@@ -102,9 +98,7 @@ public class Table {
      * @return
      */
     public static <T, R> List<List<R>> table(BiFunction<T, T, R> function, List<T> list1, List<T> list2) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(list1, "list1");
-        ObjectHelper.requireNonNull(list2, "list2");
+        ObjectHelper.requireNonNull(function, list1, list2);
 
         List<List<R>> result = new ArrayList<>(0);
         for (T t1 : list1) {
@@ -128,19 +122,6 @@ public class Table {
      * @returnT
      */
     public static <T, R> List<List<R>> table(BiFunction<T, T, R> function, Range<T> range1, Range<T> range2) {
-
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(range1, "range1");
-        ObjectHelper.requireNonNull(range2, "range2");
-
-        List<List<R>> result = new ArrayList<>(0);
-        for (T t1 : range1) {
-            List<R> tempI = new ArrayList<R>();
-            for (T t2 : range2) {
-                tempI.add(function.apply(t1, t2));
-            }
-            result.add(tempI);
-        }
-        return result;
+        return table(function, (List<T>) range1, (List<T>) range2);
     }
 }

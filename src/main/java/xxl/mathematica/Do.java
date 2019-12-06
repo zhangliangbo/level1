@@ -16,11 +16,7 @@ public class Do {
      * @param n
      */
     public static void loop(Consumer<Integer> consumer, int n) {
-        ObjectHelper.requireNonNull(consumer, "consumer");
-        ObjectHelper.requireNonNegative(n, "n");
-        for (int i = 0; i < n; i++) {
-            consumer.accept(i);
-        }
+        loop(consumer, 0, n);
     }
 
     /**
@@ -31,10 +27,7 @@ public class Do {
      * @param max
      */
     public static void loop(Consumer<Integer> consumer, int min, int max) {
-        ObjectHelper.requireNonNull(consumer, "function");
-        for (int i = min; i < max; i++) {
-            consumer.accept(i);
-        }
+        loop(consumer, min, max, 1);
     }
 
     /**
@@ -46,10 +39,11 @@ public class Do {
      * @param d
      */
     public static void loop(Consumer<Integer> consumer, int min, int max, int d) {
-        ObjectHelper.requireNonNull(consumer, "consumer");
+        ObjectHelper.requireNonNull(consumer);
+        ObjectHelper.requireAscend(min, max, "min", "max");
         ObjectHelper.requireNonZero(d, "d");
         if (d < 0) {
-            for (int i = min; i > max; i += d) {
+            for (int i = max; i > min; i += d) {
                 consumer.accept(i);
             }
         } else {
@@ -66,8 +60,7 @@ public class Do {
      * @param list
      */
     public static void loop(Consumer<Integer> consumer, List<Integer> list) {
-        ObjectHelper.requireNonNull(consumer, "consumer");
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(consumer, list);
         for (Integer integer : list) {
             consumer.accept(integer);
         }

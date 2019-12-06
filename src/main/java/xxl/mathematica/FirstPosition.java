@@ -20,8 +20,7 @@ public class FirstPosition {
      * @return
      */
     public static <T> int firstPosition(List<T> list, Predicate<T> criteria) throws ItemNotFoundException {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
+        ObjectHelper.requireNonNull(list, criteria);
         for (int i = 0; i < list.size(); i++) {
             if (criteria.test(list.get(i))) {
                 return i;
@@ -31,7 +30,6 @@ public class FirstPosition {
     }
 
     /**
-     *
      * 如果无法找到与 criteria 匹配的元素，给出 default.
      *
      * @param list
@@ -41,8 +39,7 @@ public class FirstPosition {
      * @return
      */
     public static <T> int firstPosition(List<T> list, Predicate<T> criteria, int def) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(list, "criteria");
+        ObjectHelper.requireNonNull(list, criteria);
         for (int i = 0; i < list.size(); i++) {
             if (criteria.test(list.get(i))) {
                 return i;

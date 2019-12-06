@@ -3,6 +3,7 @@ package xxl.mathematica;
 import xxl.mathematica.function.BiFunction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,16 +22,12 @@ public class FoldList {
      */
     public static <T> List<T> foldList(BiFunction<T, T, T> function, T initValue, List<T> list) {
 
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(initValue, "initValue");
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireLengthNotLessThan(list, 1, "list");
+        ObjectHelper.requireNonNull(function, initValue, list);
 
-        List<T> result = new ArrayList<T>(1);
+        List<T> result = new ArrayList<>(1);
         result.add(initValue);
         T last = initValue;//上一个是第一个
-        for (int i = 0; i < list.size(); i++) {
-            T cur = list.get(i);
+        for (T cur : list) {
             T next = function.apply(last, cur);
             result.add(next);
             last = next;//重置上一个
@@ -49,21 +46,7 @@ public class FoldList {
      */
     public static <T> List<T> foldList(BiFunction<T, T, T> function, T initValue, T[] array) {
 
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(initValue, "initValue");
-        ObjectHelper.requireNonNull(array, "list");
-        ObjectHelper.requireLengthNotLessThan(array, 1, "array");
-
-        List<T> result = new ArrayList<T>(1);
-        result.add(initValue);
-        T last = initValue;//上一个是第一个
-        for (int i = 0; i < array.length; i++) {
-            T cur = array[i];
-            T next = function.apply(last, cur);
-            result.add(next);
-            last = next;//重置上一个
-        }
-        return result;
+        return foldList(function, initValue, Arrays.asList(array));
     }
 
     /**
@@ -76,9 +59,8 @@ public class FoldList {
      */
     public static <T> List<T> foldList(BiFunction<T, T, T> function, List<T> list) {
 
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireLengthNotLessThan(list, 2, "list");
+        ObjectHelper.requireNonNull(function, list);
+        ObjectHelper.requireLengthNotLessThan(list, 1, "list");
 
         List<T> result = new ArrayList<T>(1);
         result.add(list.get(0));
@@ -102,19 +84,6 @@ public class FoldList {
      */
     public static <T> List<T> foldList(BiFunction<T, T, T> function, T[] array) {
 
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(array, "array");
-        ObjectHelper.requireLengthNotLessThan(array, 2, "list");
-
-        List<T> result = new ArrayList<T>(1);
-        result.add(array[0]);
-        T last = array[0];//上一个是第一个
-        for (int i = 1; i < array.length; i++) {
-            T cur = array[i];
-            T next = function.apply(last, cur);
-            result.add(next);
-            last = next;//重置上一个
-        }
-        return result;
+        return foldList(function, Arrays.asList(array));
     }
 }

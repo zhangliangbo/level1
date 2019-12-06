@@ -18,9 +18,8 @@ public class Nest {
      * @return
      */
     public static <T> T nest(Function<T, T> function, T initValue, int n) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(function, "initValue");
-        ObjectHelper.requireNonNegative(n, "n");
+        ObjectHelper.requireNonNull(function, initValue);
+        ObjectHelper.requireNonNegative(n);
 
         T input = initValue;
         T output = initValue;

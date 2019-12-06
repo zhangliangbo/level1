@@ -10,19 +10,18 @@ import java.util.List;
 
 public class NoneTrue {
     /**
-     * 如果 test[Subscript[e, i]] 是 False（对于所有 Subscript[e, i]）,产生 True。
+     * 判断list是否所有的元素都满足p
      *
      * @param list
-     * @param predicate
+     * @param p
      * @param <T>
      * @return
      */
-    public static <T> boolean noneTrue(List<T> list, Predicate<T> predicate) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(predicate, "predicate");
+    public static <T> boolean noneTrue(List<T> list, Predicate<T> p) {
+        ObjectHelper.requireNonNull(list, p);
 
         for (T t : list) {
-            if (predicate.test(t)) {
+            if (p.test(t)) {
                 return false;
             }
         }

@@ -21,8 +21,7 @@ public class Position {
      * @return
      */
     public static <T> List<Integer> position(List<T> list, Predicate<T> criteria) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
+        ObjectHelper.requireNonNull(list, criteria);
 
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
@@ -43,9 +42,8 @@ public class Position {
      * @return
      */
     public static <T> List<Integer> position(List<T> list, Predicate<T> criteria, int n) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
-        ObjectHelper.requireNonNegative(n, "n");
+        ObjectHelper.requireNonNull(list, criteria);
+        ObjectHelper.requireNonNegative(n);
 
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {

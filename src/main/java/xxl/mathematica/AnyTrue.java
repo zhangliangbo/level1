@@ -10,7 +10,7 @@ import java.util.List;
 
 public class AnyTrue {
     /**
-     * 如果 test[Subscript[e, i]] 对于任意一个 Subscript[e, i] 为 True，则生成 True.
+     * 如果 p 对于任意一个 t 为 True，则生成 True.
      *
      * @param list
      * @param predicate
@@ -18,8 +18,7 @@ public class AnyTrue {
      * @return
      */
     public static <T> boolean anyTrue(List<T> list, Predicate<T> predicate) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(predicate, "predicate");
+        ObjectHelper.requireNonNull(list, predicate);
 
         for (T t : list) {
             if (predicate.test(t)) {

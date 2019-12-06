@@ -10,18 +10,17 @@ import java.util.List;
 
 public class AllTrue {
     /**
-     * 如果对于所有 Subscript[e, i]，test[Subscript[e, i]] 均为 True，则生成 True.
+     * 如果对于所有的元素 t，p 均为 True，则生成 True.
      *
      * @param list
-     * @param predicate
+     * @param p
      * @param <T>
      * @return
      */
-    public static <T> boolean allTrue(List<T> list, Predicate<T> predicate) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(predicate, "predicate");
+    public static <T> boolean allTrue(List<T> list, Predicate<T> p) {
+        ObjectHelper.requireNonNull(list, p);
         for (T t : list) {
-            if (!predicate.test(t)) {
+            if (!p.test(t)) {
                 return false;
             }
         }

@@ -17,27 +17,10 @@ public class Take {
      * @return
      */
     public static <T> List<T> take(List<T> list, int n) {
-        ObjectHelper.requireNonNull(list, "list");
-        if (n >= 0) {
-            if (list.size() < n) {
-                throw new IndexOutOfBoundsException("can not take elements from 0 to " + n + ", the list only have " + list.size() + " elements");
-            } else {
-                List<T> result = new ArrayList<>(n);
-                for (int i = 0; i < n; i++) {
-                    result.add(list.get(i));
-                }
-                return result;
-            }
+        if (n < 0) {
+            return take(list, list.size() + n, list.size());
         } else {
-            if (list.size() < -n) {
-                throw new IndexOutOfBoundsException("can not take elements from " + (list.size() + n) + " to " + list.size() + ", the list only have " + list.size() + " elements");
-            } else {
-                List<T> result = new ArrayList<>(-n);
-                for (int i = list.size() + n; i < list.size(); i++) {
-                    result.add(list.get(i));
-                }
-                return result;
-            }
+            return take(list, 0, n);
         }
     }
 
@@ -51,24 +34,7 @@ public class Take {
      * @return
      */
     public static <T> List<T> take(List<T> list, int m, int n) {
-        ObjectHelper.requireNonNull(list, "list");
-        int s = m;
-        if (m < 0) {
-            s = m + list.size();
-        }
-        int e = n;
-        if (n < 0) {
-            e = n + list.size();
-        }
-        if (s < 0 || e > list.size() || s > e) {
-            throw new IndexOutOfBoundsException("can not take elements from " + m + " to " + n);
-        } else {
-            List<T> result = new ArrayList<>();
-            for (int i = s; i < e; i++) {
-                result.add(list.get(i));
-            }
-            return result;
-        }
+        return take(list, m, n, 1);
     }
 
     /**
@@ -81,48 +47,19 @@ public class Take {
      * @return
      */
     public static <T> List<T> take(List<T> list, int m, int n, int step) {
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
         ObjectHelper.requireNonZero(step, "step");
-
-        if (step >= 0) {
-            int s = m;
-            if (m < 0) {
-                s = m + list.size();
-            }
-            int e = n;
-            if (n < 0) {
-                e = n + list.size();
-            }
-            if (s < 0 || e > list.size() || s > e) {
-                throw new IndexOutOfBoundsException("can not take elements from " + m + " to " + n + " with step " + step);
-            } else {
-                List<T> result = new ArrayList<>();
-                for (int i = s; i < e; i += step) {
-                    result.add(list.get(i));
-                }
-                return result;
-            }
-        } else {
-            int s = m;
-            if (m < 0) {
-                s = m + list.size();
-            }
-            int e = n;
-            if (n < 0) {
-                e = n + list.size();
-            }
-            if (e < 0 || s > list.size() || s < e) {
-                throw new IndexOutOfBoundsException("can not take elements from " + m + " to " + n + " with step " + step);
-            } else {
-                List<T> result = new ArrayList<T>(0);
-                for (int i = s; i > e; i += step) {//step是负数
-                    result.add(list.get(i));
-                }
-                return result;
-            }
+        int s = m < 0 ? m + list.size() : m;
+        int e = n < 0 ? n + list.size() : n;
+        if (s < 0 || s > list.size() || e < 0 || e > list.size() || (step < 0 && s > e) || (step > 0 && s < e)) {
+            throw new IndexOutOfBoundsException("can not take elements from " + m + " to " + n + " with step " + step);
         }
+        List<Integer> index = new ArrayList<>();
+        for (int i = s; i < e; i += step) {
+            index.add(i);
+        }
+        return take(list, index);
     }
-
 
     /**
      * 提取 list 在索引表处的值
@@ -133,34 +70,23 @@ public class Take {
      * @return
      */
     public static <T> List<T> take(List<T> list, List<Integer> indexList) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(indexList, "indexList");
+        ObjectHelper.requireNonNull(list, indexList);
         if (indexList.size() == 0) {//没有元素需要删除
-            List<T> result = new ArrayList<>();
-            result.addAll(list);
-            return result;
+            return new ArrayList<>();
         }
         //转成正向索引
-        List<Integer> positiveIndex = new ArrayList<>();
-        for (Integer integer : indexList) {
-            positiveIndex.add(integer < 0 ? integer + list.size() : integer);
-        }
+        List<Integer> positive = Map.map(integer -> integer < 0 ? integer + list.size() : integer, indexList);
         //检查索引的合法性
-        for (int i = 0; i < positiveIndex.size(); i++) {
-            Integer integer = positiveIndex.get(i);
+        Scan.scan(integer -> {
             if (integer < 0 || integer > list.size()) {
-                throw new IndexOutOfBoundsException("can not extract elements at " + indexList.get(i));
+                throw new IndexOutOfBoundsException("can not extract elements at " + integer);
             }
-        }
+        }, positive);
         //删除重复的索引
-        List<Integer> noDuplicates = DeleteDuplicates.deleteDuplicates(positiveIndex);
+        List<Integer> noDuplicates = DeleteDuplicates.deleteDuplicates(positive);
         //对索引排序
         List<Integer> sorted = Sort.sort(noDuplicates);
         //开始选取
-        List<T> result = new ArrayList<>();
-        for (Integer integer : sorted) {
-            result.add(list.get(integer));
-        }
-        return result;
+        return Map.map(list::get, sorted);
     }
 }

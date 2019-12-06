@@ -13,7 +13,7 @@ public class Or {
      * @return
      */
     public static <T> boolean or(Boolean... predicates) {
-        ObjectHelper.requireNonNull(predicates, "predicates");
+        ObjectHelper.requireNonNull((Object) predicates);
         for (boolean predicate : predicates) {
             if (predicate) {
                 return true;

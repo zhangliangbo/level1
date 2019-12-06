@@ -38,8 +38,7 @@ public class SelectFirst {
      * @return
      */
     public static <T> T selectFirst(List<T> list, Predicate<T> criteria, T def) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
+        ObjectHelper.requireNonNull(list, criteria);
         for (T t : list) {
             if (criteria.test(t)) {
                 return t;

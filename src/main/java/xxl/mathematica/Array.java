@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Array {
     /**
-     * 根据函数生成n个结果的列表
+     * 以0为起点
      *
      * @param function
      * @param n
@@ -20,14 +20,7 @@ public class Array {
      * @return
      */
     public static <R> List<R> array(Function<Integer, R> function, int n) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNegative(n, "n");
-
-        List<R> rs = new ArrayList<>(0);
-        for (int i = 0; i < n; i++) {
-            rs.add(function.apply(i));
-        }
-        return rs;
+        return array(function, n, 0);
     }
 
     /**
@@ -40,10 +33,10 @@ public class Array {
      * @return
      */
     public static <R> List<R> array(Function<Integer, R> function, int n, int r) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNegative(n, "n");
+        ObjectHelper.requireNonNull(function);
+        ObjectHelper.requireNonNegative(n);
 
-        List<R> rs = new ArrayList<R>(0);
+        List<R> rs = new ArrayList<>(0);
         for (int i = 0; i < n; i++) {
             rs.add(function.apply(i + r));
         }
@@ -308,6 +301,39 @@ public class Array {
     }
 
     /**
+     * 指定维度的最大值和最小值
+     *
+     * @param function
+     * @param n1
+     * @param n2
+     * @param min1
+     * @param max1
+     * @param min2
+     * @param max2
+     * @param <R>
+     * @return
+     */
+    public static <R> List<List<R>> array(BiFunction<Float, Float, R> function, int n1, int n2, float min1, float max1, float min2, float max2) {
+        ObjectHelper.requireNonNull(function, "function");
+        ObjectHelper.requireNonNegative(n1, "n1");
+        ObjectHelper.requireAscend(min1, max1, "min1", "max1");
+        ObjectHelper.requireNonNegative(n2, "n2");
+        ObjectHelper.requireAscend(min2, max2, "min2", "max2");
+
+        List<List<R>> rs = new ArrayList<>();
+        float intervalI = (max1 - min1) / n1;
+        float intervalJ = (max2 - min2) / n2;
+        for (int i = 0; i < n1; i++) {
+            List<R> temp = new ArrayList<>(0);
+            for (int j = 0; j < n2; j++) {
+                temp.add(function.apply(min1 + intervalI * i, min2 + intervalJ * j));
+            }
+            rs.add(temp);
+        }
+        return rs;
+    }
+
+    /**
      * 根据函数生成n1*n2个结果的二维列表
      *
      * @param function
@@ -401,38 +427,7 @@ public class Array {
     }
 
 
-    /**
-     * 指定维度的最大值和最小值
-     *
-     * @param function
-     * @param n1
-     * @param n2
-     * @param min1
-     * @param max1
-     * @param min2
-     * @param max2
-     * @param <R>
-     * @return
-     */
-    public static <R> List<List<R>> array(BiFunction<Float, Float, R> function, int n1, int n2, float min1, float max1, float min2, float max2) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNegative(n1, "n1");
-        ObjectHelper.requireAscend(min1, max1, "min1", "max1");
-        ObjectHelper.requireNonNegative(n2, "n2");
-        ObjectHelper.requireAscend(min2, max2, "min2", "max2");
 
-        List<List<R>> rs = new ArrayList<>();
-        float intervalI = (max1 - min1) / n1;
-        float intervalJ = (max2 - min2) / n2;
-        for (int i = 0; i < n1; i++) {
-            List<R> temp = new ArrayList<>(0);
-            for (int j = 0; j < n2; j++) {
-                temp.add(function.apply(min1 + intervalI * i, min2 + intervalJ * j));
-            }
-            rs.add(temp);
-        }
-        return rs;
-    }
 
 
     /**

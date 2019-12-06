@@ -19,8 +19,7 @@ public class Apply {
      * @return
      */
     public static <T, R> R apply(Function<List<T>, R> function, List<T> list) {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(function, list);
         return function.apply(list);
     }
 }

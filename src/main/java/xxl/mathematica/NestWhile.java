@@ -2,14 +2,12 @@ package xxl.mathematica;
 
 import xxl.mathematica.exception.MaxStepException;
 import xxl.mathematica.exception.NoEnoughResultException;
+import xxl.mathematica.function.BiPredicate;
 import xxl.mathematica.function.Function;
 import xxl.mathematica.function.Predicate;
-import xxl.mathematica.function.BiPredicate;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static xxl.mathematica.NestWhileList.nestWhileList;
 
 /**
  * 从 initValue 开始，然后重复应用 function 直到 test 不再得到 True 为止.
@@ -27,9 +25,7 @@ public class NestWhile {
      * @return
      */
     public static <T> T nestWhile(Function<T, T> function, T initValue, Predicate<T> test) throws MaxStepException {
-        ObjectHelper.requireNonNull(function, "function");
-        ObjectHelper.requireNonNull(initValue, "initValue");
-        ObjectHelper.requireNonNull(test, "test");
+        ObjectHelper.requireNonNull(function, initValue, test);
 
         T input = initValue;
         T output = initValue;
@@ -44,8 +40,6 @@ public class NestWhile {
         }
         return output;
     }
-
-
 
 
     /**
@@ -79,7 +73,6 @@ public class NestWhile {
     }
 
 
-
     /**
      * 将最后两个结果作为test的参数
      *
@@ -109,7 +102,6 @@ public class NestWhile {
         }
         return temp2;
     }
-
 
 
     /**
@@ -153,7 +145,6 @@ public class NestWhile {
     }
 
 
-
     /**
      * @param function
      * @param initValue
@@ -193,7 +184,6 @@ public class NestWhile {
         }
         return cache.get(cache.size() - 1);
     }
-
 
 
     /**

@@ -12,7 +12,7 @@ public class Nor {
      * @return
      */
     public static boolean nor(Boolean... predicates) {
-        ObjectHelper.requireNonNull(predicates, "predicates");
+        ObjectHelper.requireNonNull((Object) predicates);
         for (boolean predicate : predicates) {
             if (predicate) {
                 return false;

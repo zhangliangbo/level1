@@ -19,8 +19,7 @@ public class Select {
      * @return
      */
     public static <T> List<T> select(List<T> list, Predicate<T> criteria) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
+        ObjectHelper.requireNonNull(list, criteria);
         List<T> result = new ArrayList<>();
         for (T t : list) {
             if (criteria.test(t)) {
@@ -40,9 +39,8 @@ public class Select {
      * @return
      */
     public static <T> List<T> select(List<T> list, Predicate<T> criteria, int n) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
-        ObjectHelper.requireNonNegative(n, "n");
+        ObjectHelper.requireNonNull(list, criteria);
+        ObjectHelper.requireNonNegative(n);
         List<T> result = new ArrayList<>();
         if (n == 0) {
             return result;

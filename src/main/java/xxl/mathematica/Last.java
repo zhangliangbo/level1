@@ -15,7 +15,7 @@ public class Last {
      * @return
      */
     public static <T> T last(List<T> list) {
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
         if (list.size() == 0) {
             throw new IllegalArgumentException("list's size is zero, do not have last element");
         } else {
@@ -32,7 +32,7 @@ public class Last {
      * @return
      */
     public static <T> T last(List<T> list, T def) {
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
         if (list.size() == 0) {
             return def;
         } else {

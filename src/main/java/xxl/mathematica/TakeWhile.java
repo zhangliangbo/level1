@@ -19,8 +19,7 @@ public class TakeWhile {
      * @return
      */
     public static <T> List<T> takeWhile(List<T> list, Predicate<T> criteria) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(criteria, "criteria");
+        ObjectHelper.requireNonNull(list, criteria);
         List<T> result = new ArrayList<>();
         for (T t : list) {
             if (criteria.test(t)) {

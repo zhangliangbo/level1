@@ -19,8 +19,7 @@ public class Map {
      * @return
      */
     public static <T, R> List<R> map(Function<T, R> function, List<T> list) {
-        ObjectHelper.requireNonNull(function, "f");
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(function, list);
         List<R> result = new ArrayList<>();
         for (T t : list) {
             result.add(function.apply(t));

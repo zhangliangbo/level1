@@ -15,7 +15,7 @@ public class Plus {
      * @return
      */
     public static int plus(Integer... numbers) {
-        ObjectHelper.requireNonNull(numbers, "numbers");
+        ObjectHelper.requireNonNull((Object) numbers);
         if (numbers.length == 0) {
             return 0;
         } else if (numbers.length == 1) {
@@ -36,7 +36,7 @@ public class Plus {
      * @return
      */
     public static long plus(Long... numbers) {
-        ObjectHelper.requireNonNull(numbers, "numbers");
+        ObjectHelper.requireNonNull((Object) numbers);
         if (numbers.length == 0) {
             return 0L;
         } else if (numbers.length == 1) {
@@ -58,7 +58,7 @@ public class Plus {
      * @return
      */
     public static BigInteger plus(BigInteger... numbers) {
-        ObjectHelper.requireNonNull(numbers, "numbers");
+        ObjectHelper.requireNonNull((Object) numbers);
         if (numbers.length == 0) {
             return BigInteger.ZERO;
         } else if (numbers.length == 1) {
@@ -79,7 +79,7 @@ public class Plus {
      * @return
      */
     public static float plus(Float... numbers) {
-        ObjectHelper.requireNonNull(numbers, "numbers");
+        ObjectHelper.requireNonNull((Object) numbers);
         if (numbers.length == 0) {
             return 0F;
         } else if (numbers.length == 1) {
@@ -100,7 +100,7 @@ public class Plus {
      * @return
      */
     public static double plus(Double... numbers) {
-        ObjectHelper.requireNonNull(numbers, "numbers");
+        ObjectHelper.requireNonNull((Object) numbers);
         if (numbers.length == 0) {
             return 0D;
         } else if (numbers.length == 1) {
@@ -122,7 +122,7 @@ public class Plus {
      * @return
      */
     public static BigDecimal plus(BigDecimal... numbers) {
-        ObjectHelper.requireNonNull(numbers, "numbers");
+        ObjectHelper.requireNonNull((Object) numbers);
         if (numbers.length == 0) {
             return BigDecimal.ZERO;
         } else if (numbers.length == 1) {

@@ -17,7 +17,7 @@ public class First {
      */
     public static <T> T first(List<T> list, T def) {
 
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
 
         return list.size() == 0 ? def : list.get(0);
     }
@@ -30,7 +30,7 @@ public class First {
      * @return
      */
     public static <T> T first(List<T> list) {
-        ObjectHelper.requireNonNull(list, "list");
+        ObjectHelper.requireNonNull(list);
         if (list.size() == 0) {
             throw new IllegalArgumentException("list's size is zero, do not have first element.");
         } else {

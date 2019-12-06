@@ -14,9 +14,9 @@ public class FileBaseName {
      * @return
      */
     public static String fileBaseName(String file) {
-        ObjectHelper.requireNonNull(file, "file");
+        ObjectHelper.requireNonNull(file);
         if (file.length() == 0) {
-            return "";//空则返回空
+            return null;//空则返回空
         } else {
             //分割，取得最后的文件名
             String fileName = file;

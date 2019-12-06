@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Count {
     /**
-     * 给出 list中匹配 p的元素个数.
+     * 给出 list 中匹配 p 的元素个数.
      *
      * @param list
      * @param p

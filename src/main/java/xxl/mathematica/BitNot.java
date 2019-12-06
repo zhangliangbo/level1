@@ -12,7 +12,7 @@ public class BitNot {
      * @return
      */
     public static int bitNot(Integer integer) {
-        ObjectHelper.requireNonNull(integer, "integer");
+        ObjectHelper.requireNonNull(integer);
         return ~integer;
     }
 }

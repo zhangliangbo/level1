@@ -17,34 +17,19 @@ public class Extract {
      * @return
      */
     public static <T> List<T> extract(List<T> list, List<Integer> indexList) {
-        ObjectHelper.requireNonNull(list, "list");
-        ObjectHelper.requireNonNull(indexList, "indexList");
-        if (indexList.size() == 0) {//没有元素需要删除
-            List<T> result = new ArrayList<>();
-            result.addAll(list);
-            return result;
+        ObjectHelper.requireNonNull(list, indexList);
+        if (indexList.size() == 0) {
+            return new ArrayList<>(list);
         }
         //转成正向索引
-        List<Integer> positiveIndex = new ArrayList<>();
-        for (Integer integer : indexList) {
-            positiveIndex.add(integer < 0 ? integer + list.size() : integer);
-        }
+        List<Integer> positive = Map.map(t -> t < 0 ? t + list.size() : t, indexList);
         //检查索引的合法性
-        for (int i = 0; i < positiveIndex.size(); i++) {
-            Integer integer = positiveIndex.get(i);
-            if (integer < 0 || integer > list.size()) {
-                throw new IndexOutOfBoundsException("can not extract elements at " + indexList.get(i));
+        Scan.scan(t -> {
+            if (t < 0 || t > list.size()) {
+                throw new IndexOutOfBoundsException("can not extract elements at " + t);
             }
-        }
-        //删除重复的索引
-        List<Integer> noDuplicates = DeleteDuplicates.deleteDuplicates(positiveIndex);
-        //对索引排序
-        List<Integer> sorted = Sort.sort(noDuplicates);
+        }, positive);
         //开始选取
-        List<T> result = new ArrayList<>();
-        for (Integer integer : sorted) {
-            result.add(list.get(integer));
-        }
-        return result;
+        return Map.map(list::get, positive);
     }
 }

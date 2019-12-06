@@ -12,15 +12,15 @@ public class FileExtension {
      * @return
      */
     public static String fileExtension(String file) {
-        ObjectHelper.requireNonNull(file, "file");
+        ObjectHelper.requireNonNull(file);
         if (file.length() == 0) {
-            return "";
+            return null;
         } else {
             int dot = file.lastIndexOf('.');
             if (dot > -0 && dot < file.length()) {
                 return file.substring(dot + 1);
             } else {
-                return "";//找不到.则无法给出文件名
+                return null;//找不到.则无法给出文件名
             }
         }
     }

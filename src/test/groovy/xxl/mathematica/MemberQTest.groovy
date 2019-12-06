@@ -1,10 +1,8 @@
 package xxl.mathematica
 
-import xxl.mathematica.function.Predicate
-import xxl.mathematica.function.Function
-import xxl.mathematica.predication.MemberQ
-
 import org.junit.Test
+import xxl.mathematica.function.Function
+import xxl.mathematica.function.Predicate
 
 /**
  * Created by zhang on 2017/9/10.
@@ -30,10 +28,10 @@ class MemberQTest {
         }, names.size())
 
         System.out.println("你们班有没有叫王五的? " +
-                (MemberQ.memberQ(studentList, new Predicate<Student>() {
+                (AnyTrue.anyTrue(studentList, new Predicate<Student>() {
                     @Override
                     boolean test(Student student) {
-                        return student.name.equals("王五")
+                        return "王五".equals(student.name)
                     }
                 }) ? "有" : "没有"))
     }
