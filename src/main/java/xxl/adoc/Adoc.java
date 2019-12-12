@@ -75,11 +75,11 @@ public class Adoc {
                     cmdByte = External.runProcess("which asciidoctor");
                 }
                 if (cmdByte == null) return null;
-                List<String> cmds = StringSplit.stringSplit(new String(cmdByte), "\r\n");
+                List<String> cmds = StringSplit.stringSplit(new String(cmdByte), "\r\n", "\n");
                 if (cmds.size() > 0) {
                     for (String cmd : cmds) {
                         if ((OS.isWindows() && cmd.contains(".cmd")) || (OS.isLinux())) {
-                            String command = cmd + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adocFile.getAbsolutePath();
+                            String command = cmd.trim() + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adocFile.getAbsolutePath();
                             System.out.println("start adoc cmd convert " + command);
                             External.runProcess(command);
                         }
