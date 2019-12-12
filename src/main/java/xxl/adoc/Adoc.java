@@ -15,7 +15,8 @@ public class Adoc {
      * 导出格式
      */
     public enum Output {
-        html, pdf, epub3, xml
+        html,
+        xml
     }
 
     /**
@@ -37,14 +38,14 @@ public class Adoc {
         String backend;
         String format;
         switch (output) {
-            case pdf:
-                backend = "pdf";
-                format = "pdf";
-                break;
-            case epub3:
-                backend = "epub3";
-                format = "epub3";
-                break;
+//            case pdf:
+//                backend = "pdf";
+//                format = "pdf";
+//                break;
+//            case epub3:
+//                backend = "epub3";
+//                format = "epub3";
+//                break;
             case xml:
                 backend = "docbook";
                 format = "xml";
