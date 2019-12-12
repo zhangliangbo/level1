@@ -4,8 +4,13 @@ import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
 import xxl.mathematica.FileBaseName;
+import xxl.mathematica.external.External;
+import xxl.mathematica.string.StringSplit;
+import xxl.os.OS;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * adoc文档
@@ -40,14 +45,14 @@ public class Adoc {
         String backend;
         String format;
         switch (output) {
-//            case pdf:
-//                backend = "pdf";
-//                format = "pdf";
-//                break;
-//            case epub3:
-//                backend = "epub3";
-//                format = "epub3";
-//                break;
+            case pdf:
+                backend = "pdf";
+                format = "pdf";
+                break;
+            case epub3:
+                backend = "epub3";
+                format = "epub3";
+                break;
             case xml:
                 backend = "docbook";
                 format = "xml";
@@ -57,8 +62,31 @@ public class Adoc {
                 format = "html";
                 break;
         }
-        Asciidoctor asciidoctor = Asciidoctor.Factory.create();
-        asciidoctor.convertFile(adocFile, OptionsBuilder.options().safe(SafeMode.UNSAFE).toDir(destDir).backend(backend).get());
+        if (output == Output.html || output == Output.xml) {
+            Asciidoctor asciidoctor = Asciidoctor.Factory.create();
+            asciidoctor.convertFile(adocFile, OptionsBuilder.options().safe(SafeMode.UNSAFE).toDir(destDir).backend(backend).get());
+        } else {
+            //可以尝试用本地命令
+            try {
+                if (OS.isWindows()) {
+                    byte[] cmdByte = External.runProcess("where asciidoctorj");
+                    if (cmdByte == null) return null;
+                    List<String> cmds = StringSplit.stringSplit(new String(cmdByte), "\r\n");
+                    if (cmds.size() > 0) {
+                        for (String cmd : cmds) {
+                            if (cmd.contains(".cmd")) {
+                                External.runProcess(cmd + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adoc);
+                            }
+                        }
+                    }
+                } else {
+                    return null;
+                }
+            } catch (IOException e) {
+                return null;
+            }
+
+        }
         return destDir + File.separator + FileBaseName.fileBaseName(adoc) + "." + format;
     }
 
