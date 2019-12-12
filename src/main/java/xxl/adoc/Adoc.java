@@ -16,7 +16,9 @@ public class Adoc {
      */
     public enum Output {
         html,
-        xml
+        xml,
+        pdf,
+        epub3
     }
 
     /**
