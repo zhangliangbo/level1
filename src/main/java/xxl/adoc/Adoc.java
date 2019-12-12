@@ -79,8 +79,9 @@ public class Adoc {
                 if (cmds.size() > 0) {
                     for (String cmd : cmds) {
                         if ((OS.isWindows() && cmd.contains(".cmd")) || (OS.isLinux())) {
-                            System.out.println("start adoc cmd convert");
-                            External.runProcess(cmd + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adocFile.getAbsolutePath());
+                            String command = cmd + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adocFile.getAbsolutePath();
+                            System.out.println("start adoc cmd convert " + command);
+                            External.runProcess(command);
                         }
                     }
                 }
