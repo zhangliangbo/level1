@@ -75,7 +75,7 @@ public class Adoc {
                     if (cmds.size() > 0) {
                         for (String cmd : cmds) {
                             if (cmd.contains(".cmd")) {
-                                External.runProcess(cmd + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adoc);
+                                External.runProcess(cmd + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adocFile.getAbsolutePath());
                             }
                         }
                     }
