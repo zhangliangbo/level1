@@ -68,19 +68,21 @@ public class Adoc {
         } else {
             //可以尝试用本地命令
             try {
+                byte[] cmdByte = null;
                 if (OS.isWindows()) {
-                    byte[] cmdByte = External.runProcess("where asciidoctorj");
-                    if (cmdByte == null) return null;
-                    List<String> cmds = StringSplit.stringSplit(new String(cmdByte), "\r\n");
-                    if (cmds.size() > 0) {
-                        for (String cmd : cmds) {
-                            if (cmd.contains(".cmd")) {
-                                External.runProcess(cmd + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adocFile.getAbsolutePath());
-                            }
+                    cmdByte = External.runProcess("where asciidoctorj");
+                } else if (OS.isLinux()) {
+                    cmdByte = External.runProcess("which asciidoctor");
+                }
+                if (cmdByte == null) return null;
+                List<String> cmds = StringSplit.stringSplit(new String(cmdByte), "\r\n");
+                if (cmds.size() > 0) {
+                    for (String cmd : cmds) {
+                        if ((OS.isWindows() && cmd.contains(".cmd")) || (OS.isLinux())) {
+                            System.out.println("start adoc cmd convert");
+                            External.runProcess(cmd + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adocFile.getAbsolutePath());
                         }
                     }
-                } else {
-                    return null;
                 }
             } catch (IOException e) {
                 return null;
