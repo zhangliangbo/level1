@@ -20,7 +20,7 @@ public class SwaggerDoc {
     /**
      * 格式
      */
-    public enum Format {
+    public enum Output {
         ascii, markdown, text
     }
 
@@ -28,13 +28,13 @@ public class SwaggerDoc {
      * swagger文档
      *
      * @param url
-     * @param format
+     * @param output
      * @param dest
      * @return
      */
-    public static String swaggerDoc(String url, Format format, String dest, boolean isDir) {
+    public static String swaggerDoc(String url, Output output, String dest, boolean isDir) {
         MarkupLanguage markupLanguage;
-        switch (format) {
+        switch (output) {
             case ascii:
                 markupLanguage = MarkupLanguage.ASCIIDOC;
                 break;
@@ -70,7 +70,7 @@ public class SwaggerDoc {
                         .build()
                         .toFile(Paths.get(file.getAbsolutePath()));
                 String suffix;
-                switch (format) {
+                switch (output) {
                     case ascii:
                         suffix = ".adoc";
                         break;
@@ -93,13 +93,13 @@ public class SwaggerDoc {
      * 默认导出到临时文件
      *
      * @param url
-     * @param format
+     * @param output
      * @return
      */
-    public static String swaggerDoc(String url, Format format) {
+    public static String swaggerDoc(String url, Output output) {
         try {
             File temp = File.createTempFile("swagger", "");
-            return swaggerDoc(url, format, temp.getAbsolutePath(), false);
+            return swaggerDoc(url, output, temp.getAbsolutePath(), false);
         } catch (IOException e) {
             return null;
         }
@@ -113,7 +113,7 @@ public class SwaggerDoc {
      * @return
      */
     public static String swaggerDoc(String url, String dest, boolean isDir) {
-        return swaggerDoc(url, Format.ascii, dest, isDir);
+        return swaggerDoc(url, Output.ascii, dest, isDir);
     }
 
     /**
@@ -123,7 +123,7 @@ public class SwaggerDoc {
      * @return
      */
     public static String swaggerDoc(String url) {
-        return swaggerDoc(url, Format.ascii);
+        return swaggerDoc(url, Output.ascii);
     }
 
 }
