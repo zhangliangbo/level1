@@ -15,7 +15,7 @@ public class Adoc {
      * 导出格式
      */
     public enum Output {
-        html, pdf, epub3, doc
+        html, pdf, epub3, xml
     }
 
     /**
@@ -34,23 +34,28 @@ public class Adoc {
                 return null;
             }
         }
+        String backend;
         String format;
         switch (output) {
             case pdf:
+                backend = "pdf";
                 format = "pdf";
                 break;
             case epub3:
+                backend = "epub3";
                 format = "epub3";
                 break;
-            case doc:
-                format = "docbook";
+            case xml:
+                backend = "docbook";
+                format = "xml";
                 break;
             default:
+                backend = "html";
                 format = "html";
                 break;
         }
         Asciidoctor asciidoctor = Asciidoctor.Factory.create();
-        asciidoctor.convertFile(adocFile, OptionsBuilder.options().safe(SafeMode.UNSAFE).toDir(destDir).backend(format).get());
+        asciidoctor.convertFile(adocFile, OptionsBuilder.options().safe(SafeMode.UNSAFE).toDir(destDir).backend(backend).get());
         return destDir + File.separator + FileBaseName.fileBaseName(adoc) + "." + format;
     }
 
@@ -63,6 +68,17 @@ public class Adoc {
      */
     public static String convertFile(String adoc, String dest) {
         return convertFile(adoc, Output.html, dest);
+    }
+
+    /**
+     * 默认相同路径
+     *
+     * @param adoc
+     * @param output
+     * @return
+     */
+    public static String convertFile(String adoc, Output output) {
+        return convertFile(adoc, output, null);
     }
 
     /**
