@@ -9,7 +9,8 @@ plugins {
 group 'xxl.mathematica'
 version '1.0.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = "1.11"
+targetCompatibility = "1.11"
 
 repositories {
     jcenter()
@@ -66,7 +67,7 @@ dependencies {
 //    implementation 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.18'  //wait for ripe
 //    implementation 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.9'  //wait for ripe
 
-    testImplementation 'org.codehaus.groovy:groovy-all:2.5.7'
+    testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
