@@ -48,17 +48,9 @@ public class RandomInteger {
      */
     public static int randomInteger(int m, int n) {
         if (m <= n) {
-            int len = n - m;
-            return randomInteger(len) + m;
+            return randomInteger(n - m) + m;
         } else {
-            int len = m - n;
-            int r = randomInteger(len) + n;
-            //不包含结尾
-            if (n >= 0) {
-                return r - 1;
-            } else {
-                return r + 1;
-            }
+            return randomInteger(m - n) + n;
         }
     }
 
@@ -75,14 +67,13 @@ public class RandomInteger {
         if (m <= n) {
             int len = n - m;
             for (int i = 0; i < num; i++) {
-                result.add(random.nextInt(len) + m);
+                result.add(randomInteger(len));
             }
             return result;
         } else {
             int len = m - n;
             for (int i = 0; i < num; i++) {
-                //不包含结尾
-                result.add(n >= 0 ? random.nextInt(len) + n - 1 : random.nextInt(len) + n + 1);
+                result.add(randomInteger(len));
             }
             return result;
         }
