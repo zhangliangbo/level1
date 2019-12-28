@@ -64,18 +64,9 @@ public class RandomInteger {
      */
     public static List<Integer> randomInteger(int m, int n, int num) {
         List<Integer> result = new ArrayList<>();
-        if (m <= n) {
-            int len = n - m;
-            for (int i = 0; i < num; i++) {
-                result.add(randomInteger(len));
-            }
-            return result;
-        } else {
-            int len = m - n;
-            for (int i = 0; i < num; i++) {
-                result.add(randomInteger(len));
-            }
-            return result;
+        for (int i = 0; i < num; i++) {
+            result.add(randomInteger(m, n));
         }
+        return result;
     }
 }
