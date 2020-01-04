@@ -9,8 +9,8 @@ plugins {
 group 'xxl.mathematica'
 version '1.0.0-SNAPSHOT'
 
-sourceCompatibility = "1.11"
-targetCompatibility = "1.11"
+sourceCompatibility = "8"
+targetCompatibility = "8"
 
 repositories {
     jcenter()
