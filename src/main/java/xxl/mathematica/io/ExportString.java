@@ -3,6 +3,9 @@ package xxl.mathematica.io;
 import com.google.gson.reflect.TypeToken;
 import xxl.mathematica.single.GsonSingle;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
 import java.util.Map;
 
 /**
@@ -41,5 +44,27 @@ public class ExportString {
         String json = GsonSingle.instance().toJson(object);
         return GsonSingle.instance().fromJson(json, new TypeToken<Map<String, Object>>() {
         }.getType());
+    }
+
+    /**
+     * 导出为xml格式
+     *
+     * @param obj
+     * @return
+     */
+    public static String exportStringXml(Object obj) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(obj.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            StringWriter writer = new StringWriter();
+            marshaller.marshal(obj, writer);
+            String result = writer.toString();
+            writer.close();
+            return result;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

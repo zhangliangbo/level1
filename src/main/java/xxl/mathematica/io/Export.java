@@ -1,5 +1,6 @@
 package xxl.mathematica.io;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -8,6 +9,7 @@ import xxl.mathematica.io.excel.AbsExcel;
 import xxl.mathematica.io.excel.IExcel;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -114,4 +116,19 @@ public class Export {
         return true;
     }
 
+    /**
+     * 导出文本
+     *
+     * @param file
+     * @param text
+     * @return
+     */
+    public static boolean exportText(String file, String text) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            IOUtils.write(text, fos, "UTF-8");
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
 }
