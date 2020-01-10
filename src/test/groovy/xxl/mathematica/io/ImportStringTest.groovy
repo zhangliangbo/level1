@@ -6,9 +6,14 @@ class ImportStringTest extends GroovyTestCase {
                 "<xmlBean state=\"12\">\n" +
                 "    <name>xxl</name>\n" +
                 "    <age>18</age>\n" +
-                "    <goods>apple</goods>\n" +
-                "    <goods>orange</goods>\n" +
-                "    <goods>vegetable</goods>\n" +
+                "    <goods>\n" +
+                "        <name>child1</name>\n" +
+                "        <weight>5</weight>\n" +
+                "    </goods>\n" +
+                "    <goods>\n" +
+                "        <name>child2</name>\n" +
+                "        <weight>10</weight>\n" +
+                "    </goods>\n" +
                 "</xmlBean>", XmlBean.class)
         println(xmlBean)
     }
