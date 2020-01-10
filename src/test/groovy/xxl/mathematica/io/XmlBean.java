@@ -1,6 +1,7 @@
 package xxl.mathematica.io;
 
 import javax.xml.bind.annotation.*;
+import java.util.List;
 
 @XmlRootElement(name = "XmlBean")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -13,8 +14,11 @@ public class XmlBean {
     @XmlElement(name = "Age")
     public int age;
 
-    @XmlAttribute(name="name")
+    @XmlAttribute(name = "name")
     public int state;
+
+    @XmlElement(name = "Goods")
+    public List<String> goods;
 
     @Override
     public String toString() {
@@ -22,6 +26,7 @@ public class XmlBean {
                 "name='" + name + '\'' +
                 ", age=" + age +
                 ", state=" + state +
+                ", goods=" + goods +
                 '}';
     }
 }

@@ -14,6 +14,7 @@ class ExportStringTest extends GroovyTestCase {
         xmlBean.name = "xxl"
         xmlBean.age = 18
         xmlBean.state = 12
+        xmlBean.goods = ["apple", "orange", "vegetable"]
         println(ExportString.exportStringXml(xmlBean))
     }
 }
