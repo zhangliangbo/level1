@@ -3,21 +3,21 @@ package xxl.mathematica.io;
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
-@XmlRootElement(name = "XmlBean")
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType
 public class XmlBean {
 
-    @XmlElement(name = "Name")
+    @XmlElement
     public String name;
 
-    @XmlElement(name = "Age")
+    @XmlElement
     public int age;
 
-    @XmlAttribute(name = "name")
+    @XmlAttribute
     public int state;
 
-    @XmlElement(name = "Goods")
+    @XmlElement
     public List<String> goods;
 
     @Override
