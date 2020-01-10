@@ -11,4 +11,12 @@ public class XmlBeanChild {
 
     @XmlElement
     public int weight;
+
+    @Override
+    public String toString() {
+        return "XmlBeanChild{" +
+                "name='" + name + '\'' +
+                ", weight=" + weight +
+                '}';
+    }
 }
