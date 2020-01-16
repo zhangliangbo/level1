@@ -1,9 +1,13 @@
 package xxl.mathematica.single;
 
 import com.google.gson.*;
+import com.google.gson.internal.bind.ObjectTypeAdapter;
+import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
+import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class GsonSingle {
 
@@ -16,15 +20,33 @@ public class GsonSingle {
     }
 
     static class Holder {
-        static Gson gson = new GsonBuilder().registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
+        static Gson gson = new GsonBuilder().registerTypeAdapterFactory(new TypeAdapterFactory() {
             @Override
-            public JsonElement serialize(Double src, Type typeOfSrc, JsonSerializationContext context) {
-                if (src == src.longValue()) {
-                    return new JsonPrimitive(src.longValue());
-                }
-                return new JsonPrimitive(src);
+            public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+                return null;
             }
         }).create();
+
+        static {
+            try {
+                Field factories = Gson.class.getDeclaredField("factories");
+                factories.setAccessible(true);
+                Object o = factories.get(gson);
+                Class<?>[] declaredClasses = Collections.class.getDeclaredClasses();
+                for (Class<?> c : declaredClasses) {
+                    if ("java.util.Collections$UnmodifiableList".equals(c.getName())) {
+                        Field listField = c.getDeclaredField("list");
+                        listField.setAccessible(true);
+                        List<TypeAdapterFactory> list = (List<TypeAdapterFactory>) listField.get(o);
+                        int i = list.indexOf(ObjectTypeAdapter.FACTORY);
+                        list.set(i, MapTypeAdapter.FACTORY);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     static class OneLevelHolder {
