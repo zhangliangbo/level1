@@ -1,10 +1,8 @@
 package xxl.mathematica.single;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 
+import java.lang.reflect.Type;
 import java.util.Date;
 
 public class GsonSingle {
@@ -18,7 +16,15 @@ public class GsonSingle {
     }
 
     static class Holder {
-        static Gson gson = new GsonBuilder().create();
+        static Gson gson = new GsonBuilder().registerTypeAdapter(Double.class, new JsonSerializer<Double>() {
+            @Override
+            public JsonElement serialize(Double src, Type typeOfSrc, JsonSerializationContext context) {
+                if (src == src.longValue()) {
+                    return new JsonPrimitive(src.longValue());
+                }
+                return new JsonPrimitive(src);
+            }
+        }).create();
     }
 
     static class OneLevelHolder {
