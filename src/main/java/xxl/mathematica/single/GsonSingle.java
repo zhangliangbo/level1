@@ -32,7 +32,7 @@ public class GsonSingle {
 
             @Override
             public boolean shouldSkipClass(Class<?> clazz) {
-                return !clazz.isPrimitive();
+                return false;
             }
         };
         static Gson gson = new GsonBuilder()
