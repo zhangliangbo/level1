@@ -1,6 +1,7 @@
 package xxl.mp
 
 import xxl.mathematica.io.Import
+import xxl.mathematica.io.ImportString
 
 class MediaPlatformTest extends GroovyTestCase {
     String id
@@ -36,5 +37,19 @@ class MediaPlatformTest extends GroovyTestCase {
     void testWxWebUserInfo() {
         def res = MediaPlatform.wxWebUserInfo(openid, token)
         println(res)
+    }
+
+    void testAbc() {
+        String json = "{\n" +
+                "\t\"a\":{\n" +
+                "\t\t\"b\":{\n" +
+                "\t\t\t\"c\":{\n" +
+                "\t\t\t\t\"d\":\"e\"\n" +
+                "\t\t\t}\n" +
+                "\t\t}\n" +
+                "\t}\n" +
+                "}"
+        def o = ImportString.importStringMapString(json)
+        println(o)
     }
 }

@@ -99,7 +99,7 @@ public class MediaPlatform {
      * @param accessToken
      * @return
      */
-    public static Map<String, String> wxWebUserInfo(String openId, String accessToken) {
+    public static Map<String, Object> wxWebUserInfo(String openId, String accessToken) {
         Request request = new Request.Builder()
                 .url("https://api.weixin.qq.com/sns/userinfo?openid=" + openId +
                         "&access_token=" + accessToken +
@@ -111,7 +111,7 @@ public class MediaPlatform {
             if (response.isSuccessful() && response.body() != null) {
                 String json = response.body().string();
                 System.out.println(json);
-                return ImportString.importStringMapString(json);
+                return ImportString.importStringMapObject(json);
             } else {
                 return null;
             }
