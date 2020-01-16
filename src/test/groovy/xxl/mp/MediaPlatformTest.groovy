@@ -21,6 +21,10 @@ class MediaPlatformTest extends GroovyTestCase {
         refresh = json.get("refresh")
     }
 
+    void testWxWebCodeUrl() {
+        println(MediaPlatform.wxWebCodeUrl(id, "123456", "https://mp.xxlun.com/quilt/authorize", true))
+    }
+
     void testWxTokenFromCode() {
         println(MediaPlatform.wxWebTokenFromCode(id, secret, code))
     }
@@ -37,5 +41,5 @@ class MediaPlatformTest extends GroovyTestCase {
         def res = MediaPlatform.wxWebUserInfo(openid, token)
         println(res)
     }
-    
+
 }

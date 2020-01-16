@@ -22,14 +22,15 @@ public class MediaPlatform {
      * @param redirectUri
      * @return
      */
-    public static String wxWebCodeUrl(String appId, String state, String redirectUri) {
-        return "https://open.weixin.qq.com/connect/oauth2/authorize" +
+    public static String wxWebCodeUrl(String appId, String state, String redirectUri, boolean encode) {
+        String raw = "https://open.weixin.qq.com/connect/oauth2/authorize" +
                 "?appid=" + appId +
                 "&response_type=code" +
                 "&scope=snsapi_userinfo" +
                 "&state=" + state +
                 "&redirect_uri=" + URLEncoder.encode(redirectUri) +
                 "#wechat_redirect";
+        return encode ? URLEncoder.encode(raw) : raw;
     }
 
     /**
