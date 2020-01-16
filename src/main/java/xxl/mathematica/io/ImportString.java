@@ -1,6 +1,7 @@
 package xxl.mathematica.io;
 
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.lang3.ClassUtils;
 import xxl.mathematica.AssociationMap;
 import xxl.mathematica.KeySelect;
 import xxl.mathematica.Keys;
@@ -34,7 +35,10 @@ public class ImportString {
      */
     public static Map<String, String> importStringMapString(String json) {
         Map<String, Object> res = importStringMapObject(json);
-        Map<String, Object> select = KeySelect.keySelect(res, s -> res.get(s).getClass().isPrimitive() && res.get(s).getClass().equals(String.class));
+        Map<String, Object> select = KeySelect.keySelect(res, s -> {
+            Class<?> cls = res.get(s).getClass();
+            return cls.isPrimitive() || ClassUtils.isPrimitiveWrapper(cls) || cls.equals(String.class);
+        });
         return AssociationMap.associationMap(t -> select.get(t).toString(), Keys.keys(select));
     }
 
