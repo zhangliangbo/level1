@@ -1,6 +1,9 @@
 package xxl.mathematica.io;
 
 import com.google.gson.reflect.TypeToken;
+import xxl.mathematica.AssociationMap;
+import xxl.mathematica.KeySelect;
+import xxl.mathematica.Keys;
 import xxl.mathematica.single.GsonSingle;
 
 import javax.xml.bind.JAXBContext;
@@ -30,8 +33,9 @@ public class ImportString {
      * @return
      */
     public static Map<String, String> importStringMapString(String json) {
-        return GsonSingle.oneLevelInstance().fromJson(json, new TypeToken<Map<String, String>>() {
-        }.getType());
+        Map<String, Object> res = importStringMapObject(json);
+        Map<String, Object> select = KeySelect.keySelect(res, s -> res.get(s).getClass().isPrimitive() && res.get(s).getClass().equals(String.class));
+        return AssociationMap.associationMap(t -> select.get(t).toString(), Keys.keys(select));
     }
 
     /**

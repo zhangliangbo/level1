@@ -22,7 +22,20 @@ public class GsonSingle {
     }
 
     static class OneLevelHolder {
-        static ExclusionStrategy es = new ExclusionStrategy() {
+        static ExclusionStrategy serialEs = new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipField(FieldAttributes f) {
+                return !f.getDeclaredClass().isPrimitive() &&
+                        !f.getDeclaredClass().equals(String.class) &&
+                        !f.getDeclaredClass().isAssignableFrom(Date.class);
+            }
+
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+        };
+        static ExclusionStrategy deSerialEs = new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes f) {
                 return !f.getDeclaredClass().isPrimitive() &&
@@ -36,8 +49,8 @@ public class GsonSingle {
             }
         };
         static Gson gson = new GsonBuilder()
-                .addSerializationExclusionStrategy(es)
-                .addDeserializationExclusionStrategy(es)
+                .addSerializationExclusionStrategy(serialEs)
+                .addDeserializationExclusionStrategy(deSerialEs)
                 .create();
     }
 

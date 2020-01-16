@@ -47,7 +47,8 @@ class MediaPlatformTest extends GroovyTestCase {
                 "\t\t\t\t\"d\":\"e\"\n" +
                 "\t\t\t}\n" +
                 "\t\t}\n" +
-                "\t}\n" +
+                "\t},\n" +
+                "\t\"zlb\":\"zbl\"\n" +
                 "}"
         def o = ImportString.importStringMapString(json)
         println(o)
