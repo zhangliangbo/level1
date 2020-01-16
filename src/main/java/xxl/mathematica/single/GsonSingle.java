@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Date;
+import java.util.Map;
 
 public class GsonSingle {
 
@@ -32,7 +33,7 @@ public class GsonSingle {
 
             @Override
             public boolean shouldSkipClass(Class<?> clazz) {
-                return false;
+                return !clazz.equals(Map.class);
             }
         };
         static Gson gson = new GsonBuilder()

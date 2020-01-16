@@ -47,7 +47,7 @@ public class MediaPlatform {
      * @param token
      * @return
      */
-    public static Map<String, String> wxWebTokenValid(String openId, String token) {
+    public static boolean wxWebTokenValid(String openId, String token) {
         Request request = new Request.Builder()
                 .url("https://api.weixin.qq.com/sns/auth?openid=" + openId +
                         "&access_token=" + token)
@@ -56,7 +56,62 @@ public class MediaPlatform {
         try {
             Response response = OkHttpSingle.instance().newCall(request).execute();
             if (response.isSuccessful() && response.body() != null) {
+                Map<String, String> res = ImportString.importStringMapString(response.body().string());
+                return "0".equals(res.get("errcode"));
+            } else {
+                return false;
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * 刷新token
+     *
+     * @param appId
+     * @param refreshToken
+     * @return
+     */
+    public static Map<String, String> wxWebTokenRefresh(String appId, String refreshToken) {
+        Request request = new Request.Builder()
+                .url("https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=" + appId +
+                        "&refresh_token=" + refreshToken +
+                        "&grant_type=refresh_token")
+                .get()
+                .build();
+        try {
+            Response response = OkHttpSingle.instance().newCall(request).execute();
+            if (response.isSuccessful() && response.body() != null) {
                 return ImportString.importStringMapString(response.body().string());
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 拉取用户信息
+     *
+     * @param openId
+     * @param accessToken
+     * @return
+     */
+    public static Map<String, String> wxWebUserInfo(String openId, String accessToken) {
+        Request request = new Request.Builder()
+                .url("https://api.weixin.qq.com/sns/userinfo?openid=" + openId +
+                        "&access_token=" + accessToken +
+                        "&lang=zh_CN")
+                .get()
+                .build();
+        try {
+            Response response = OkHttpSingle.instance().newCall(request).execute();
+            if (response.isSuccessful() && response.body() != null) {
+                String json = response.body().string();
+                System.out.println(json);
+                return ImportString.importStringMapString(json);
             } else {
                 return null;
             }
