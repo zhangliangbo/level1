@@ -6,12 +6,32 @@ import xxl.mathematica.io.ImportString;
 import xxl.mathematica.single.OkHttpSingle;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
  * 公众平台
  */
 public class MediaPlatform {
+
+    /**
+     * 获取token授权码的地址
+     *
+     * @param appId
+     * @param state
+     * @param redirectUri
+     * @return
+     */
+    public static String wxWebCodeUrl(String appId, String state, String redirectUri) {
+        return "https://open.weixin.qq.com/connect/oauth2/authorize" +
+                "?appid=" + appId +
+                "&response_type=code" +
+                "&scope=snsapi_userinfo" +
+                "&state=" + state +
+                "&redirect_uri=" + URLEncoder.encode(redirectUri) +
+                "#wechat_redirect";
+    }
+
     /**
      * 微信网页根据code获取token
      *
