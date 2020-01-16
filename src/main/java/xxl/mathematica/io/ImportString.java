@@ -39,7 +39,7 @@ public class ImportString {
             Class<?> cls = res.get(s).getClass();
             return cls.isPrimitive() || ClassUtils.isPrimitiveWrapper(cls) || cls.equals(String.class);
         });
-        return AssociationMap.associationMap(t -> select.get(t).toString(), Keys.keys(select));
+        return AssociationMap.associationMap(t -> String.valueOf(select.get(t)), Keys.keys(select));
     }
 
     /**
