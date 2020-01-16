@@ -16,6 +16,6 @@ class MediaPlatformTest extends GroovyTestCase {
     }
 
     void testWxTokenFromCode() {
-        println(MediaPlatform.wxTokenFromCode(id, secret, code))
+        println(MediaPlatform.wxWebTokenFromCode(id, secret, code))
     }
 }
