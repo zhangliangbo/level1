@@ -28,6 +28,7 @@ public class GsonSingle {
         }).create();
 
         static {
+            //解决GSON默认数字类型默认转成Double
             try {
                 Field factories = Gson.class.getDeclaredField("factories");
                 factories.setAccessible(true);
