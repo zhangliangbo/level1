@@ -110,7 +110,6 @@ public class MediaPlatform {
             Response response = OkHttpSingle.instance().newCall(request).execute();
             if (response.isSuccessful() && response.body() != null) {
                 String json = response.body().string();
-                System.out.println(json);
                 return ImportString.importStringMapString(json);
             } else {
                 return null;
