@@ -34,6 +34,7 @@ class MediaPlatformTest extends GroovyTestCase {
     }
 
     void testWxWebUserInfo() {
-        println(MediaPlatform.wxWebUserInfo(openid, token))
+        def res = MediaPlatform.wxWebUserInfo(openid, token)
+        println(res)
     }
 }
