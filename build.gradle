@@ -67,8 +67,8 @@ dependencies {
 //    implementation 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.18'  //wait for ripe
 //    implementation 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.9'  //wait for ripe
 
-    implementation "org.apache.flink:flink-java:1.9.2"
-    implementation "org.apache.flink:flink-streaming-java_2.12:1.9.2"
+    compileOnly "org.apache.flink:flink-java:1.9.2"
+    compileOnly "org.apache.flink:flink-streaming-java_2.12:1.9.2"
     implementation "org.apache.flink:flink-clients_2.12:1.9.2"
     implementation "org.apache.flink:flink-connector-wikiedits_2.12:1.9.2"
 
@@ -82,6 +82,7 @@ tasks.withType(JavaCompile) {
 }
 
 shadowJar {
+    zip64 true
     manifest {
         attributes(['Main-Class': 'xxl.xjwt.XJWT'])
     }
