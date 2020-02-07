@@ -67,17 +67,18 @@ dependencies {
 //    implementation 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.18'  //wait for ripe
 //    implementation 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.9'  //wait for ripe
 
-    compileOnly "org.apache.flink:flink-java:1.9.2"
-    compileOnly "org.apache.flink:flink-streaming-java_2.12:1.9.2"
-    compileOnly "org.apache.flink:flink-streaming-scala_2.12:1.9.2"
-    compileOnly "org.apache.flink:flink-clients_2.12:1.9.2"
-    compileOnly "org.apache.flink:flink-table-api-java-bridge_2.12:1.9.2"
-    compileOnly "org.apache.flink:flink-table-planner_2.12:1.9.2"
-    compileOnly "org.apache.flink:flink-streaming-scala_2.12:1.9.2"
-    implementation "org.apache.flink:flink-connector-wikiedits_2.12:1.9.2"
-    implementation "org.apache.flink:flink-connector-kafka_2.12:1.9.2"
-    implementation "org.apache.flink:flink-connector-rabbitmq_2.12:1.9.2"
+    compileOnly 'org.apache.flink:flink-java:1.9.2'
+    compileOnly 'org.apache.flink:flink-streaming-java_2.12:1.9.2'
+    compileOnly 'org.apache.flink:flink-streaming-scala_2.12:1.9.2'
+    compileOnly 'org.apache.flink:flink-clients_2.12:1.9.2'
+    compileOnly 'org.apache.flink:flink-table-api-java-bridge_2.12:1.9.2'
+    compileOnly 'org.apache.flink:flink-table-planner_2.12:1.9.2'
+    compileOnly 'org.apache.flink:flink-streaming-scala_2.12:1.9.2'
+    implementation 'org.apache.flink:flink-connector-wikiedits_2.12:1.9.2'
+    implementation 'org.apache.flink:flink-connector-kafka_2.12:1.9.2'
+    implementation 'org.apache.flink:flink-connector-rabbitmq_2.12:1.9.2'
 
+    implementation 'com.rabbitmq:amqp-client:5.8.0'
 
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
 
@@ -85,7 +86,7 @@ dependencies {
 }
 
 tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
+    options.encoding = 'UTF-8'
 }
 
 shadowJar {
