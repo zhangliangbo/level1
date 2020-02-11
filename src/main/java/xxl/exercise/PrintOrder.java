@@ -22,7 +22,7 @@ public class PrintOrder {
         boolean moved = false;
         for (Task t : deque) {
           if (current.weight < t.weight) {
-            deque.addLast(current);
+            deque.offerLast(current);
             moved = true;
             break;
           }
