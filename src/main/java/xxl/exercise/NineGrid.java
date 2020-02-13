@@ -2,54 +2,15 @@ package xxl.exercise;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class NineGrid {
   public static void main(String[] args) {
-    List<int[]> ans = compute1();
+    List<int[]> ans = compute();
     for (int[] t : ans) {
       System.out.println(Arrays.toString(t));
     }
-  }
-
-  private static List<int[]> compute() {
-
-    List<int[]> list = new ArrayList<>();
-
-    int[] a = new int[9];
-    a[2] = 9;
-    for (int i = 0; i <= 4; i++) {
-      a[0] = i;
-      a[1] = 13 - i; // ① a[0] + a[1] -  9   = 4
-
-      for (int j = 0; j <= 5; j++) {
-        a[5] = j;
-        a[8] = 5 - j; // ⑥ 9   - a[5] - a[8] = 4
-
-        for (int k = 1; k <= 9; k++) {
-          a[4] = k;
-          a[3] = 4 + a[4] * a[5]; // ② nb[3] - nb[4] * nb[5] = 4
-
-          float temp = (a[1] - 4) / (float) a[4]; // ⑤ nb[1] - nb[4] * nb[7] = 4
-          // 去小数
-          if (a[1] - a[4] * temp != 4f) {
-            continue;
-          }
-          a[7] = (int) temp;
-
-          a[6] = 4 + a[8] - a[7]; // ③ nb[6] + nb[7] - nb[8] = 4
-          if (a[6] != 0) {
-            // 去小数
-            if (a[0] + a[3] * 1f / a[6] == 4f) { // ④ nb[0] + nb[3] / nb[6] = 4
-              int[] result = new int[a.length];
-              System.arraycopy(a, 0, result, 0, a.length);
-              list.add(result);
-            }
-          }
-        }
-      }
-    }
-    return list;
   }
 
   /**
@@ -57,40 +18,68 @@ public class NineGrid {
    * 3 4 5
    * 6 7 8
    */
-  private static List<int[]> compute1() {
+  private static List<int[]> compute() {
     List<int[]> res = new ArrayList<>();
     //8个变量，6个方程，需要遍历才行
-    List<Integer> a6 = Arrays.asList(1, 2);
-    List<Integer> a5 = Arrays.asList(1, 2, 4);
-    for (int t6 : a6) {
-      int[] a = new int[9];
-      a[2] = 9;
-      a[6] = t6;
-      a5.remove(a[6]);
-      for (int t5 : a5) {
+    //a5要能被4整除
+    List<Integer> a5 = new ArrayList<>();
+    a5.add(1);
+    a5.add(2);
+    a5.add(4);
+    for (int t5 : a5) {
+      //a7也要能被4整除
+      List<Integer> a7 = new ArrayList<>();
+      a7.add(1);
+      a7.add(2);
+      a7.add(4);
+      //a7和a5互斥
+      a7.remove(Integer.valueOf(t5));
+      //剩余的数
+      List<Integer> rest = new ArrayList<>();
+      for (int i = 0; i < 9; i++) {
+        rest.add(i + 1);
+      }
+      for (int t7 : a7) {
+        int[] a = new int[9];
+        a[2] = 9;
+        rest.remove(Integer.valueOf(a[2]));
         a[5] = t5;
-        a[8] = 5 - a[5];
-        a[7] = 4 + a[8] - a[6];
-        //剩下四个等式
-//        a[0] = 13 - a[1];
-//        a[1] = 4 / a[7] + a[4];
-//        a[4] = a[3] - 4 / a[5];
-//        a[3] = 4 * a[6] - a[0];
-        a[0] = 13 - (4 / a[7] + 4 * a[6] - a[0] - 4 / a[5]);
-        a[1] = 13 - a[0];
-        a[3] = 4 * a[6] - a[0];
-        a[4] = a[3] - 4 / a[5];
-      }
-      Arrays.sort(a);
-      boolean continuousQ = true;
-      for (int i = 1; i < a.length; i++) {
-        if (a[i] - a[i - 1] != 1) {
-          continuousQ = false;
-          break;
+        rest.remove(Integer.valueOf(a[5]));
+        a[7] = t7;
+        rest.remove(Integer.valueOf(a[7]));
+        a[8] = 5 - a[5];//a[5]+a[8]=5
+        rest.remove(Integer.valueOf(a[8]));
+        a[6] = 4 + a[8] - a[7];//a[6]+a[7]-a[8]=4
+        rest.remove(Integer.valueOf(a[6]));
+        //剩下四个等式，遍历剩余的数
+        for (int tr : rest) {
+          a[0] = tr;
+          a[1] = 13 - a[0];//a[0]+a[1]=13
+          a[3] = 4 * a[6] - a[0];//a[0]+a[3]=4*a[6]
+          a[4] = a[1] - 4 / a[7];//a[1]-a[4]=4/a[7]
+          //最后一个等式校验//a[3]-a[4]=4/a[5]
+          if (a[3] - a[4] == 4 / a[5]) {
+            //判断有效性
+            List<Integer> valid = new ArrayList<>();
+            for (int t : a) {
+              valid.add(t);
+            }
+            Collections.sort(valid);
+            boolean natureQ = true;
+            for (int i = 1; i < valid.size(); i++) {
+              if (valid.get(i) - valid.get(i - 1) != 1) {
+                natureQ = false;
+                break;
+              }
+            }
+            if (natureQ) {
+              int[] bingo = new int[9];
+              //防止污染
+              System.arraycopy(a, 0, bingo, 0, a.length);
+              res.add(bingo);
+            }
+          }
         }
-      }
-      if (continuousQ) {
-        res.add(a);
       }
     }
     return res;
