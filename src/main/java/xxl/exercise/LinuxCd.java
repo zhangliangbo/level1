@@ -1,6 +1,8 @@
 package xxl.exercise;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class LinuxCd {
@@ -8,28 +10,33 @@ public class LinuxCd {
     Scanner sc = new Scanner(System.in);
     while (sc.hasNextLine()) {
       int count = Integer.parseInt(sc.nextLine());
-      File cur = new File("/");
+      List<String> cur = new ArrayList<>();
       for (int i = 0; i < count; i++) {
         if (sc.hasNextLine()) {
           String line = sc.nextLine();
           String dir = line.substring(line.indexOf("cd") + 2).trim();
+          String[] sub = dir.split("/");
           if (dir.startsWith("/")) {
-            cur = new File(dir);
+            cur.clear();
+            cur.addAll(Arrays.asList(sub));
           } else {
-            String[] sub = dir.split("/");
             for (String s : sub) {
               if ("..".equals(s)) {
-                cur = cur.getParentFile();
+                cur.remove(cur.size() - 1);
               } else if (".".equals(s)) {
 
               } else {
-                cur = new File(cur, s);
+                cur.add(s);
               }
             }
           }
         }
       }
-      System.out.println(cur.getAbsolutePath());
+      StringBuilder sb = new StringBuilder();
+      for (String s : cur) {
+        sb.append("/").append(s);
+      }
+      System.out.println(sb.toString());
     }
   }
 }
