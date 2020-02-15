@@ -1,7 +1,6 @@
 package xxl.exercise;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,11 +15,17 @@ public class LinuxCd {
           String line = sc.nextLine();
           String dir = line.substring(line.indexOf("cd") + 2).trim();
           String[] sub = dir.split("/");
+          List<String> noEmpty = new ArrayList<>();
+          for (String s : sub) {
+            if (!"".equals(s)) {
+              noEmpty.add(s);
+            }
+          }
           if (dir.startsWith("/")) {
             cur.clear();
-            cur.addAll(Arrays.asList(sub));
+            cur.addAll(noEmpty);
           } else {
-            for (String s : sub) {
+            for (String s : noEmpty) {
               if ("..".equals(s)) {
                 cur.remove(cur.size() - 1);
               } else if (".".equals(s)) {
