@@ -15,7 +15,7 @@ public class PrintOrder {
       String[] weights = line.split(" +");
       Deque<Task> deque = new LinkedList<>();
       for (int i = 0; i < weights.length; i++) {
-        deque.offerFirst(new Task(i, Integer.parseInt(weights[i])));
+        deque.offerLast(new Task(i, Integer.parseInt(weights[i])));
       }
       while (!deque.isEmpty()) {
         Task current = deque.pollFirst();
