@@ -7,8 +7,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.requests.ProduceResponse;
-import xxl.mathematica.Association;
-import xxl.mathematica.Rule;
 import xxl.mathematica.string.StringRiffle;
 
 import java.time.Duration;
@@ -233,6 +231,59 @@ public class Kafka {
   }
 
   /**
+   * 跳转
+   *
+   * @param name
+   * @param topic
+   */
+  public static void seek(String name, String topic, Integer partition, long offset) {
+    if (consumers.containsKey(name)) {
+      consumers.get(name).seek(new TopicPartition(topic, partition), offset);
+    }
+  }
+
+  /**
+   * 跳转到分区开头
+   *
+   * @param name
+   * @param topic
+   * @param partition
+   */
+  public static void seekToBeginning(String name, String topic, Integer partition) {
+    if (consumers.containsKey(name)) {
+      consumers.get(name).seekToBeginning(Collections.singleton(new TopicPartition(topic, partition)));
+    }
+  }
+
+  /**
+   * 跳转到分区结尾
+   *
+   * @param name
+   * @param topic
+   * @param partition
+   */
+  public static void seekToEnd(String name, String topic, Integer partition) {
+    if (consumers.containsKey(name)) {
+      consumers.get(name).seekToEnd(Collections.singleton(new TopicPartition(topic, partition)));
+    }
+  }
+
+  /**
+   * 下一个数据的位置
+   *
+   * @param name
+   * @param topic
+   * @param partition
+   * @return
+   */
+  public static long position(String name, String topic, Integer partition) {
+    if (consumers.containsKey(name)) {
+      return consumers.get(name).position(new TopicPartition(topic, partition));
+    }
+    return -1;
+  }
+
+  /**
    * 拉取服务器数据
    *
    * @param name
@@ -279,6 +330,18 @@ public class Kafka {
       Map<TopicPartition, OffsetAndMetadata> map = new HashMap<>();
       map.put(new TopicPartition(topic, partition), new OffsetAndMetadata(offset));
       consumers.get(name).commitSync(map);
+    }
+  }
+
+  /**
+   * 唤醒消费者
+   * 抛出异常WakeupException
+   *
+   * @param name
+   */
+  public static void wakeup(String name) {
+    if (consumers.containsKey(name)) {
+      consumers.get(name).wakeup();
     }
   }
 
