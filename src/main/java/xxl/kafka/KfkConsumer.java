@@ -55,6 +55,16 @@ public class KfkConsumer {
   }
 
   /**
+   * 分配分区
+   *
+   * @param topic
+   * @param partition
+   */
+  public void assign(String topic, Integer partition) {
+    consumer.assign(Collections.singleton(new TopicPartition(topic, partition)));
+  }
+
+  /**
    * 取消订阅主题
    */
   public void unsubscribe(String name) {
