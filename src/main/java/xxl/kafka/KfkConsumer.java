@@ -15,14 +15,7 @@ public class KfkConsumer {
   private final Consumer<String, String> consumer;
 
   public KfkConsumer(String[] servers, String group, boolean autoCommit) {
-    Map<String, Object> props = new HashMap<>();
-    props.put("bootstrap.servers", StringRiffle.stringRiffle(Arrays.asList(servers)));
-    props.put("group.id", group);//指定消费者属于哪个组
-    props.put("enable.auto.commit", String.valueOf(autoCommit));//开启kafka的offset自动提交功能，可以保证消费者数据不丢失
-    props.put("auto.commit.interval.ms", "1000");
-    props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-    props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-    consumer = new KafkaConsumer<>(props);
+    consumer = new KafkaConsumer<>(props(servers, group, autoCommit));
   }
 
   /**
@@ -34,6 +27,25 @@ public class KfkConsumer {
    */
   public KfkConsumer(String[] servers, String group) {
     this(servers, group, false);
+  }
+
+  /**
+   * 通用属性
+   *
+   * @param servers
+   * @param group
+   * @param autoCommit
+   * @return
+   */
+  public static Map<String, Object> props(String[] servers, String group, boolean autoCommit) {
+    Map<String, Object> props = new HashMap<>();
+    props.put("bootstrap.servers", StringRiffle.stringRiffle(Arrays.asList(servers)));
+    props.put("group.id", group);//指定消费者属于哪个组
+    props.put("enable.auto.commit", String.valueOf(autoCommit));//开启kafka的offset自动提交功能，可以保证消费者数据不丢失
+    props.put("auto.commit.interval.ms", "1000");
+    props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+    props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+    return props;
   }
 
   /**

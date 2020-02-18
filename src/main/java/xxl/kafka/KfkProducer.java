@@ -17,12 +17,23 @@ public class KfkProducer {
   private final Producer<String, String> producer;
 
   public KfkProducer(String[] servers, String ack) {
+    producer = new KafkaProducer<>(props(servers, ack));
+  }
+
+  /**
+   * 通用属性
+   *
+   * @param servers
+   * @param ack
+   * @return
+   */
+  public static Map<String, Object> props(String[] servers, String ack) {
     Map<String, Object> props = new HashMap<>();
     props.put("bootstrap.servers", StringRiffle.stringRiffle(Arrays.asList(servers), ","));
     props.put("acks", ack);
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    producer = new KafkaProducer<>(props);
+    return props;
   }
 
   /**
