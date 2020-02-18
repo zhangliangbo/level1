@@ -10,6 +10,12 @@ public class FKSerialization implements KafkaSerializationSchema<Record> {
 
   @Override
   public ProducerRecord<byte[], byte[]> serialize(Record element, @Nullable Long timestamp) {
-    return null;
+    return new ProducerRecord<>(
+        element.topic(),
+        element.partition(),
+        timestamp,
+        element.key() == null ? null : element.key().getBytes(),
+        element.key() == null ? null : element.value().getBytes()
+    );
   }
 }

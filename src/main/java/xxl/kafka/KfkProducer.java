@@ -12,10 +12,13 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+/**
+ * 生产者
+ */
 public class KfkProducer {
   private final Producer<String, String> producer;
 
-  public KfkProducer(String[] servers, String ack) {
+  public KfkProducer(String[] servers, int ack) {
     producer = new KafkaProducer<>(props(servers, ack));
   }
 
@@ -26,10 +29,10 @@ public class KfkProducer {
    * @param ack
    * @return
    */
-  public static Properties props(String[] servers, String ack) {
+  public static Properties props(String[] servers, int ack) {
     Properties props = new Properties();
     props.put("bootstrap.servers", StringRiffle.stringRiffle(Arrays.asList(servers), ","));
-    props.put("acks", ack);
+    props.put("acks", String.valueOf(ack));
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
     props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
     return props;

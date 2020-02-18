@@ -17,6 +17,10 @@ public class Record {
     this.value = value;
   }
 
+  public Record(String topic, String key, String value) {
+    this(null, topic, null, null, key, value);
+  }
+
   public Long time() {
     return time;
   }
