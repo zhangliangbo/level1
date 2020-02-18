@@ -20,6 +20,7 @@ public class StreamDemo {
     builder.<String, String>stream("kou").mapValues(new ValueMapperWithKey<String, String, String>() {
       @Override
       public String apply(String readOnlyKey, String value) {
+        System.err.println(readOnlyKey + " " + value);
         return readOnlyKey + "---" + value;
       }
     }).to("xxl");
