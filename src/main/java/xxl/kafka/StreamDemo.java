@@ -4,7 +4,7 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.kstream.ValueMapper;
+import org.apache.kafka.streams.kstream.ValueMapperWithKey;
 
 import java.util.Properties;
 
@@ -17,10 +17,10 @@ public class StreamDemo {
     props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
     StreamsBuilder builder = new StreamsBuilder();
-    builder.<String, String>stream("kou").mapValues(new ValueMapper<String, String>() {
+    builder.<String, String>stream("kou").mapValues(new ValueMapperWithKey<String, String, String>() {
       @Override
-      public String apply(String value) {
-        return value + "-process";
+      public String apply(String readOnlyKey, String value) {
+        return readOnlyKey + "---" + value;
       }
     }).to("xxl");
     KafkaStreams streams = new KafkaStreams(builder.build(), props);
