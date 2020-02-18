@@ -72,12 +72,15 @@ dependencies {
     compileOnly 'org.apache.flink:flink-streaming-scala_2.12:1.9.2'
     compileOnly 'org.apache.flink:flink-table-api-java-bridge_2.12:1.9.2'
     compileOnly 'org.apache.flink:flink-table-planner_2.12:1.9.2'
-    compileOnly 'org.apache.flink:flink-streaming-scala_2.12:1.9.2'
 
     implementation 'org.apache.flink:flink-clients_2.12:1.9.2'
     implementation 'org.apache.flink:flink-connector-wikiedits_2.12:1.9.2'
     implementation 'org.apache.flink:flink-connector-kafka_2.12:1.9.2'
     implementation 'org.apache.flink:flink-connector-rabbitmq_2.12:1.9.2'
+
+    implementation 'org.apache.kafka:kafka-streams:2.2.0'
+
+    implementation 'io.projectreactor.netty:reactor-netty:0.9.4.RELEASE'
 
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
 
