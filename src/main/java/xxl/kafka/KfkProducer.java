@@ -8,8 +8,7 @@ import org.apache.kafka.common.requests.ProduceResponse;
 import xxl.mathematica.string.StringRiffle;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -27,8 +26,8 @@ public class KfkProducer {
    * @param ack
    * @return
    */
-  public static Map<String, Object> props(String[] servers, String ack) {
-    Map<String, Object> props = new HashMap<>();
+  public static Properties props(String[] servers, String ack) {
+    Properties props = new Properties();
     props.put("bootstrap.servers", StringRiffle.stringRiffle(Arrays.asList(servers), ","));
     props.put("acks", ack);
     props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");

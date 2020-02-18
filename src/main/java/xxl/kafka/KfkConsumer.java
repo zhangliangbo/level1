@@ -37,8 +37,8 @@ public class KfkConsumer {
    * @param autoCommit
    * @return
    */
-  public static Map<String, Object> props(String[] servers, String group, boolean autoCommit) {
-    Map<String, Object> props = new HashMap<>();
+  public static Properties props(String[] servers, String group, boolean autoCommit) {
+    Properties props = new Properties();
     props.put("bootstrap.servers", StringRiffle.stringRiffle(Arrays.asList(servers)));
     props.put("group.id", group);//指定消费者属于哪个组
     props.put("enable.auto.commit", String.valueOf(autoCommit));//开启kafka的offset自动提交功能，可以保证消费者数据不丢失
