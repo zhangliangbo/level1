@@ -17,8 +17,8 @@ public class FKProducer extends FlinkKafkaProducer<Record> {
 
   private static Properties props(String[] servers, int ack) {
     Properties props = KfkProducer.props(servers, ack);
-    props.put("key.deserializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
-    props.put("value.deserializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
+    props.put("key.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
+    props.put("value.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
     return props;
   }
 }
