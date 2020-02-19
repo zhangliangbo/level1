@@ -18,7 +18,7 @@ public class FKConsumer extends FlinkKafkaConsumer<Record> {
   }
 
   public FKConsumer(String[] servers, String regex, String group, boolean autoCommit) {
-    super(Pattern.compile(regex), new FKDeserialization(), KfkConsumer.props(servers, group, autoCommit));
+    super(Pattern.compile(regex), new FKDeserialization(), props(servers, group, autoCommit));
   }
 
   private static Properties props(String[] servers, String group, boolean autoCommit) {
