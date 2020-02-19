@@ -4,7 +4,6 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
-import org.apache.kafka.common.requests.ProduceResponse;
 import xxl.mathematica.string.StringRiffle;
 
 import java.util.Arrays;
@@ -48,14 +47,14 @@ public class KfkProducer {
    * @param value
    * @return 分区offset
    */
-  public long send(String topic, Integer partition, Long timestamp, String key, String value) {
+  public SendResult send(String topic, Integer partition, Long timestamp, String key, String value) {
     ProducerRecord<String, String> record = new ProducerRecord<>(topic, partition, timestamp, key, value);
     Future<RecordMetadata> future = producer.send(record);
     try {
       RecordMetadata metadata = future.get();
-      return metadata.offset();
+      return new SendResult(metadata.timestamp(), metadata.topic(), metadata.partition(), metadata.offset());
     } catch (InterruptedException | ExecutionException e) {
-      return ProduceResponse.INVALID_OFFSET;
+      return null;
     }
   }
 
@@ -68,7 +67,7 @@ public class KfkProducer {
    * @param value
    * @return
    */
-  public long send(String topic, Integer partition, String key, String value) {
+  public SendResult send(String topic, Integer partition, String key, String value) {
     return send(topic, partition, null, key, value);
   }
 
@@ -83,7 +82,7 @@ public class KfkProducer {
    * @param value
    * @return
    */
-  public long send(String topic, String key, String value) {
+  public SendResult send(String topic, String key, String value) {
     return send(topic, null, key, value);
   }
 
@@ -94,7 +93,7 @@ public class KfkProducer {
    * @param value
    * @return
    */
-  public long send(String topic, String value) {
+  public SendResult send(String topic, String value) {
     return send(topic, null, value);
   }
 
