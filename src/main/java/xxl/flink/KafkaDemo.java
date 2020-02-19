@@ -8,15 +8,15 @@ public class KafkaDemo {
   public static void main(String[] args) throws Exception {
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     env.enableCheckpointing(5000);
-    FKConsumer consumer = new FKConsumer(new String[]{"localhost:9094", "localhost:9095", "localhost:9096"}, "flink", "flink", false);
+    FKConsumer consumer = new FKConsumer(new String[]{"kafka1:9092", "kafka2:9092", "kafka3:9092"}, "flink", "flink", false);
     consumer.setStartFromEarliest();
-    FKProducer producer = new FKProducer(new String[]{"localhost:9094", "localhost:9095", "localhost:9096"}, -1, "xxl");
+    FKProducer producer = new FKProducer(new String[]{"kafka1:9092", "kafka2:9092", "kafka3:9092"}, -1, "xxl");
     producer.setWriteTimestampToKafka(true);
     env.addSource(consumer)
         .map(new MapFunction<Record, Record>() {
           @Override
           public Record map(Record value) throws Exception {
-            return null;
+            return new Record("xxl", value.key() + " flink", value.value() + " flink");
           }
         })
         .addSink(producer);
