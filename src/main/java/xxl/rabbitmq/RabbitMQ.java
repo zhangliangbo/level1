@@ -159,6 +159,142 @@ public class RabbitMQ {
     }
   }
 
+  /**
+   * 交换器绑定交换器
+   *
+   * @param dstExchange
+   * @param srcExchange
+   * @param routingKey
+   * @return
+   */
+  public boolean exchangeBind(String dstExchange, String srcExchange, String routingKey) {
+    try {
+      channel.exchangeBind(dstExchange, srcExchange, routingKey);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 绑定器解绑绑定器
+   *
+   * @param dstExchange
+   * @param srcExchange
+   * @param routingKey
+   * @return
+   */
+  public boolean exchangeUnbind(String dstExchange, String srcExchange, String routingKey) {
+    try {
+      channel.exchangeUnbind(dstExchange, srcExchange, routingKey);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 队列绑定交换器
+   *
+   * @param queue
+   * @return
+   */
+  public boolean queueBind(String queue, String exchange, String routingKey) {
+    try {
+      channel.queueBind(queue, exchange, routingKey);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 队列解绑交换器
+   *
+   * @param queue
+   * @param exchange
+   * @param routingKey
+   * @return
+   */
+  public boolean queueUnbind(String queue, String exchange, String routingKey) {
+    try {
+      channel.queueUnbind(queue, exchange, routingKey);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 发布消息
+   *
+   * @return
+   */
+  public boolean publish(String exchange, String routingKey, byte[] body) {
+    try {
+      channel.basicPublish(exchange, routingKey, null, body);
+      return false;
+    } catch (IOException e) {
+      return true;
+    }
+  }
+
+  /**
+   * 消费消息
+   *
+   * @param queue
+   * @param autoAck   是否自动回复
+   * @param tag       消费者标签
+   * @param noLocal   不消费同一个连接发的消息
+   * @param exclusive 是否接受其他连接的消费者
+   * @return
+   */
+  public boolean consume(String queue, boolean autoAck, String tag, boolean noLocal, boolean exclusive, RabbitConsumer consumer) {
+    try {
+      Consumer inner = consumer == null ? null : new DefaultConsumer(channel) {
+        @Override
+        public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+          consumer.onDelivery(body, envelope.getExchange(), envelope.getRoutingKey(), consumerTag, envelope.getDeliveryTag(), envelope.isRedeliver());
+        }
+      };
+      channel.basicConsume(queue, autoAck, tag, noLocal, exclusive, null, inner);
+      return false;
+    } catch (IOException e) {
+      return true;
+    }
+  }
+
+  /**
+   * 取消消费
+   *
+   * @param consumerTag
+   * @return
+   */
+  public boolean cancel(String consumerTag) {
+    try {
+      channel.basicCancel(consumerTag);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 应答消息
+   *
+   * @param deliveryTag
+   * @param multiple
+   * @return
+   */
+  public boolean ack(long deliveryTag, boolean multiple) {
+    try {
+      channel.basicAck(deliveryTag, multiple);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
 
   public void close() throws IOException, TimeoutException {
     channel.close();
