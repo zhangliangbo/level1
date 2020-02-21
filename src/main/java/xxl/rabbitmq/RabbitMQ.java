@@ -226,6 +226,21 @@ public class RabbitMQ {
   }
 
   /**
+   * 清空队列
+   *
+   * @param queue
+   * @return
+   */
+  public boolean queuePurge(String queue) {
+    try {
+      channel.queuePurge(queue);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
    * 发布消息
    *
    * @return
@@ -236,6 +251,38 @@ public class RabbitMQ {
       return false;
     } catch (IOException e) {
       return true;
+    }
+  }
+
+  /**
+   * 控制消费速度
+   *
+   * @param prefetchCount
+   * @param global
+   * @return
+   */
+  public boolean qos(int prefetchCount, boolean global) {
+    try {
+      channel.basicQos(prefetchCount, global);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 获取一个消息
+   *
+   * @param queue
+   * @param autoAck
+   * @return
+   */
+  public Record get(String queue, boolean autoAck) {
+    try {
+      GetResponse res = channel.basicGet(queue, autoAck);
+      return new Record(res.getBody(), res.getEnvelope().getExchange(), res.getEnvelope().getRoutingKey(), null, res.getEnvelope().getDeliveryTag(), res.getEnvelope().isRedeliver());
+    } catch (IOException e) {
+      return null;
     }
   }
 
@@ -254,7 +301,7 @@ public class RabbitMQ {
       Consumer inner = consumer == null ? null : new DefaultConsumer(channel) {
         @Override
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-          consumer.onDelivery(body, envelope.getExchange(), envelope.getRoutingKey(), consumerTag, envelope.getDeliveryTag(), envelope.isRedeliver());
+          consumer.onDelivery(new Record(body, envelope.getExchange(), envelope.getRoutingKey(), consumerTag, envelope.getDeliveryTag(), envelope.isRedeliver()));
         }
       };
       channel.basicConsume(queue, autoAck, tag, noLocal, exclusive, null, inner);
@@ -262,6 +309,18 @@ public class RabbitMQ {
     } catch (IOException e) {
       return true;
     }
+  }
+
+  /**
+   * 默认手动回复，不接受本地消息，允许其他连接消费
+   *
+   * @param queue
+   * @param tag
+   * @param consumer
+   * @return
+   */
+  public boolean consume(String queue, String tag, RabbitConsumer consumer) {
+    return consume(queue, false, tag, true, false, consumer);
   }
 
   /**
@@ -283,12 +342,45 @@ public class RabbitMQ {
    * 应答消息
    *
    * @param deliveryTag
-   * @param multiple
+   * @param multiple    是否只应答本条消息
    * @return
    */
   public boolean ack(long deliveryTag, boolean multiple) {
     try {
       channel.basicAck(deliveryTag, multiple);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 拒绝一个或多个消息
+   *
+   * @param deliveryTag
+   * @param multiple
+   * @param requeue     是否加入队列还是丢弃
+   * @return
+   */
+  public boolean nack(long deliveryTag, boolean multiple, boolean requeue) {
+    try {
+      channel.basicNack(deliveryTag, multiple, requeue);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 拒绝一个消息
+   *
+   * @param deliveryTag
+   * @param requeue
+   * @return
+   */
+  public boolean reject(long deliveryTag, boolean requeue) {
+    try {
+      channel.basicReject(deliveryTag, requeue);
       return true;
     } catch (IOException e) {
       return false;
