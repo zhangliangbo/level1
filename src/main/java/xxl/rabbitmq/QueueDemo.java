@@ -9,7 +9,7 @@ public class QueueDemo {
         "/",
         true
     );
-    if (rabbitMQ.newChannel() && rabbitMQ.exchangeDeclare("xxl") && rabbitMQ.queueDeclare("zlb") && rabbitMQ.queueBind("zlb", "xxl", "xxl-zlb")) {
+    if (rabbitMQ.newChannel()) {
       if (rabbitMQ.qos(1, false)) {
         rabbitMQ.consume("zlb", "random", new RabbitConsumer() {
           @Override

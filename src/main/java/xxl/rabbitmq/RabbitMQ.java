@@ -32,14 +32,16 @@ public class RabbitMQ {
    */
   public boolean newChannel() {
     try {
-      connection = factory.newConnection(Map.map(t -> {
-        String[] server = t.split(":");
-        if (server.length < 2) {
-          return new Address(server[0]);
-        } else {
-          return new Address(server[0], Integer.parseInt(server[1]));
-        }
-      }, Arrays.asList(servers)));
+      if (connection == null) {
+        connection = factory.newConnection(Map.map(t -> {
+          String[] server = t.split(":");
+          if (server.length < 2) {
+            return new Address(server[0]);
+          } else {
+            return new Address(server[0], Integer.parseInt(server[1]));
+          }
+        }, Arrays.asList(servers)));
+      }
       channel = connection.createChannel();
       return true;
     } catch (IOException | TimeoutException e) {
@@ -111,6 +113,22 @@ public class RabbitMQ {
   }
 
   /**
+   * 删除交换器
+   *
+   * @param exchange
+   * @param ifUnused
+   * @return
+   */
+  public boolean exchangeDelete(String exchange, boolean ifUnused) {
+    try {
+      channel.exchangeDelete(exchange, ifUnused);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
    * 声明一个队列
    *
    * @param queue
@@ -170,6 +188,23 @@ public class RabbitMQ {
   public boolean queueExist(String queue) {
     try {
       AMQP.Queue.DeclareOk res = channel.queueDeclarePassive(queue);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 删除队列
+   *
+   * @param queue
+   * @param ifUnused
+   * @param ifEmpty
+   * @return
+   */
+  public boolean queueDelete(String queue, boolean ifUnused, boolean ifEmpty) {
+    try {
+      channel.queueDelete(queue, ifUnused, ifEmpty);
       return true;
     } catch (IOException e) {
       return false;
@@ -421,6 +456,15 @@ public class RabbitMQ {
     } catch (IOException e) {
       return false;
     }
+  }
+
+  /**
+   * 通道是否打开
+   *
+   * @return
+   */
+  public boolean isOpen() {
+    return channel.isOpen();
   }
 
   /**

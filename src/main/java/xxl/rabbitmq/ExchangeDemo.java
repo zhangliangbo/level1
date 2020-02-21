@@ -10,13 +10,13 @@ public class ExchangeDemo {
         true
     );
     if (rabbitMQ.newChannel() && rabbitMQ.exchangeDeclare("xxl")) {
-      for (int i = 0; i < 100; i++) {
+      for (int i = 0; i < 10000; i++) {
         if (rabbitMQ.publish("xxl", "xxl-zlb", ("hello" + i).getBytes())) {
           System.err.println("send hello " + i);
         }
       }
     }
-//    rabbitMQ.close();
+    rabbitMQ.close();
     System.err.println("finished");
   }
 }
