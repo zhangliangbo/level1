@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * rabbitmq连接
  */
-public class RabbitMQ {
+public class RabbitMQ implements ShutdownListener {
   private ConnectionFactory factory;
   private String[] servers;
   private Connection connection;
@@ -43,6 +43,7 @@ public class RabbitMQ {
         }, Arrays.asList(servers)));
       }
       channel = connection.createChannel();
+      channel.addShutdownListener(this);
       return true;
     } catch (IOException | TimeoutException e) {
       return false;
@@ -476,6 +477,7 @@ public class RabbitMQ {
   public boolean close() {
     try {
       if (channel != null) {
+        channel.removeShutdownListener(this);
         channel.close();
       }
       if (connection != null) {
@@ -484,6 +486,17 @@ public class RabbitMQ {
       return true;
     } catch (Exception e) {
       return false;
+    }
+  }
+
+  @Override
+  public void shutdownCompleted(ShutdownSignalException cause) {
+    try {
+      channel.removeShutdownListener(this);
+      channel.close();
+      connection.close();
+    } catch (IOException | TimeoutException e) {
+      //ignore
     }
   }
 }
