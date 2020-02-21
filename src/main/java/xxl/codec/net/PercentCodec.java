@@ -17,12 +17,13 @@
 
 package xxl.codec.net;
 
-import java.nio.ByteBuffer;
-import java.util.BitSet;
 import xxl.codec.BinaryDecoder;
 import xxl.codec.BinaryEncoder;
 import xxl.codec.DecoderException;
 import xxl.codec.EncoderException;
+
+import java.nio.ByteBuffer;
+import java.util.BitSet;
 
 /**
  * Implements the Percent-Encoding scheme, as described in HTTP 1.1 specification. For extensibility, an array of

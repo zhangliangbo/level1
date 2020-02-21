@@ -1,10 +1,9 @@
 package xxl.mathematica
 
+import org.junit.Test
+import xxl.mathematica.function.Function
 import xxl.mathematica.function.Predicate
 import xxl.mathematica.predication.FreeQ
-import xxl.mathematica.function.Function
-
-import org.junit.Test
 
 /**
  * Created by zhang on 2017/9/10.

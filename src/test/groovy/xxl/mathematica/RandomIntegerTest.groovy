@@ -1,13 +1,10 @@
 package xxl.mathematica
 
-import xxl.mathematica.function.Predicate
-import xxl.mathematica.function.Function
-
 import org.junit.Test
+import xxl.mathematica.function.Function
+import xxl.mathematica.function.Predicate
 
 import static xxl.mathematica.BaseTest.printList
-
-
 
 /**
  * Created by zhang on 2017/9/10.

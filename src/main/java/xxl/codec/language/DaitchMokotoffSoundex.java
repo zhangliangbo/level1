@@ -16,21 +16,12 @@
  */
 package xxl.codec.language;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-
 import xxl.codec.CharEncoding;
 import xxl.codec.EncoderException;
 import xxl.codec.Resources;
 import xxl.codec.StringEncoder;
+
+import java.util.*;
 
 /**
  * Encodes a string into a Daitch-Mokotoff Soundex value.

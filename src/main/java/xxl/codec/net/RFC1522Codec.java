@@ -17,12 +17,12 @@
 
 package xxl.codec.net;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-
 import xxl.codec.DecoderException;
 import xxl.codec.EncoderException;
 import xxl.codec.binary.StringUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 /**
  * Implements methods common to all codecs defined in RFC 1522.

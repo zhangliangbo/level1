@@ -17,13 +17,13 @@
 
 package xxl.codec.binary;
 
-import static xxl.codec.binary.BaseNCodec.EOF;
+import xxl.codec.binary.BaseNCodec.Context;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import xxl.codec.binary.BaseNCodec.Context;
+import static xxl.codec.binary.BaseNCodec.EOF;
 
 /**
  * Abstract superclass for Base-N output streams.

@@ -1,10 +1,10 @@
 package xxl.wx.pay;
 
-import xxl.wx.pay.WXPayConstants.SignType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import xxl.wx.pay.WXPayConstants.SignType;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

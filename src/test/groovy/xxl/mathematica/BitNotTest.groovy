@@ -1,13 +1,12 @@
 package xxl.mathematica
 
+import org.junit.Test
 import xxl.mathematica.function.Function
 
-import org.junit.Test
-
+import static java.util.Arrays.asList
+import static xxl.mathematica.BaseTest.printList
 import static xxl.mathematica.BitNot.bitNot
 import static xxl.mathematica.Map.map
-import static xxl.mathematica.BaseTest.printList
-import static java.util.Arrays.asList
 
 /**
  * Created by zhang on 2017/9/12.

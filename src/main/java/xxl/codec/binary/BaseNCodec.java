@@ -17,12 +17,12 @@
 
 package xxl.codec.binary;
 
-import java.util.Arrays;
-
 import xxl.codec.BinaryDecoder;
 import xxl.codec.BinaryEncoder;
 import xxl.codec.DecoderException;
 import xxl.codec.EncoderException;
+
+import java.util.Arrays;
 
 /**
  * Abstract superclass for Base-N encoders and decoders.

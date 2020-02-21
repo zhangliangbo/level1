@@ -1,12 +1,11 @@
 package xxl.mathematica
 
+import org.junit.Test
 import xxl.mathematica.function.Function
 
-import org.junit.Test
-
+import static xxl.mathematica.BaseTest.printList
 import static xxl.mathematica.Insert.insert
 import static xxl.mathematica.Nest.nest
-import static xxl.mathematica.BaseTest.printList
 
 /**
  * Created by zhang on 2017/9/3.

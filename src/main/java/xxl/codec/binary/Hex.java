@@ -17,15 +17,10 @@
 
 package xxl.codec.binary;
 
+import xxl.codec.*;
+
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-
-import xxl.codec.BinaryDecoder;
-import xxl.codec.BinaryEncoder;
-import xxl.codec.CharEncoding;
-import xxl.codec.Charsets;
-import xxl.codec.DecoderException;
-import xxl.codec.EncoderException;
 
 /**
  * Converts hexadecimal Strings. The charset used for certain operation can be set, the default is set in

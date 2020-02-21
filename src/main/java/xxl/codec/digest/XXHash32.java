@@ -17,9 +17,9 @@
 
 package xxl.codec.digest;
 
-import static java.lang.Integer.rotateLeft;
-
 import java.util.zip.Checksum;
+
+import static java.lang.Integer.rotateLeft;
 
 /**
  * Implementation of the xxhash32 hash algorithm.

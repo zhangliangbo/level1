@@ -16,16 +16,16 @@
  */
 package xxl.codec.cli;
 
+import xxl.codec.binary.Hex;
+import xxl.codec.digest.DigestUtils;
+import xxl.codec.digest.MessageDigestAlgorithms;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Locale;
-
-import xxl.codec.binary.Hex;
-import xxl.codec.digest.DigestUtils;
-import xxl.codec.digest.MessageDigestAlgorithms;
 
 /**
  * A minimal command line to run digest over files, directories or a string

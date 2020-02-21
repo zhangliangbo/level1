@@ -1,7 +1,5 @@
 package xxl.rabbitmq;
 
-import java.util.concurrent.CountDownLatch;
-
 public class QueueDemo {
   public static void main(String[] args) {
     RabbitMQ rabbitMQ = new RabbitMQ(
@@ -17,7 +15,7 @@ public class QueueDemo {
           @Override
           public void onDelivery(Record record) {
             if (record != null) {
-              System.err.println("get " + new String(record.body()));
+              System.err.println(record);
               rabbitMQ.ack(record.deliveryTag(), false);
             }
           }

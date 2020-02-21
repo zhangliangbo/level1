@@ -1,12 +1,13 @@
 package xxl.mathematica
 
-import xxl.mathematica.function.Function
 import org.junit.Test
+import xxl.mathematica.function.Function
 
 import static xxl.mathematica.Append.append
 import static xxl.mathematica.BaseTest.printList
 import static xxl.mathematica.NestList.nestList
 import static xxl.mathematica.Prepend.prepend
+
 /**
  * Created by zhang on 2017/9/3.
  */

@@ -1,10 +1,9 @@
 package xxl.mqtt;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttException;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 public class PublishObserver implements Observer<IMqttDeliveryToken> {
     @Override

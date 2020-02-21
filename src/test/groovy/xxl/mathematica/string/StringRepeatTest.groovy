@@ -1,7 +1,7 @@
 package xxl.mathematica.string
 
-import xxl.mathematica.function.Function
 import org.junit.Test
+import xxl.mathematica.function.Function
 
 class StringRepeatTest {
     @Test

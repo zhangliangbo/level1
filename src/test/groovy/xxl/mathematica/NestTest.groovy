@@ -1,7 +1,7 @@
 package xxl.mathematica
 
-import xxl.mathematica.function.Function
 import org.junit.Test
+import xxl.mathematica.function.Function
 
 import static xxl.mathematica.BaseTest.newton3
 

@@ -1,5 +1,7 @@
 package xxl.rabbitmq;
 
+import java.util.Arrays;
+
 public class Record {
   private byte[] body;
   private String exchange;
@@ -39,5 +41,17 @@ public class Record {
 
   public boolean redeliver() {
     return redeliver;
+  }
+
+  @Override
+  public String toString() {
+    return "Record{" +
+        "body=" + Arrays.toString(body) +
+        ", exchange='" + exchange + '\'' +
+        ", routingKey='" + routingKey + '\'' +
+        ", consumerTag='" + consumerTag + '\'' +
+        ", deliveryTag=" + deliveryTag +
+        ", redeliver=" + redeliver +
+        '}';
   }
 }

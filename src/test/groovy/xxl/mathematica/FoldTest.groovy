@@ -1,7 +1,7 @@
 package xxl.mathematica
 
-import xxl.mathematica.function.BiFunction
 import org.junit.Test
+import xxl.mathematica.function.BiFunction
 
 import static xxl.mathematica.BaseTest.printList
 

@@ -17,12 +17,12 @@
 
 package xxl.codec.binary;
 
+import xxl.codec.CharEncoding;
+import xxl.codec.Charsets;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-
-import xxl.codec.CharEncoding;
-import xxl.codec.Charsets;
 
 /**
  * Converts String to and from bytes using the encodings required by the Java specification. These encodings are

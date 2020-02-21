@@ -16,10 +16,10 @@
  */
 package xxl.codec.digest;
 
+import xxl.codec.Charsets;
+
 import java.security.SecureRandom;
 import java.util.concurrent.ThreadLocalRandom;
-
-import xxl.codec.Charsets;
 
 /**
  * GNU libc crypt(3) compatible hash method.

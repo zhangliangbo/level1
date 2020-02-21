@@ -16,10 +16,10 @@
  */
 package xxl.codec.language;
 
-import java.util.Locale;
-
 import xxl.codec.EncoderException;
 import xxl.codec.StringEncoder;
+
+import java.util.Locale;
 
 /**
  * Match Rating Approach Phonetic Algorithm Developed by <CITE>Western Airlines</CITE> in 1977.

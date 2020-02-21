@@ -2,9 +2,9 @@ package xxl.mathematica;
 
 import xxl.mathematica.exception.MaxStepException;
 import xxl.mathematica.exception.NoEnoughResultException;
-import xxl.mathematica.function.Predicate;
 import xxl.mathematica.function.BiPredicate;
 import xxl.mathematica.function.Function;
+import xxl.mathematica.function.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;

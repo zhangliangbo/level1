@@ -17,18 +17,12 @@
 
 package xxl.codec.net;
 
+import xxl.codec.*;
+import xxl.codec.binary.StringUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.BitSet;
-
-import xxl.codec.BinaryDecoder;
-import xxl.codec.BinaryEncoder;
-import xxl.codec.CharEncoding;
-import xxl.codec.DecoderException;
-import xxl.codec.EncoderException;
-import xxl.codec.StringDecoder;
-import xxl.codec.StringEncoder;
-import xxl.codec.binary.StringUtils;
 
 /**
  * Implements the 'www-form-urlencoded' encoding scheme, also misleadingly known as URL encoding.

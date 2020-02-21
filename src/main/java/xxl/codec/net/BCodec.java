@@ -17,15 +17,11 @@
 
 package xxl.codec.net;
 
+import xxl.codec.*;
+import xxl.codec.binary.Base64;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-
-import xxl.codec.Charsets;
-import xxl.codec.DecoderException;
-import xxl.codec.EncoderException;
-import xxl.codec.StringDecoder;
-import xxl.codec.StringEncoder;
-import xxl.codec.binary.Base64;
 
 /**
  * Identical to the Base64 encoding defined by <a href="http://www.ietf.org/rfc/rfc1521.txt">RFC 1521</a>

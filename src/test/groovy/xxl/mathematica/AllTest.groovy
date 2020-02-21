@@ -1,8 +1,8 @@
 package xxl.mathematica
 
+import org.junit.Test
 import xxl.mathematica.function.Function
 import xxl.mathematica.function.Predicate
-import org.junit.Test
 
 import static xxl.mathematica.BaseTest.printList
 

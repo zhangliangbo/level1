@@ -17,15 +17,9 @@
 
 package xxl.codec.language.bm;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Set;
-
 import xxl.codec.Resources;
+
+import java.util.*;
 
 /**
  * Language codes.

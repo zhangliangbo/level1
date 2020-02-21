@@ -17,17 +17,13 @@
 
 package xxl.codec.digest;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import xxl.codec.binary.Hex;
+import xxl.codec.binary.StringUtils;
+
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import xxl.codec.binary.Hex;
-import xxl.codec.binary.StringUtils;
 
 /**
  * Operations to simplify common {@link MessageDigest} tasks.

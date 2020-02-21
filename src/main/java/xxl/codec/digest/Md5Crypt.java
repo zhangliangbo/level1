@@ -16,6 +16,8 @@
  */
 package xxl.codec.digest;
 
+import xxl.codec.Charsets;
+
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -23,8 +25,6 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import xxl.codec.Charsets;
 
 /**
  * The libc crypt() "$1$" and Apache "$apr1$" MD5-based hash algorithm.

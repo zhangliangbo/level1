@@ -17,21 +17,16 @@
 
 package xxl.codec.digest;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import xxl.codec.binary.Hex;
+import xxl.codec.binary.StringUtils;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import xxl.codec.binary.Hex;
-import xxl.codec.binary.StringUtils;
 
 /**
  * Simplifies common {@link Mac} tasks. This class is immutable and thread-safe.

@@ -1,11 +1,11 @@
 package xxl.mathematica
 
+import org.junit.Test
 import xxl.mathematica.function.BiPredicate
 import xxl.mathematica.function.Function
 import xxl.mathematica.function.Predicate
 import xxl.mathematica.predication.EvenQ
 import xxl.mathematica.predication.PrimerQ
-import org.junit.Test
 
 /**
  * Created by zhang on 2017/8/27.

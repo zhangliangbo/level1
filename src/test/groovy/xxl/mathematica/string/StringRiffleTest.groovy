@@ -1,8 +1,8 @@
 package xxl.mathematica.string
 
+import org.junit.Test
 import xxl.mathematica.RandomInteger
 import xxl.mathematica.function.Function
-import org.junit.Test
 
 class StringRiffleTest {
 
