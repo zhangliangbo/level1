@@ -10,7 +10,7 @@ public class QueueDemo {
         true
     );
     if (rabbitMQ.newChannel()) {
-      if (rabbitMQ.queueExist("zlb")) {
+      if (rabbitMQ.queueExists("zlb")) {
         System.err.println("queue exists");
         rabbitMQ.queueDelete("zlb", false, false);
       }

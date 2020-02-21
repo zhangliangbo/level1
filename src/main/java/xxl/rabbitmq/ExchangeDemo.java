@@ -9,10 +9,14 @@ public class ExchangeDemo {
         "/",
         true
     );
-    if (rabbitMQ.newChannel() && rabbitMQ.exchangeDeclare("xxl")) {
-      for (int i = 0; i < 1000; i++) {
-        if (rabbitMQ.publish("xxl", "xxl-zlb", ("hello" + i).getBytes())) {
-          System.err.println("send hello " + i);
+
+    if (rabbitMQ.newChannel()) {
+      if (rabbitMQ.exchangeExists("xxl")) rabbitMQ.exchangeDelete("xxl", false);
+      if (rabbitMQ.exchangeDeclare("xxl")) {
+        for (int i = 0; i < 1000; i++) {
+          if (rabbitMQ.publish("xxl", "xxl-zlb", ("hello" + i).getBytes())) {
+            System.err.println("send hello " + i);
+          }
         }
       }
     }

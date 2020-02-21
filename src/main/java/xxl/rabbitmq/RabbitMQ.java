@@ -104,7 +104,7 @@ public class RabbitMQ implements ShutdownListener {
    * @param exchange
    * @return
    */
-  public boolean exchangeExist(String exchange) {
+  public boolean exchangeExists(String exchange) {
     try {
       channel.exchangeDeclarePassive(exchange);
       return true;
@@ -186,7 +186,7 @@ public class RabbitMQ implements ShutdownListener {
    * @param queue
    * @return
    */
-  public boolean queueExist(String queue) {
+  public boolean queueExists(String queue) {
     try {
       AMQP.Queue.DeclareOk res = channel.queueDeclarePassive(queue);
       return true;
@@ -493,9 +493,8 @@ public class RabbitMQ implements ShutdownListener {
   public void shutdownCompleted(ShutdownSignalException cause) {
     try {
       channel.removeShutdownListener(this);
-      channel.close();
       channel = connection.createChannel();
-    } catch (IOException | TimeoutException e) {
+    } catch (IOException e) {
       //ignore
     }
   }
