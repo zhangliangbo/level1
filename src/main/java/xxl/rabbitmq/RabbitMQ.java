@@ -411,9 +411,18 @@ public class RabbitMQ {
     }
   }
 
-
+  /**
+   * 关闭通道和连接
+   *
+   * @throws IOException
+   * @throws TimeoutException
+   */
   public void close() throws IOException, TimeoutException {
-    channel.close();
-    connection.close();
+    if (channel != null) {
+      channel.close();
+    }
+    if (connection != null) {
+      connection.close();
+    }
   }
 }
