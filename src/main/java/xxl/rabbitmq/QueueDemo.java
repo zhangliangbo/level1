@@ -13,7 +13,6 @@ public class QueueDemo {
     );
     if (rabbitMQ.newChannel() && rabbitMQ.exchangeDeclare("xxl") && rabbitMQ.queueDeclare("zlb") && rabbitMQ.queueBind("zlb", "xxl", "xxl-zlb")) {
       if (rabbitMQ.qos(1, false)) {
-        CountDownLatch latch=new CountDownLatch(1);
         rabbitMQ.consume("zlb", "random", new RabbitConsumer() {
           @Override
           public void onDelivery(Record record) {
@@ -23,12 +22,6 @@ public class QueueDemo {
             }
           }
         });
-        try {
-          latch.await();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-        ;
       }
     }
   }
