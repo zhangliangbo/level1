@@ -1,8 +1,10 @@
 package xxl.rabbitmq;
 
 import com.rabbitmq.client.*;
+import xxl.mathematica.Map;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -15,9 +17,8 @@ public class RabbitMQ {
   private Channel channel;
 
   public RabbitMQ(String[] servers, String username, String password, String vHost, boolean autoRecovery) {
+    this.servers = servers;
     this.factory = new ConnectionFactory();
-    this.factory.setHost("localhost");
-    this.factory.setPort(5672);
     this.factory.setUsername(username);
     this.factory.setPassword(password);
     this.factory.setVirtualHost(vHost);
@@ -31,7 +32,14 @@ public class RabbitMQ {
    */
   public boolean newChannel() {
     try {
-      connection = factory.newConnection();
+      connection = factory.newConnection(Map.map(t -> {
+        String[] server = t.split(":");
+        if (server.length < 2) {
+          return new Address(server[0]);
+        } else {
+          return new Address(server[0], Integer.parseInt(server[1]));
+        }
+      }, Arrays.asList(servers)));
       channel = connection.createChannel();
       return true;
     } catch (IOException | TimeoutException e) {
