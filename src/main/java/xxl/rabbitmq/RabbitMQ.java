@@ -421,12 +421,17 @@ public class RabbitMQ {
    * @throws IOException
    * @throws TimeoutException
    */
-  public void close() throws IOException, TimeoutException {
-    if (channel != null) {
-      channel.close();
-    }
-    if (connection != null) {
-      connection.close();
+  public boolean close() {
+    try {
+      if (channel != null) {
+        channel.close();
+      }
+      if (connection != null) {
+        connection.close();
+      }
+      return true;
+    } catch (Exception e) {
+      return false;
     }
   }
 }

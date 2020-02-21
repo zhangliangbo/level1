@@ -1,5 +1,7 @@
 package xxl.rabbitmq;
 
+import java.util.concurrent.CountDownLatch;
+
 public class QueueDemo {
   public static void main(String[] args) {
     RabbitMQ rabbitMQ = new RabbitMQ(
@@ -10,12 +12,23 @@ public class QueueDemo {
         true
     );
     if (rabbitMQ.newChannel() && rabbitMQ.exchangeDeclare("xxl") && rabbitMQ.queueDeclare("zlb") && rabbitMQ.queueBind("zlb", "xxl", "xxl-zlb")) {
-      while (true) {
-        if (rabbitMQ.qos(1, false)) {
-          Record record = rabbitMQ.get("zlb", false);
-          System.err.println("get " + new String(record.body()));
-          rabbitMQ.ack(record.deliveryTag(), false);
+      if (rabbitMQ.qos(1, false)) {
+        CountDownLatch latch=new CountDownLatch(1);
+        rabbitMQ.consume("zlb", "random", new RabbitConsumer() {
+          @Override
+          public void onDelivery(Record record) {
+            if (record != null) {
+              System.err.println("get " + new String(record.body()));
+              rabbitMQ.ack(record.deliveryTag(), false);
+            }
+          }
+        });
+        try {
+          latch.await();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
         }
+        ;
       }
     }
   }

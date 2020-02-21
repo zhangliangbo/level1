@@ -16,5 +16,7 @@ public class ExchangeDemo {
         }
       }
     }
+    rabbitMQ.close();
+    System.err.println("finished");
   }
 }
