@@ -289,7 +289,11 @@ public class RabbitMQ {
   public Record get(String queue, boolean autoAck) {
     try {
       GetResponse res = channel.basicGet(queue, autoAck);
-      return new Record(res.getBody(), res.getEnvelope().getExchange(), res.getEnvelope().getRoutingKey(), null, res.getEnvelope().getDeliveryTag(), res.getEnvelope().isRedeliver());
+      if (res != null) {
+        return new Record(res.getBody(), res.getEnvelope().getExchange(), res.getEnvelope().getRoutingKey(), null, res.getEnvelope().getDeliveryTag(), res.getEnvelope().isRedeliver());
+      } else {
+        return null;
+      }
     } catch (IOException e) {
       return null;
     }
