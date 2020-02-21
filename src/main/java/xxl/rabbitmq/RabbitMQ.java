@@ -494,7 +494,7 @@ public class RabbitMQ implements ShutdownListener {
     try {
       channel.removeShutdownListener(this);
       channel.close();
-      connection.close();
+      channel = connection.createChannel();
     } catch (IOException | TimeoutException e) {
       //ignore
     }
