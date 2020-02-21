@@ -11,23 +11,35 @@ import java.util.concurrent.TimeoutException;
  * rabbitmq连接
  */
 public class RabbitMQ {
+  private ConnectionFactory factory;
+  private String[] servers;
   private Connection connection;
   private Channel channel;
 
-  public RabbitMQ(String[] servers, String username, String password, String vHost) throws IOException, TimeoutException {
-    ConnectionFactory factory = new ConnectionFactory();
-    factory.setUsername(username);
-    factory.setPassword(password);
-    factory.setVirtualHost(vHost);
-    connection = factory.newConnection(Map.map(t -> {
-      String[] server = t.split(":");
-      if (server.length < 2) {
-        return new Address(server[0]);
-      } else {
-        return new Address(server[0], Integer.parseInt(server[1]));
-      }
-    }, Arrays.asList(servers)));
-    channel = connection.createChannel();
+  public RabbitMQ(String[] servers, String username, String password, String vHost, boolean autoRecovery) {
+    this.servers = servers;
+    this.factory = new ConnectionFactory();
+    this.factory.setUsername(username);
+    this.factory.setPassword(password);
+    this.factory.setVirtualHost(vHost);
+    this.factory.setAutomaticRecoveryEnabled(autoRecovery);
+  }
+
+  public boolean newChannel() {
+    try {
+      connection = factory.newConnection(Map.map(t -> {
+        String[] server = t.split(":");
+        if (server.length < 2) {
+          return new Address(server[0]);
+        } else {
+          return new Address(server[0], Integer.parseInt(server[1]));
+        }
+      }, Arrays.asList(servers)));
+      channel = connection.createChannel();
+      return true;
+    } catch (IOException | TimeoutException e) {
+      return false;
+    }
   }
 
   /**
@@ -381,6 +393,21 @@ public class RabbitMQ {
   public boolean reject(long deliveryTag, boolean requeue) {
     try {
       channel.basicReject(deliveryTag, requeue);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 让服务器重发未回复的消息
+   *
+   * @param requeue 是否发送到其他消费者
+   * @return
+   */
+  public boolean recover(boolean requeue) {
+    try {
+      channel.basicRecover(requeue);
       return true;
     } catch (IOException e) {
       return false;
