@@ -10,7 +10,7 @@ public class QueueDemo {
         true
     );
     if (rabbitMQ.newChannel()) {
-      boolean deleteQ = rabbitMQ.exchangeDelete("xxl", false);
+      boolean deleteQ = rabbitMQ.queueDelete("zlb", false,false);
       System.err.println("queue delete " + deleteQ);
       if (rabbitMQ.exchangeDeclare("xxl") && rabbitMQ.queueDeclare("zlb") && rabbitMQ.queueBind("zlb", "xxl", "xxl-zlb")) {
         if (rabbitMQ.qos(1, false)) {

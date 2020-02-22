@@ -11,7 +11,7 @@ public class ExchangeDemo {
     );
 
     if (rabbitMQ.newChannel()) {
-      boolean deleteQ = rabbitMQ.queueDelete("zlb", false, false);
+      boolean deleteQ = rabbitMQ.exchangeDelete("xxl", false);
       System.err.println("exchange delete " + deleteQ);
       if (rabbitMQ.exchangeDeclare("xxl")) {
         for (int i = 0; i < 1000; i++) {
