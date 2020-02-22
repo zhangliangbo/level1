@@ -281,6 +281,33 @@ public class RabbitMQ {
   }
 
   /**
+   * 允许发布者确认消息是否送达
+   *
+   * @return
+   */
+  public boolean confirmSelect() {
+    try {
+      channel.confirmSelect();
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * 等待应答
+   *
+   * @return
+   */
+  public boolean waitForConfirms() {
+    try {
+      return channel.waitForConfirms();
+    } catch (InterruptedException e) {
+      return false;
+    }
+  }
+
+  /**
    * 控制消费速度
    *
    * @param prefetchCount
