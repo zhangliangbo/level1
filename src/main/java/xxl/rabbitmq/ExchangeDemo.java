@@ -20,7 +20,7 @@ public class ExchangeDemo {
       System.err.println(options);
       return;
     }
-    String ex = cli.getOptionValue(exOpt, "exchange");
+    String ex = cli.getOptionValue(exOpt, "");
     String ro = cli.getOptionValue(exRo, "");
     String type = cli.getOptionValue(exType, "fanout");
     RabbitMQ rabbitMQ = new RabbitMQ(
