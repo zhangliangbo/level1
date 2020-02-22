@@ -12,6 +12,7 @@ public class ExchangeDemo {
     String exRo = "routing";
     Options options = new Options()
         .addOption(exOpt, true, "交换器")
+        .addOption(exType, true, "交换机类型")
         .addOption(exRo, true, "路由键");
     CommandLine cli;
     try {
