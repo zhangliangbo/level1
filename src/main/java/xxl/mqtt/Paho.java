@@ -158,6 +158,32 @@ public class Paho {
   }
 
   /**
+   * 重连后获取未处理的消息
+   *
+   * @return
+   */
+  public PahoMessage[] getPendingMessage() {
+    IMqttDeliveryToken[] tokens = client.getPendingDeliveryTokens();
+    PahoMessage[] messages = new PahoMessage[tokens.length];
+    for (int i = 0; i < tokens.length; i++) {
+      try {
+        MqttMessage msg = tokens[i].getMessage();
+        messages[i] = new PahoMessage(
+            tokens[i].getTopics().length > 0 ? tokens[i].getTopics()[0] : null,
+            msg.getPayload(),
+            msg.getQos(),
+            msg.getId(),
+            msg.isRetained(),
+            msg.isDuplicate()
+        );
+      } catch (MqttException e) {
+        messages[i] = null;
+      }
+    }
+    return messages;
+  }
+
+  /**
    * 关闭客户端
    *
    * @return
