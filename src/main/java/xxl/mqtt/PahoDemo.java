@@ -17,6 +17,9 @@ public class PahoDemo {
         .addOption(idOpt, true, "客户端id")
         .addOption(topicOpt, true, "发布的主题")
         .addOption(typeOpt, true, "发布者 订阅者");
+    if (args.length < 2) {
+      System.err.println(options);
+    }
     CommandLine cli;
     try {
       cli = new DefaultParser().parse(options, args);
