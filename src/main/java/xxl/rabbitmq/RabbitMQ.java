@@ -308,6 +308,20 @@ public class RabbitMQ {
   }
 
   /**
+   * 等待发布消息的应答
+   *
+   * @param timeout
+   * @return
+   */
+  public boolean waitForConfirms(long timeout) {
+    try {
+      return channel.waitForConfirms(timeout);
+    } catch (InterruptedException | TimeoutException e) {
+      return false;
+    }
+  }
+
+  /**
    * 控制消费速度
    *
    * @param prefetchCount

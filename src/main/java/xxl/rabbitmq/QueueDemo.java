@@ -21,6 +21,15 @@ public class QueueDemo {
               }
             }
           });
+//          while (true) {
+//            Record record = rabbitMQ.get("queue", false);
+//            if (record != null) {
+//              System.err.println(record);
+//              if (rabbitMQ.ack(record.deliveryTag(), false)) {
+//                System.err.println("acknowledgement");
+//              }
+//            }
+//          }
         }
       }
     }
