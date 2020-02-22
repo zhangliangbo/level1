@@ -52,7 +52,9 @@ public class RabbitMQ implements ShutdownListener {
 
   /**
    * 声明交换器
-   *
+   *  fanout，不处理路由键，只有绑定到交换器上就会完成转发
+   *  direct, 处理路由键，且路由键完全匹配才会转发
+   *  topic, 处理路由键，支持通配符，#代表一个或多词（以.分隔），*代表不多不少一个词
    * @param exchange
    * @return
    */
