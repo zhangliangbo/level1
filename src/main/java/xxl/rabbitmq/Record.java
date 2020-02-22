@@ -1,7 +1,5 @@
 package xxl.rabbitmq;
 
-import java.util.Arrays;
-
 public class Record {
   private byte[] body;
   private String exchange;
@@ -46,7 +44,7 @@ public class Record {
   @Override
   public String toString() {
     return "Record{" +
-        "body=" + Arrays.toString(body) +
+        "body=" + new String(body) +
         ", exchange='" + exchange + '\'' +
         ", routingKey='" + routingKey + '\'' +
         ", consumerTag='" + consumerTag + '\'' +
