@@ -33,7 +33,12 @@ public class PahoDemo {
     String type = cli.getOptionValue(typeOpt, "sub");
     Paho paho = new Paho("tcp://localhost:1883", id, true);
     paho.open();
-    paho.connect(new PahoOptions("mqtt", "mqtt", true, false));
+    paho.connect(new PahoOptions(
+        "mqtt",
+        "mqtt",
+        true,
+        false,
+        new PahoMessage(topic, (id + " die").getBytes(), 1, 0, true, false)));
     paho.setManualAck(true);
     if ("sub".equals(type)) {
       if (paho.subscribe(topic, 1, new PahoConsumer() {
