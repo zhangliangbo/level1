@@ -11,8 +11,9 @@ public class QueueDemo {
     String quOpt = "queue";
     String roOpt = "routing";
     Options options = new Options()
-        .addOption(exOpt, true, "交换机名称")
-        .addOption(quOpt, true, "队列名称");
+        .addOption(exOpt, true, "交换机")
+        .addOption(quOpt, true, "队列")
+        .addOption(roOpt, true, "路由键");
     CommandLine cli;
     try {
       cli = new DefaultParser().parse(options, args);
