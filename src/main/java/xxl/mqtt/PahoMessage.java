@@ -40,4 +40,16 @@ public class PahoMessage {
   public boolean duplicate() {
     return duplicate;
   }
+
+  @Override
+  public String toString() {
+    return "PahoMessage{" +
+        "topic='" + topic + '\'' +
+        ", body=" + new String(body) +
+        ", qos=" + qos +
+        ", id=" + id +
+        ", retain=" + retain +
+        ", duplicate=" + duplicate +
+        '}';
+  }
 }
