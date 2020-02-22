@@ -8,10 +8,12 @@ import org.apache.commons.cli.ParseException;
 public class QueueDemo {
   public static void main(String[] args) {
     String exOpt = "exchange";
+    String exType = "type";
     String quOpt = "queue";
     String roOpt = "routing";
     Options options = new Options()
         .addOption(exOpt, true, "交换机")
+        .addOption(exType, true, "交换机类型")
         .addOption(quOpt, true, "队列")
         .addOption(roOpt, true, "路由键");
     CommandLine cli;
@@ -22,6 +24,7 @@ public class QueueDemo {
       return;
     }
     String ex = cli.getOptionValue(exOpt, "exchange");
+    String type = cli.getOptionValue(exType, "fanout");
     String qu = cli.getOptionValue(quOpt, "queue");
     String ro = cli.getOptionValue(roOpt, "");
     RabbitMQ rabbitMQ = new RabbitMQ(
@@ -32,7 +35,7 @@ public class QueueDemo {
         true
     );
     if (rabbitMQ.newChannel()) {
-      if (rabbitMQ.exchangeDeclare(ex)
+      if (rabbitMQ.exchangeDeclare(ex, type, true, false)
           && rabbitMQ.queueDeclare(qu, true, false, false)
           && rabbitMQ.queueBind(qu, ex, ro)
       ) {
