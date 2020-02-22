@@ -10,7 +10,7 @@ import java.util.concurrent.TimeoutException;
 /**
  * rabbitmq连接
  */
-public class RabbitMQ implements ShutdownListener {
+public class RabbitMQ {
   private ConnectionFactory factory;
   private String[] servers;
   private Connection connection;
@@ -43,7 +43,6 @@ public class RabbitMQ implements ShutdownListener {
         }, Arrays.asList(servers)));
       }
       channel = connection.createChannel();
-      channel.addShutdownListener(this);
       return true;
     } catch (IOException | TimeoutException e) {
       return false;
@@ -52,9 +51,11 @@ public class RabbitMQ implements ShutdownListener {
 
   /**
    * 声明交换器
-   *  fanout，不处理路由键，只有绑定到交换器上就会完成转发
-   *  direct, 处理路由键，且路由键完全匹配才会转发
-   *  topic, 处理路由键，支持通配符，#代表一个或多词（以.分隔），*代表不多不少一个词
+   * 类型决定转发规则
+   * fanout，不处理路由键，只有绑定到交换器上就会完成转发
+   * direct, 处理路由键，且路由键完全匹配才会转发
+   * topic, 处理路由键，支持通配符，#代表一个或多词（以.分隔），*代表不多不少一个词
+   *
    * @param exchange
    * @return
    */
@@ -98,21 +99,6 @@ public class RabbitMQ implements ShutdownListener {
    */
   public boolean exchangeDeclare(String exchange) {
     return exchangeDeclare(exchange, "direct");
-  }
-
-  /**
-   * 交换器是否存在
-   *
-   * @param exchange
-   * @return
-   */
-  public boolean exchangeExists(String exchange) {
-    try {
-      channel.exchangeDeclarePassive(exchange);
-      return true;
-    } catch (IOException e) {
-      return false;
-    }
   }
 
   /**
@@ -180,21 +166,6 @@ public class RabbitMQ implements ShutdownListener {
    */
   public boolean queueDeclare(String queue) {
     return queueDeclare(queue, false);
-  }
-
-  /**
-   * 队列是否存在
-   *
-   * @param queue
-   * @return
-   */
-  public boolean queueExists(String queue) {
-    try {
-      AMQP.Queue.DeclareOk res = channel.queueDeclarePassive(queue);
-      return true;
-    } catch (IOException e) {
-      return false;
-    }
   }
 
   /**
@@ -479,7 +450,6 @@ public class RabbitMQ implements ShutdownListener {
   public boolean close() {
     try {
       if (channel != null) {
-        channel.removeShutdownListener(this);
         channel.close();
       }
       if (connection != null) {
@@ -488,16 +458,6 @@ public class RabbitMQ implements ShutdownListener {
       return true;
     } catch (Exception e) {
       return false;
-    }
-  }
-
-  @Override
-  public void shutdownCompleted(ShutdownSignalException cause) {
-    try {
-      channel.removeShutdownListener(this);
-      channel = connection.createChannel();
-    } catch (IOException e) {
-      //ignore
     }
   }
 }
