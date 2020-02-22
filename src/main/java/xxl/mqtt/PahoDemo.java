@@ -19,6 +19,7 @@ public class PahoDemo {
         .addOption(typeOpt, true, "发布者 订阅者");
     if (args.length < 2) {
       System.err.println(options);
+      return;
     }
     CommandLine cli;
     try {
@@ -29,9 +30,10 @@ public class PahoDemo {
     }
     String id = cli.getOptionValue(idOpt, UUID.randomUUID().toString());
     String topic = cli.getOptionValue(topicOpt, "publish");
-    String type = cli.getOptionValue(topicOpt, "sub");
+    String type = cli.getOptionValue(typeOpt, "sub");
     Paho paho = new Paho("tcp://localhost:1883", id, true);
     paho.open();
+    paho.connect(new PahoOptions("mqtt", "mqtt", true, false));
     paho.setManualAck(true);
     if ("sub".equals(type)) {
       if (paho.subscribe(topic, 1, new PahoConsumer() {
