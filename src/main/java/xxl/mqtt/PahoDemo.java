@@ -61,8 +61,18 @@ public class PahoDemo {
         if ("quit".equals(line)) {
           break;
         }
-        int msgId = paho.publish(topic, line.getBytes(), 1, true);
-        System.err.println("publish " + msgId);
+        String[] items = line.split(" ");
+        if (items.length > 1) {
+          String body = items[0];
+          int num = Integer.parseInt(items[1]);
+          while (num-- > 0) {
+            int msgId = paho.publish(topic, (body + num).getBytes(), 1, true);
+            System.err.println("publish " + msgId);
+          }
+        } else {
+          int msgId = paho.publish(topic, line.getBytes(), 1, true);
+          System.err.println("publish " + msgId);
+        }
       }
     }
     paho.disconnect();
