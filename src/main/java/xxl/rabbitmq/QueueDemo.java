@@ -10,7 +10,7 @@ public class QueueDemo {
         true
     );
     if (rabbitMQ.newChannel()) {
-      if (rabbitMQ.exchangeDeclare("exchange", "fanout", true, false) && rabbitMQ.queueDeclare("queue", true, false, false) && rabbitMQ.queueBind("queue", "exchange", "routingKey")) {
+      if (rabbitMQ.queueDeclare("queue", true, false, false)) {
         if (rabbitMQ.qos(1, false)) {
           rabbitMQ.consume("queue", "random", new RecordConsumer() {
             @Override
