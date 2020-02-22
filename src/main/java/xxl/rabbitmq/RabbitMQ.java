@@ -274,9 +274,9 @@ public class RabbitMQ {
   public boolean publish(String exchange, String routingKey, byte[] body) {
     try {
       channel.basicPublish(exchange, routingKey, null, body);
-      return false;
-    } catch (IOException e) {
       return true;
+    } catch (IOException e) {
+      return false;
     }
   }
 
