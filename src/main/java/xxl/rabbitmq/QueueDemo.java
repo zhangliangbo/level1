@@ -12,7 +12,7 @@ public class QueueDemo {
     if (rabbitMQ.newChannel()) {
       if (rabbitMQ.exchangeDeclare("exchange", "direct", true, false) && rabbitMQ.queueDeclare("queue", true, false, false) && rabbitMQ.queueBind("queue", "exchange", "routingKey")) {
         if (rabbitMQ.qos(1, false)) {
-          rabbitMQ.consume("queue", "random", new RabbitConsumer() {
+          rabbitMQ.consume("queue", "random", new RecordConsumer() {
             @Override
             public void onDelivery(Record record) {
               if (record != null) {

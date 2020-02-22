@@ -1,5 +1,5 @@
 package xxl.rabbitmq;
 
-public interface RabbitConsumer {
+public interface RecordConsumer {
   void onDelivery(Record record);
 }

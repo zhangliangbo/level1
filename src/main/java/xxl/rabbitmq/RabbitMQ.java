@@ -10,19 +10,35 @@ import java.util.concurrent.TimeoutException;
 /**
  * rabbitmq连接
  */
-public class RabbitMQ {
+public class RabbitMQ implements ReturnListener, ShutdownListener {
   private ConnectionFactory factory;
   private String[] servers;
   private Connection connection;
   private Channel channel;
+  private ReturnConsumer returnConsumer;
 
-  public RabbitMQ(String[] servers, String username, String password, String vHost, boolean autoRecovery) {
+  /**
+   * 构造函数
+   *
+   * @param servers
+   * @param username
+   * @param password
+   * @param vHost
+   * @param autoRecovery
+   * @param returnConsumer
+   */
+  public RabbitMQ(String[] servers, String username, String password, String vHost, boolean autoRecovery, ReturnConsumer returnConsumer) {
     this.servers = servers;
     this.factory = new ConnectionFactory();
     this.factory.setUsername(username);
     this.factory.setPassword(password);
     this.factory.setVirtualHost(vHost);
     this.factory.setAutomaticRecoveryEnabled(autoRecovery);
+    this.returnConsumer = returnConsumer;
+  }
+
+  public RabbitMQ(String[] servers, String username, String password, String vHost, boolean autoRecovery) {
+    this(servers, username, password, vHost, autoRecovery, null);
   }
 
   /**
@@ -43,6 +59,8 @@ public class RabbitMQ {
         }, Arrays.asList(servers)));
       }
       channel = connection.createChannel();
+      channel.addReturnListener(this);
+      channel.addShutdownListener(this);
       return true;
     } catch (IOException | TimeoutException e) {
       return false;
@@ -281,6 +299,20 @@ public class RabbitMQ {
   }
 
   /**
+   * 发布消息
+   *
+   * @return
+   */
+  public boolean publish(String exchange, String routingKey, byte[] body, boolean mandatory, boolean immediate) {
+    try {
+      channel.basicPublish(exchange, routingKey, mandatory, immediate, null, body);
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  /**
    * 允许发布者确认消息是否送达
    *
    * @return
@@ -367,7 +399,7 @@ public class RabbitMQ {
    * @param exclusive 是否接受其他连接的消费者
    * @return
    */
-  public boolean consume(String queue, boolean autoAck, String tag, boolean noLocal, boolean exclusive, RabbitConsumer consumer) {
+  public boolean consume(String queue, boolean autoAck, String tag, boolean noLocal, boolean exclusive, RecordConsumer consumer) {
     try {
       Consumer inner = consumer == null ? null : new DefaultConsumer(channel) {
         @Override
@@ -390,7 +422,7 @@ public class RabbitMQ {
    * @param consumer
    * @return
    */
-  public boolean consume(String queue, String tag, RabbitConsumer consumer) {
+  public boolean consume(String queue, String tag, RecordConsumer consumer) {
     return consume(queue, false, tag, true, false, consumer);
   }
 
@@ -491,6 +523,7 @@ public class RabbitMQ {
   public boolean close() {
     try {
       if (channel != null) {
+        channel.removeReturnListener(this);
         channel.close();
       }
       if (connection != null) {
@@ -499,6 +532,21 @@ public class RabbitMQ {
       return true;
     } catch (Exception e) {
       return false;
+    }
+  }
+
+  @Override
+  public void handleReturn(int replyCode, String replyText, String exchange, String routingKey, AMQP.BasicProperties properties, byte[] body) throws IOException {
+    if (returnConsumer != null) {
+      returnConsumer.onReturn(new Return(replyCode, replyText, exchange, routingKey, body));
+    }
+  }
+
+  @Override
+  public void shutdownCompleted(ShutdownSignalException cause) {
+    if (channel != null) {
+      channel.removeReturnListener(this);
+      channel.removeShutdownListener(this);
     }
   }
 }
