@@ -10,8 +10,6 @@ public class QueueDemo {
         true
     );
     if (rabbitMQ.newChannel()) {
-      boolean deleteQ = rabbitMQ.queueDelete("zlb", false, false);
-      System.err.println("queue delete " + deleteQ);
       if (rabbitMQ.queueDeclare("zlb", true, false, false) && rabbitMQ.queueBind("zlb", "xxl", "xxl-zlb")) {
         if (rabbitMQ.qos(1, false)) {
           rabbitMQ.consume("zlb", "random", new RabbitConsumer() {
