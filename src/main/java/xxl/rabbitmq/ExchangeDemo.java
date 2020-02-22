@@ -9,11 +9,10 @@ public class ExchangeDemo {
         "/",
         true
     );
-
     if (rabbitMQ.newChannel()) {
       boolean deleteQ = rabbitMQ.exchangeDelete("xxl", false);
       System.err.println("exchange delete " + deleteQ);
-      if (rabbitMQ.exchangeDeclare("xxl")) {
+      if (rabbitMQ.exchangeDeclare("xxl", "direct", true, false)) {
         for (int i = 0; i < 1000; i++) {
           if (rabbitMQ.publish("xxl", "xxl-zlb", ("hello" + i).getBytes())) {
             System.err.println("send hello " + i);
