@@ -8,7 +8,7 @@ import org.apache.commons.cli.ParseException;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class PahoPubDemo {
+public class PahoDemo {
   public static void main(String[] args) {
     String idOpt = "id";
     String topicOpt = "topic";
