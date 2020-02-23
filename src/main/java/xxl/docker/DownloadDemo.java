@@ -4,15 +4,16 @@ import org.apache.commons.cli.*;
 import xxl.mathematica.Select;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class DownloadDemo {
   public static void main(String[] args) {
     String optImage = "image";
+    String optTag = "tag";
     String optOfficial = "official";
     String optLatest = "latest";
     Options options = new Options()
         .addOption(Option.builder(optImage).hasArg().desc("镜像名称").build())
+        .addOption(Option.builder(optTag).hasArg().desc("镜像tag").build())
         .addOption(Option.builder(optOfficial).desc("是否必须官方镜像").build())
         .addOption(Option.builder(optLatest).desc("是否必须最新镜像").build());
     if (args.length == 0) {
@@ -31,6 +32,7 @@ public class DownloadDemo {
       return;
     }
     String image = cli.getOptionValue(optImage, "portainer");
+    String tag = cli.getOptionValue(optImage, "latest");
     boolean official = cli.hasOption(optOfficial);
     boolean latest = cli.hasOption(optLatest);
     Docker docker = new Docker();
@@ -57,14 +59,6 @@ public class DownloadDemo {
       return;
     }
     System.out.println(imageInfo);
-    String tag = "latest";
-    if (!latest) {
-      System.out.println("请输入tag:");
-      Scanner sc = new Scanner(System.in);
-      if (sc.hasNextLine()) {
-        tag = sc.nextLine();
-      }
-    }
     String name = imageInfo.getName() + ":" + tag;
     System.out.println("开始下载镜像" + name);
     while (true) {
