@@ -5,7 +5,7 @@ import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import xxl.kafka.Record;
 
-public class KafkaDemo {
+public class FKDemo {
   public static void main(String[] args) throws Exception {
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     FKConsumer consumer = new FKConsumer(new String[]{"kafka1:9092", "kafka2:9092", "kafka3:9092"}, "kou", "flink", true);
