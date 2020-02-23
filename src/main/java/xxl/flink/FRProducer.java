@@ -63,4 +63,11 @@ public class FRProducer extends RMQSink<Record> {
     super(FRUtil.config(host, port, username, password, vHost), queueName, new FRSerialization());
   }
 
+
+  @Override
+  protected void setupQueue() throws IOException {
+    if (queueName != null) {
+      channel.queueDeclare(queueName, true, false, false, null);
+    }
+  }
 }
