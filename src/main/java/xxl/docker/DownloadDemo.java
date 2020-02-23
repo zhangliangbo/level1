@@ -1,6 +1,7 @@
 package xxl.docker;
 
 import org.apache.commons.cli.*;
+import xxl.mathematica.First;
 import xxl.mathematica.Select;
 
 import java.util.List;
@@ -47,7 +48,8 @@ public class DownloadDemo {
             imageInfo = officialImage.get(0);
           } else {
             if (!official) {
-              imageInfo = imageInfoList.get(0);
+              imageInfoList.sort((o1, o2) -> o2.getStars() - o1.getStars());//选择star最多
+              imageInfo = First.first(imageInfoList, null);
             }
           }
         }
