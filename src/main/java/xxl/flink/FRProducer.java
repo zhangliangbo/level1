@@ -13,6 +13,9 @@ import java.io.IOException;
  * rabbitmq生产者
  */
 public class FRProducer extends RMQSink<Record> {
+  private String exchange;
+  private String type;
+
   /**
    * 发送到交换器
    *
@@ -25,7 +28,7 @@ public class FRProducer extends RMQSink<Record> {
    * @param immediate
    * @param consumer
    */
-  public FRProducer(String host, Integer port, String username, String password, String vHost, boolean mandatory, boolean immediate, ReturnConsumer consumer) {
+  public FRProducer(String host, Integer port, String username, String password, String vHost, String exchange, String type, boolean mandatory, boolean immediate, ReturnConsumer consumer) {
     super(FRUtil.config(host, port, username, password, vHost), new FRSerialization(), new FRPublishOptions(mandatory, immediate), new SerializableReturnListener() {
       @Override
       public void handleReturn(int replyCode, String replyText, String exchange, String routingKey, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -34,6 +37,8 @@ public class FRProducer extends RMQSink<Record> {
         }
       }
     });
+    this.exchange = exchange;
+    this.type = type;
   }
 
   /**
@@ -45,8 +50,8 @@ public class FRProducer extends RMQSink<Record> {
    * @param password
    * @param vHost
    */
-  public FRProducer(String host, Integer port, String username, String password, String vHost) {
-    this(host, port, username, password, vHost, false, false, null);
+  public FRProducer(String host, Integer port, String username, String password, String vHost, String exchange, String type) {
+    this(host, port, username, password, vHost, exchange, type, false, false, null);
   }
 
   /**
@@ -66,6 +71,9 @@ public class FRProducer extends RMQSink<Record> {
 
   @Override
   protected void setupQueue() throws IOException {
+    if (exchange != null) {
+      channel.exchangeDeclare(exchange, type, true, false, null);
+    }
     if (queueName != null) {
       channel.queueDeclare(queueName, true, false, false, null);
     }
