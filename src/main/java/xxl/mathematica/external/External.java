@@ -6,6 +6,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import xxl.mathematica.Rule;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,8 +42,7 @@ public class External {
     pb.directory(dir);
     pb.command(commands);
     Process sub = pb.start();
-    sub.waitFor();
-    return sub.exitValue();
+    return sub.waitFor();
   }
 
   /**
@@ -52,7 +52,7 @@ public class External {
    * @return
    * @throws IOException
    */
-  public static byte[] runProcess(String command) throws IOException {
+  public static Rule<Integer, byte[]> runProcess(String command) throws Exception {
     return runProcess(null, command);
   }
 
@@ -64,18 +64,21 @@ public class External {
    * @return
    * @throws IOException
    */
-  public static byte[] runProcess(File dir, String command) throws IOException {
+  public static Rule<Integer, byte[]> runProcess(String dir, String command) throws Exception {
     if (ObjectUtils.isEmpty(command)) throw new IllegalArgumentException("command is empty");
     String[] commands = command.split(" ");
-    pb.directory(dir);
+    if (dir != null) {
+      pb.directory(new File(dir));
+    }
     pb.command(commands);
     Process sub = pb.start();
+    int code = sub.waitFor();
     byte[] in = IOUtils.toByteArray(sub.getInputStream());
     byte[] error = IOUtils.toByteArray(sub.getErrorStream());
     if (ArrayUtils.isEmpty(in)) {
-      return error;
+      return Rule.valueOf(code, error);
     } else {
-      return in;
+      return Rule.valueOf(code, in);
     }
   }
 

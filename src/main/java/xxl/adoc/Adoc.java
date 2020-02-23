@@ -4,6 +4,7 @@ import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
 import xxl.mathematica.FileBaseName;
+import xxl.mathematica.Rule;
 import xxl.mathematica.external.External;
 import xxl.mathematica.string.StringSplit;
 import xxl.os.OS;
@@ -68,14 +69,14 @@ public class Adoc {
         } else {
             //可以尝试用本地命令
             try {
-                byte[] cmdByte = null;
+                Rule<Integer,byte[]> rule = null;
                 if (OS.isWindows()) {
-                    cmdByte = External.runProcess("where asciidoctorj");
+                    rule = External.runProcess("where asciidoctorj");
                 } else if (OS.isLinux()) {
-                    cmdByte = External.runProcess("which asciidoctor");
+                    rule = External.runProcess("which asciidoctor");
                 }
-                if (cmdByte == null) return null;
-                List<String> cmds = StringSplit.stringSplit(new String(cmdByte), "\r\n", "\n");
+                if (rule == null) return null;
+                List<String> cmds = StringSplit.stringSplit(new String(rule.getValue()), "\r\n", "\n");
                 if (cmds.size() > 0) {
                     for (String cmd : cmds) {
                         if ((OS.isWindows() && cmd.contains(".cmd")) || (OS.isLinux())) {
@@ -85,7 +86,7 @@ public class Adoc {
                         }
                     }
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 return null;
             }
 
