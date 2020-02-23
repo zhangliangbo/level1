@@ -7,7 +7,7 @@ import xxl.rabbitmq.Record;
 /**
  * 发布消息的参数
  */
-public class FRPublishOptions implements RMQSinkPublishOptions<Record> {
+class FRPublishOptions implements RMQSinkPublishOptions<Record> {
 
   private boolean mandatory;
   private boolean immediate;
