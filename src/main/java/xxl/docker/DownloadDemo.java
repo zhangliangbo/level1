@@ -31,7 +31,7 @@ public class DownloadDemo {
       return;
     }
     String image = cli.getOptionValue(optImage, "portainer");
-    String tag = cli.getOptionValue(optImage, "latest");
+    String tag = cli.getOptionValue(optTag, "latest");
     boolean official = cli.hasOption(optOfficial);
     Docker docker = new Docker();
     ImageInfo imageInfo = null;
