@@ -94,7 +94,7 @@ tasks.withType(JavaCompile) {
 shadowJar {
     zip64 true
     manifest {
-        attributes(['Main-Class': 'xxl.mqtt.PahoDemo'])
+        attributes(['Main-Class': 'xxl.docker.DownloadDemo'])
     }
 }
 
