@@ -10,10 +10,12 @@ import java.util.UUID;
 
 public class PahoDemo {
   public static void main(String[] args) {
+    String urlOpt = "url";
     String idOpt = "id";
     String topicOpt = "topic";
     String typeOpt = "type";
     Options options = new Options()
+        .addOption(urlOpt, true, "服务器地址")
         .addOption(idOpt, true, "客户端id")
         .addOption(topicOpt, true, "发布的主题")
         .addOption(typeOpt, true, "发布者 订阅者");
@@ -28,10 +30,11 @@ public class PahoDemo {
       System.err.println(options);
       return;
     }
+    String url = cli.getOptionValue(urlOpt, "tcp://localhost:1883");
     String id = cli.getOptionValue(idOpt, UUID.randomUUID().toString());
     String topic = cli.getOptionValue(topicOpt, "publish");
     String type = cli.getOptionValue(typeOpt, "sub");
-    Paho paho = new Paho("tcp://localhost:1883", id, true);
+    Paho paho = new Paho(url, id, true);
     paho.open();
     if (!paho.connect(new PahoOptions(
         "mqtt",
