@@ -3,6 +3,7 @@ package xxl.docker;
 import org.apache.commons.cli.*;
 import xxl.mathematica.First;
 import xxl.mathematica.Select;
+import xxl.mathematica.audio.Beep;
 
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class DownloadDemo {
         break;
       } else {
         System.err.println("下载失败，开始重试");
+        Beep.beep();
       }
       try {
         Thread.sleep(500);
