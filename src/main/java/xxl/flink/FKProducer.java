@@ -11,14 +11,7 @@ import java.util.Properties;
  */
 public class FKProducer extends FlinkKafkaProducer<Record> {
   public FKProducer(String[] servers, int ack, String topic) {
-    super(topic, new FKSerialization(), props(servers, ack),
+    super(topic, new FKSerialization(), KfkProducer.props(servers, ack),
         ack == 0 ? Semantic.NONE : (ack == -1 ? Semantic.EXACTLY_ONCE : Semantic.AT_LEAST_ONCE));
-  }
-
-  private static Properties props(String[] servers, int ack) {
-    Properties props = KfkProducer.props(servers, ack);
-    props.put("key.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
-    props.put("value.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
-    return props;
   }
 }

@@ -19,8 +19,8 @@ public class FKDeserialization implements KafkaDeserializationSchema<Record> {
         record.topic(),
         record.partition(),
         record.offset(),
-        new String(record.key()),
-        new String(record.value())
+        record.key(),
+        record.value()
     );
   }
 

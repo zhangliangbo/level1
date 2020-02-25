@@ -14,7 +14,7 @@ public class FKDemo {
         .filter(new FilterFunction<Record>() {
           @Override
           public boolean filter(Record value) throws Exception {
-            return value.value().contains("0");
+            return new String(value.value()).contains("0");
           }
         })
         .map(new MapFunction<Record, Record>() {

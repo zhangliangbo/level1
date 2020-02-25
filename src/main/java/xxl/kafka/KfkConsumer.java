@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * 消费者
  */
 public class KfkConsumer {
-  private final Consumer<String, String> consumer;
+  private final Consumer<byte[], byte[]> consumer;
 
   public KfkConsumer(String[] servers, String group, boolean autoCommit) {
     consumer = new KafkaConsumer<>(props(servers, group, autoCommit));
@@ -43,8 +43,8 @@ public class KfkConsumer {
     props.put("group.id", group);//指定消费者属于哪个组
     props.put("enable.auto.commit", String.valueOf(autoCommit));//开启kafka的offset自动提交功能，可以保证消费者数据不丢失
     props.put("auto.commit.interval.ms", "1000");
-    props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-    props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+    props.put("key.deserializer", "org.apache.kafka.common.serialization.ByteArrayDeserializer");
+    props.put("value.deserializer", "org.apache.kafka.common.serialization.ByteArrayDeserializer");
     return props;
   }
 
@@ -130,9 +130,9 @@ public class KfkConsumer {
    * @return
    */
   public List<Record> poll(long millis) {
-    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(millis));
+    ConsumerRecords<byte[], byte[]> records = consumer.poll(Duration.ofMillis(millis));
     List<Record> res = new ArrayList<>();
-    for (ConsumerRecord<String, String> record : records) {
+    for (ConsumerRecord<byte[], byte[]> record : records) {
       res.add(new Record(
           record.timestamp(),
           record.topic(),

@@ -5,10 +5,10 @@ public class Record {
   private String topic;
   private Integer partition;
   private Long offset;
-  private String key;
-  private String value;
+  private byte[] key;
+  private byte[] value;
 
-  public Record(Long time, String topic, Integer partition, Long offset, String key, String value) {
+  public Record(Long time, String topic, Integer partition, Long offset, byte[] key, byte[] value) {
     this.time = time;
     this.topic = topic;
     this.partition = partition;
@@ -17,7 +17,7 @@ public class Record {
     this.value = value;
   }
 
-  public Record(String topic, String key, String value) {
+  public Record(String topic, byte[] key, byte[] value) {
     this(null, topic, null, null, key, value);
   }
 
@@ -37,11 +37,11 @@ public class Record {
     return offset;
   }
 
-  public String key() {
+  public byte[] key() {
     return key;
   }
 
-  public String value() {
+  public byte[] value() {
     return value;
   }
 
@@ -52,8 +52,8 @@ public class Record {
         ", topic='" + topic + '\'' +
         ", partition=" + partition +
         ", offset=" + offset +
-        ", key='" + key + '\'' +
-        ", value='" + value + '\'' +
+        ", key='" + new String(key) + '\'' +
+        ", value='" + new String(value) + '\'' +
         '}';
   }
 }

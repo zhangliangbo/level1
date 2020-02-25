@@ -15,6 +15,7 @@ public class Association {
      * @param <V>
      * @return
      */
+    @SafeVarargs
     public static <K, V> Map<K, V> association(Rule<K, V>... rules) {
         ObjectHelper.requireNonNull((Object) rules);
         Map<K, V> map = new HashMap<>();

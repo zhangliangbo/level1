@@ -14,8 +14,8 @@ public class FKSerialization implements KafkaSerializationSchema<Record> {
         element.topic(),
         element.partition(),
         timestamp,
-        element.key() == null ? null : element.key().getBytes(),
-        element.key() == null ? null : element.value().getBytes()
+        element.key(),
+        element.key()
     );
   }
 }

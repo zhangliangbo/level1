@@ -15,7 +15,7 @@ import java.util.concurrent.Future;
  * 生产者
  */
 public class KfkProducer {
-  private final Producer<String, String> producer;
+  private final Producer<byte[], byte[]> producer;
 
   public KfkProducer(String[] servers, int ack) {
     producer = new KafkaProducer<>(props(servers, ack));
@@ -32,8 +32,8 @@ public class KfkProducer {
     Properties props = new Properties();
     props.put("bootstrap.servers", StringRiffle.stringRiffle(Arrays.asList(servers), ","));
     props.put("acks", String.valueOf(ack));
-    props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+    props.put("key.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
+    props.put("value.serializer", "org.apache.kafka.common.serialization.ByteArraySerializer");
     return props;
   }
 
@@ -47,8 +47,8 @@ public class KfkProducer {
    * @param value
    * @return 分区offset
    */
-  public SendResult send(String topic, Integer partition, Long timestamp, String key, String value) {
-    ProducerRecord<String, String> record = new ProducerRecord<>(topic, partition, timestamp, key, value);
+  public SendResult send(String topic, Integer partition, Long timestamp, byte[] key, byte[] value) {
+    ProducerRecord<byte[], byte[]> record = new ProducerRecord<>(topic, partition, timestamp, key, value);
     Future<RecordMetadata> future = producer.send(record);
     try {
       RecordMetadata metadata = future.get();
@@ -67,7 +67,7 @@ public class KfkProducer {
    * @param value
    * @return
    */
-  public SendResult send(String topic, Integer partition, String key, String value) {
+  public SendResult send(String topic, Integer partition, byte[] key, byte[] value) {
     return send(topic, partition, null, key, value);
   }
 
@@ -82,7 +82,7 @@ public class KfkProducer {
    * @param value
    * @return
    */
-  public SendResult send(String topic, String key, String value) {
+  public SendResult send(String topic, byte[] key, byte[] value) {
     return send(topic, null, key, value);
   }
 
@@ -93,7 +93,7 @@ public class KfkProducer {
    * @param value
    * @return
    */
-  public SendResult send(String topic, String value) {
+  public SendResult send(String topic, byte[] value) {
     return send(topic, null, value);
   }
 
