@@ -5,6 +5,8 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import java.util.Scanner;
+
 public class ExchangeDemo {
   public static void main(String[] args) {
     String exOpt = "exchange";
@@ -34,13 +36,30 @@ public class ExchangeDemo {
     if (rabbitMQ.newChannel()) {
       if (rabbitMQ.confirmSelect()) {//打开消息确认模式
         if (rabbitMQ.exchangeDeclare(ex, type, true, false)) {
-          for (int i = 0; i < 1000; i++) {
-            if (rabbitMQ.publish(ex, ro, ("hello" + i).getBytes())) {
-              System.err.println("send hello " + i);
-              if (rabbitMQ.waitForConfirms()) {
-                System.err.println("confirmed");
+          Scanner sc = new Scanner(System.in);
+          while (sc.hasNextLine()) {
+            String[] items = sc.nextLine().split(" +");
+            int count;
+            String content;
+            if (items.length > 1) {
+              content = items[0];
+              count = Integer.parseInt(items[1]);
+            } else {
+              if ("quit".equals(items[0])) {
+                break;
               } else {
-                System.err.println("not confirmed");
+                content = items[0];
+                count = 1;
+              }
+            }
+            for (int i = 0; i < count; i++) {
+              if (rabbitMQ.publish(ex, ro, (content + i).getBytes())) {
+                System.err.println("send " + content + " " + i);
+                if (rabbitMQ.waitForConfirms()) {
+                  System.err.println("confirmed");
+                } else {
+                  System.err.println("not confirmed");
+                }
               }
             }
           }

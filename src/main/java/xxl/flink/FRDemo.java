@@ -8,9 +8,9 @@ import xxl.rabbitmq.Record;
 public class FRDemo {
   public static void main(String[] args) throws Exception {
     FRConsumer consumer = new FRConsumer("localhost", 5672, "mqtt", "mqtt", "/",
-        "fr-queue", "fr-exchange", "fanout", "");
+        "fr-queue", "amq.direct", "direct", "to-flink");
     FRProducer producer = new FRProducer("localhost", 5672, "mqtt", "mqtt", "/",
-        "fr-exchange", "fanout");
+        "amq.direct", "direct");
     StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
     environment.addSource(consumer)
         .filter(new FilterFunction<Record>() {
@@ -22,7 +22,7 @@ public class FRDemo {
         .map(new MapFunction<Record, Record>() {
           @Override
           public Record map(Record value) throws Exception {
-            return new Record(value.body(), "fr-exchange", "", "fr-consumer", 0, false);
+            return new Record((new String(value.body()) + " powered by flink").getBytes(), "amq.direct", "from-flink", "fr-consumer", 0, false);
           }
         })
         .addSink(producer);

@@ -42,7 +42,7 @@ public class FRProducer extends RMQSink<Record> {
   }
 
   /**
-   * 发送到交换器，非强制性
+   * 发送到交换器，非强制性，不会触发Return监听
    *
    * @param host
    * @param port
