@@ -1,8 +1,6 @@
 package xxl.http;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
 import io.vavr.Function2;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -52,22 +50,7 @@ public class TcpServerDemo {
         .doOnConnection(new Consumer<Connection>() {
           @Override
           public void accept(Connection connection) {
-            connection.addHandler(new ChannelHandler() {
-              @Override
-              public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-
-              }
-
-              @Override
-              public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-
-              }
-
-              @Override
-              public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-
-              }
-            });
+            System.err.println("accept connection: " + connection.address().getHostName() + ":" + connection.address().getPort());
           }
         })
         .handle(new Function2<NettyInbound, NettyOutbound, Publisher<Void>>() {
