@@ -1,5 +1,6 @@
 package xxl.reactornetty;
 
+import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
@@ -38,6 +39,12 @@ public class TcpServerDemo {
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
     ChannelGroup cg = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     DisposableServer server = TcpServer.create()
+        .doOnBind(new Consumer<ServerBootstrap>() {
+          @Override
+          public void accept(ServerBootstrap serverBootstrap) {
+            System.err.println("bind");
+          }
+        })
         .doOnConnection(new Consumer<Connection>() {
           @Override
           public void accept(Connection connection) {
