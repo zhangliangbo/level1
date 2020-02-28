@@ -29,24 +29,6 @@ public class TcpServerDemo {
     }
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
     DisposableServer server = TcpServer.create()
-        .doOnBind(new Consumer<ServerBootstrap>() {
-          @Override
-          public void accept(ServerBootstrap serverBootstrap) {
-            System.err.println("bind");
-          }
-        })
-        .doOnBound(new Consumer<DisposableServer>() {
-          @Override
-          public void accept(DisposableServer disposableServer) {
-            System.err.println("bound: " + disposableServer.address().getHostName() + ":" + disposableServer.address().getPort());
-          }
-        })
-        .doOnUnbound(new Consumer<DisposableServer>() {
-          @Override
-          public void accept(DisposableServer disposableServer) {
-            System.err.println("unbound: " + disposableServer.address().getHostName() + ":" + disposableServer.address().getPort());
-          }
-        })
         .doOnConnection(new Consumer<Connection>() {
           @Override
           public void accept(Connection connection) {
