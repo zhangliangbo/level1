@@ -1,5 +1,6 @@
 package xxl.http;
 
+import io.netty.buffer.ByteBuf;
 import io.vavr.Function2;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -10,6 +11,8 @@ import reactor.netty.Connection;
 import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;
 import reactor.netty.tcp.TcpClient;
+
+import java.util.function.Consumer;
 
 public class TcpClientDemo {
   public static void main(String[] args) {
@@ -28,10 +31,21 @@ public class TcpClientDemo {
     String host = cli.getOptionValue(hostOpt, "localhost");
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
     Connection connection = TcpClient.create()
+        .doOnConnected(new Consumer<Connection>() {
+          @Override
+          public void accept(Connection connection) {
+            connection.channel().writeAndFlush("hello").syncUninterruptibly();
+          }
+        })
         .handle(new Function2<NettyInbound, NettyOutbound, Publisher<Void>>() {
           @Override
           public Publisher<Void> apply(NettyInbound nettyInbound, NettyOutbound nettyOutbound) {
-            return nettyInbound.receive().then();
+            return nettyInbound.receive().doOnNext(new Consumer<ByteBuf>() {
+              @Override
+              public void accept(ByteBuf byteBuf) {
+                System.err.println(new String(byteBuf.array()));
+              }
+            }).then();
           }
         })
         .host(host)
