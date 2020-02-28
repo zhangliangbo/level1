@@ -1,6 +1,5 @@
 package xxl.http;
 
-import io.netty.buffer.ByteBuf;
 import io.vavr.Function2;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -38,12 +37,8 @@ public class TcpServerDemo {
         .handle(new Function2<NettyInbound, NettyOutbound, Publisher<Void>>() {
           @Override
           public Publisher<Void> apply(NettyInbound nettyInbound, NettyOutbound nettyOutbound) {
-            return nettyOutbound.send(nettyInbound.receive().doOnNext(new Consumer<ByteBuf>() {
-              @Override
-              public void accept(ByteBuf byteBuf) {
-                System.err.println(new String(byteBuf.array()));
-              }
-            })).then();
+            System.err.println("server receive something");
+            return nettyOutbound.send(nettyInbound.receive());
           }
         })
         .host("localhost")

@@ -1,6 +1,5 @@
 package xxl.http;
 
-import io.netty.buffer.ByteBuf;
 import io.vavr.Function2;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -12,6 +11,7 @@ import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;
 import reactor.netty.tcp.TcpClient;
 
+import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class TcpClientDemo {
@@ -34,23 +34,35 @@ public class TcpClientDemo {
         .doOnConnected(new Consumer<Connection>() {
           @Override
           public void accept(Connection connection) {
-            connection.channel().writeAndFlush("hello").syncUninterruptibly();
+            System.err.println("connected");
           }
         })
         .handle(new Function2<NettyInbound, NettyOutbound, Publisher<Void>>() {
           @Override
           public Publisher<Void> apply(NettyInbound nettyInbound, NettyOutbound nettyOutbound) {
-            return nettyInbound.receive().doOnNext(new Consumer<ByteBuf>() {
-              @Override
-              public void accept(ByteBuf byteBuf) {
-                System.err.println(new String(byteBuf.array()));
-              }
-            }).then();
+            System.err.println("client receive something");
+            return nettyInbound.receive().asByteArray()
+                .doOnNext(new Consumer<byte[]>() {
+                  @Override
+                  public void accept(byte[] bytes) {
+                    System.err.println("receive: " + new String(bytes));
+                  }
+                }).then();
           }
         })
         .host(host)
         .port(port)
         .connectNow();
-    connection.onDispose().block();
+    Scanner sc = new Scanner(System.in);
+    while (true) {
+      System.err.println("请输入发送数据或输入quit退出");
+      String line = sc.nextLine();
+      if ("quit".equals(line)) {
+        connection.dispose();
+        break;
+      } else {
+        connection.channel().writeAndFlush(line.getBytes());
+      }
+    }
   }
 }
