@@ -1,4 +1,4 @@
-package xxl.http;
+package xxl.reactornetty;
 
 import io.vavr.Function2;
 import org.apache.commons.cli.CommandLine;
@@ -6,6 +6,9 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
+import reactor.core.scheduler.Schedulers;
 import reactor.netty.Connection;
 import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;
@@ -40,29 +43,34 @@ public class TcpClientDemo {
         .handle(new Function2<NettyInbound, NettyOutbound, Publisher<Void>>() {
           @Override
           public Publisher<Void> apply(NettyInbound nettyInbound, NettyOutbound nettyOutbound) {
-            System.err.println("client receive something");
-            return nettyInbound.receive().asByteArray()
-                .doOnNext(new Consumer<byte[]>() {
+            return Flux.merge(
+                nettyInbound.receive().asString().doOnNext(new Consumer<String>() {
                   @Override
-                  public void accept(byte[] bytes) {
-                    System.err.println("receive: " + new String(bytes));
+                  public void accept(String s) {
+                    System.out.println("client receive: " + s);
                   }
-                }).then();
+                }).subscribeOn(Schedulers.parallel()),
+                nettyOutbound.sendString(Flux.create(new Consumer<FluxSink<String>>() {
+                  @Override
+                  public void accept(FluxSink<String> stringFluxSink) {
+                    Scanner sc = new Scanner(System.in);
+                    while (true) {
+                      System.err.println("请输入发送内容或quit退出");
+                      String line = sc.nextLine();
+                      if ("quit".equals(line)) {
+                        break;
+                      } else {
+                        stringFluxSink.next(line);
+                      }
+                    }
+                    stringFluxSink.complete();
+                  }
+                }).subscribeOn(Schedulers.parallel()))).then();
           }
         })
         .host(host)
         .port(port)
         .connectNow();
-    Scanner sc = new Scanner(System.in);
-    while (true) {
-      System.err.println("请输入发送数据或输入quit退出");
-      String line = sc.nextLine();
-      if ("quit".equals(line)) {
-        connection.dispose();
-        break;
-      } else {
-        connection.channel().writeAndFlush(line.getBytes());
-      }
-    }
+    connection.onDispose().block();
   }
 }
