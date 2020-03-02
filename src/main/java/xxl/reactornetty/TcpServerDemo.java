@@ -11,6 +11,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.text.StringEscapeUtils;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
@@ -27,8 +28,10 @@ import java.util.function.Function;
 public class TcpServerDemo {
   public static void main(String[] args) {
     String portOpt = "port";
+    String suffixOpt = "suffix";
     Options options = new Options()
-        .addOption(portOpt, true, "端口");
+        .addOption(portOpt, true, "端口")
+        .addOption(suffixOpt, true, "消息分割符");
     CommandLine cli;
     try {
       cli = new DefaultParser().parse(options, args);
@@ -36,7 +39,12 @@ public class TcpServerDemo {
       System.err.println(options);
       return;
     }
+    if (cli.hasOption("help")) {
+      System.err.println(options);
+      return;
+    }
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
+    String suffix = StringEscapeUtils.unescapeJson(cli.getOptionValue(suffixOpt, ""));
     ChannelGroup cg = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     DisposableServer server = TcpServer.create()
         .doOnBind(new Consumer<ServerBootstrap>() {
@@ -88,8 +96,8 @@ public class TcpServerDemo {
             }).receive().asString().flatMap(new Function<String, Publisher<? extends Void>>() {
               @Override
               public Publisher<? extends Void> apply(String s) {
-                System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "=" + s);
-                return nettyOutbound.sendString(Mono.just(s));
+                System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "=" + s.replace(s, ""));
+                return nettyOutbound.sendString(Mono.just(s + suffix));
               }
             });
           }
