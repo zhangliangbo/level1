@@ -58,9 +58,9 @@ public class TcpClientDemo {
                     System.out.println("client receive: " + s);
                   }
                 }).subscribeOn(Schedulers.parallel()),
-                nettyOutbound.sendByteArray(Flux.create(new Consumer<FluxSink<byte[]>>() {
+                nettyOutbound.sendString(Flux.create(new Consumer<FluxSink<String>>() {
                   @Override
-                  public void accept(FluxSink<byte[]> stringFluxSink) {
+                  public void accept(FluxSink<String> stringFluxSink) {
                     Scanner sc = new Scanner(System.in);
                     while (true) {
                       System.err.println("请输入发送内容或quit退出");
@@ -68,7 +68,7 @@ public class TcpClientDemo {
                       if ("quit".equals(line)) {
                         break;
                       } else {
-                        stringFluxSink.next((line + suffix).getBytes());
+                        stringFluxSink.next(line + suffix);
                       }
                     }
                     stringFluxSink.complete();
