@@ -33,6 +33,10 @@ public class TcpClientDemo {
       System.err.println(options);
       return;
     }
+    if (cli.hasOption("help")) {
+      System.err.println(options);
+      return;
+    }
     String host = cli.getOptionValue(hostOpt, "localhost");
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
     String suffix = cli.getOptionValue(suffixOpt, "");
