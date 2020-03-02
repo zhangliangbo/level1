@@ -21,9 +21,11 @@ public class TcpClientDemo {
   public static void main(String[] args) {
     String portOpt = "port";
     String hostOpt = "host";
+    String suffixOpt = "suffix";
     Options options = new Options()
         .addOption(hostOpt, true, "地址")
-        .addOption(portOpt, true, "端口");
+        .addOption(portOpt, true, "端口")
+        .addOption(suffixOpt, true, "消息分隔后缀");
     CommandLine cli;
     try {
       cli = new DefaultParser().parse(options, args);
@@ -33,6 +35,7 @@ public class TcpClientDemo {
     }
     String host = cli.getOptionValue(hostOpt, "localhost");
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
+    String suffix = cli.getOptionValue(suffixOpt, "");
     Connection connection = TcpClient.create()
         .doOnConnected(new Consumer<Connection>() {
           @Override
@@ -60,7 +63,7 @@ public class TcpClientDemo {
                       if ("quit".equals(line)) {
                         break;
                       } else {
-                        stringFluxSink.next(line);
+                        stringFluxSink.next(line + suffix);
                       }
                     }
                     stringFluxSink.complete();
