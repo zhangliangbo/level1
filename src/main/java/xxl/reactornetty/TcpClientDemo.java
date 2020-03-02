@@ -5,6 +5,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.text.StringEscapeUtils;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
@@ -39,7 +40,7 @@ public class TcpClientDemo {
     }
     String host = cli.getOptionValue(hostOpt, "localhost");
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
-    String suffix = cli.getOptionValue(suffixOpt, "");
+    String suffix = StringEscapeUtils.unescapeJson(cli.getOptionValue(suffixOpt, ""));
     Connection connection = TcpClient.create()
         .doOnConnected(new Consumer<Connection>() {
           @Override
