@@ -55,7 +55,7 @@ public class TcpClientDemo {
                 nettyInbound.receive().asString().doOnNext(new Consumer<String>() {
                   @Override
                   public void accept(String s) {
-                    System.out.println("client receive: " + s);
+                    System.out.println("client receive: " + s.replace(suffix, ""));
                   }
                 }).subscribeOn(Schedulers.parallel()),
                 nettyOutbound.sendString(Flux.create(new Consumer<FluxSink<String>>() {
