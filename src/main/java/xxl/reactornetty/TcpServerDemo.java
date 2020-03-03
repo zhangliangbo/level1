@@ -13,6 +13,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.text.StringEscapeUtils;
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
 import reactor.netty.DisposableServer;
@@ -89,24 +90,22 @@ public class TcpServerDemo {
         .handle(new Function2<NettyInbound, NettyOutbound, Publisher<Void>>() {
           @Override
           public Publisher<Void> apply(NettyInbound nettyInbound, NettyOutbound nettyOutbound) {
-            if (hello) {
-              return nettyOutbound.sendString(Mono.just("hello" + suffix));
-            } else {
-              AtomicReference<Connection> conn = new AtomicReference<>();
-              return nettyInbound.withConnection(new Consumer<Connection>() {
-                @Override
-                public void accept(Connection connection) {
-                  connection.channel();
-                  conn.set(connection);
-                }
-              }).receive().asString().flatMap(new Function<String, Publisher<? extends Void>>() {
-                @Override
-                public Publisher<? extends Void> apply(String s) {
-                  System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "=" + s.replace(suffix, ""));
-                  return nettyOutbound.sendString(Mono.just(s + suffix));
-                }
-              });
-            }
+            AtomicReference<Connection> conn = new AtomicReference<>();
+            return Flux.concat(
+                hello ? nettyOutbound.sendString(Mono.just("hello" + suffix)) : nettyOutbound.then(),
+                nettyInbound.withConnection(new Consumer<Connection>() {
+                  @Override
+                  public void accept(Connection connection) {
+                    connection.channel();
+                    conn.set(connection);
+                  }
+                }).receive().asString().flatMap(new Function<String, Publisher<? extends Void>>() {
+                  @Override
+                  public Publisher<? extends Void> apply(String s) {
+                    System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "=" + s.replace(suffix, ""));
+                    return nettyOutbound.sendString(Mono.just(s + suffix));
+                  }
+                }));
           }
         })
         .host("localhost")
