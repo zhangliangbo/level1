@@ -31,10 +31,13 @@ public class TcpServerDemo {
     String portOpt = "port";
     String suffixOpt = "suffix";
     String helloOpt = "hello";
+    String noReplyOpt = "no-reply";
     Options options = new Options()
         .addOption(portOpt, true, "端口")
         .addOption(suffixOpt, true, "消息分割符")
-        .addOption(helloOpt, "主动打招呼");
+        .addOption(helloOpt, "主动打招呼")
+        .addOption(noReplyOpt, "是否不应答");
+
     CommandLine cli;
     try {
       cli = new DefaultParser().parse(options, args);
@@ -49,6 +52,7 @@ public class TcpServerDemo {
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
     String suffix = StringEscapeUtils.unescapeJson(cli.getOptionValue(suffixOpt, ""));
     boolean hello = cli.hasOption(helloOpt);
+    boolean noReply = cli.hasOption(noReplyOpt);
     ChannelGroup cg = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     DisposableServer server = TcpServer.create()
         .doOnBind(new Consumer<ServerBootstrap>() {
@@ -103,7 +107,11 @@ public class TcpServerDemo {
                   @Override
                   public Publisher<? extends Void> apply(String s) {
                     System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "=" + s.replace(suffix, ""));
-                    return nettyOutbound.sendString(Mono.just(s + suffix));
+                    if (noReply) {
+                      return nettyOutbound.then();
+                    } else {
+                      return nettyOutbound.sendString(Mono.just(s + " travel from server" + suffix));
+                    }
                   }
                 }));
           }
