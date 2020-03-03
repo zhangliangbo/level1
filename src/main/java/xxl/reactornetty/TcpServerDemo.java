@@ -31,7 +31,7 @@ public class TcpServerDemo {
     String portOpt = "port";
     String suffixOpt = "suffix";
     String helloOpt = "hello";
-    String noReplyOpt = "no-reply";
+    String noReplyOpt = "noReply";
     Options options = new Options()
         .addOption(portOpt, true, "端口")
         .addOption(suffixOpt, true, "消息分割符")
