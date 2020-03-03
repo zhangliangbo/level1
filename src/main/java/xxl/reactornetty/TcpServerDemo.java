@@ -29,9 +29,11 @@ public class TcpServerDemo {
   public static void main(String[] args) {
     String portOpt = "port";
     String suffixOpt = "suffix";
+    String helloOpt = "hello";
     Options options = new Options()
         .addOption(portOpt, true, "端口")
-        .addOption(suffixOpt, true, "消息分割符");
+        .addOption(suffixOpt, true, "消息分割符")
+        .addOption(helloOpt, "主动打招呼");
     CommandLine cli;
     try {
       cli = new DefaultParser().parse(options, args);
@@ -45,6 +47,7 @@ public class TcpServerDemo {
     }
     int port = Integer.parseInt(cli.getOptionValue(portOpt, "8080"));
     String suffix = StringEscapeUtils.unescapeJson(cli.getOptionValue(suffixOpt, ""));
+    boolean hello = cli.hasOption(helloOpt);
     ChannelGroup cg = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     DisposableServer server = TcpServer.create()
         .doOnBind(new Consumer<ServerBootstrap>() {
@@ -86,20 +89,24 @@ public class TcpServerDemo {
         .handle(new Function2<NettyInbound, NettyOutbound, Publisher<Void>>() {
           @Override
           public Publisher<Void> apply(NettyInbound nettyInbound, NettyOutbound nettyOutbound) {
-            AtomicReference<Connection> conn = new AtomicReference<>();
-            return nettyInbound.withConnection(new Consumer<Connection>() {
-              @Override
-              public void accept(Connection connection) {
-                connection.channel();
-                conn.set(connection);
-              }
-            }).receive().asString().flatMap(new Function<String, Publisher<? extends Void>>() {
-              @Override
-              public Publisher<? extends Void> apply(String s) {
-                System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "=" + s.replace(suffix, ""));
-                return nettyOutbound.sendString(Mono.just(s + suffix));
-              }
-            });
+            if (hello) {
+              return nettyOutbound.sendString(Mono.just("hello" + suffix));
+            } else {
+              AtomicReference<Connection> conn = new AtomicReference<>();
+              return nettyInbound.withConnection(new Consumer<Connection>() {
+                @Override
+                public void accept(Connection connection) {
+                  connection.channel();
+                  conn.set(connection);
+                }
+              }).receive().asString().flatMap(new Function<String, Publisher<? extends Void>>() {
+                @Override
+                public Publisher<? extends Void> apply(String s) {
+                  System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "=" + s.replace(suffix, ""));
+                  return nettyOutbound.sendString(Mono.just(s + suffix));
+                }
+              });
+            }
           }
         })
         .host("localhost")
