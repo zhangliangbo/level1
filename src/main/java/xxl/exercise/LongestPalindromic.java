@@ -8,9 +8,9 @@ public class LongestPalindromic {
     while (sc.hasNextLine()) {
       String line = sc.nextLine();
       int len = line.length();
-      int max = line.length();
+      int max = len;
       String res = null;
-      while (true) {
+      while (max > 0) {
         //从最长的开始找
         for (int i = 0; i < len - max + 1; i++) {
           String sub = line.substring(i, i + max);
