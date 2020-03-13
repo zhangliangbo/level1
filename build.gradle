@@ -77,10 +77,14 @@ dependencies {
     implementation 'org.apache.flink:flink-connector-wikiedits_2.12:1.9.2'
     implementation 'org.apache.flink:flink-connector-kafka_2.12:1.9.2'
     implementation 'org.apache.flink:flink-connector-rabbitmq_2.12:1.9.2'
-
+    //jedis
+    implementation 'redis.clients:jedis:3.2.0'
+    //kafka-streams
     implementation 'org.apache.kafka:kafka-streams:2.2.0'
-
+    //reactor-netty
     implementation 'io.projectreactor.netty:reactor-netty:0.9.4.RELEASE'
+    //mongo
+    implementation 'org.mongodb:mongo-java-driver:3.12.2'
 
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
 
