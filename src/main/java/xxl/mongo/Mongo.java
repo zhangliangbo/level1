@@ -20,8 +20,18 @@ public class Mongo {
   private MongoDatabase database;
   private Map<MongoDatabase, GridFSBucket> bucketMap = new HashMap<>();
 
+  public Mongo(String host, int port, String username, String password, String db) {
+    client = MongoClients.create("mongodb://" + username + ":" + password + "@" + host + ":" + port + "/" + db);
+    database = client.getDatabase(db);
+  }
+
   public Mongo(String host, int port, String username, String password) {
     client = MongoClients.create("mongodb://" + username + ":" + password + "@" + host + ":" + port);
+  }
+
+  public Mongo(String host, int port, String db) {
+    client = MongoClients.create("mongodb://" + host + ":" + port + "/" + db);
+    database = client.getDatabase(db);
   }
 
   public Mongo(String host, int port) {
