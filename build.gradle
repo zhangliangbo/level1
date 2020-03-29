@@ -89,6 +89,8 @@ dependencies {
     implementation 'io.vavr:vavr:0.10.2'
     //yaml
     implementation 'org.yaml:snakeyaml:1.26'
+    //media type
+    implementation 'org.apache.tika:tika-core:1.24'
 
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
 
