@@ -84,7 +84,7 @@ dependencies {
     //reactor-netty
     implementation 'io.projectreactor.netty:reactor-netty:0.9.4.RELEASE'
     //mongo
-    implementation 'org.mongodb:mongo-java-driver:3.12.2'
+    implementation 'org.mongodb:mongodb-driver:3.12.2'
     //function programming
     implementation 'io.vavr:vavr:0.10.2'
     //yaml
