@@ -94,7 +94,7 @@ dependencies {
 
     //just use in test to study grammar
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
-    testImplementation 'org.scala-lang:scala-library:2.13.1'
+//    testImplementation 'org.scala-lang:scala-library:2.13.1'
 
     //real test
     testImplementation 'junit:junit:4.12'
