@@ -43,7 +43,7 @@ class PayTest extends GroovyTestCase {
     void testWxJsOrder() {
         String outTradeNo = ID.snowflake(1)
         println(outTradeNo)
-        Map<String, String> code = Pay.wxJsOrder(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", "ohxe71d2mNOnSYumoBdNuQD7bnwg")
+        Map<String, String> code = Pay.wxJsOrder(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", "*****")
         println(code)
     }
 
