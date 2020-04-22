@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'groovy'
-    id 'scala'
     id 'com.github.johnrengelman.shadow' version '5.1.0'
     id 'com.bmuschko.nexus' version '2.3.1'
 //    id 'io.codearte.nexus-staging' version '0.21.1'
@@ -68,11 +67,6 @@ dependencies {
 //    implementation 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.18'  //wait for ripe
 //    implementation 'org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.9'  //wait for ripe
 
-//    compileOnly 'org.apache.flink:flink-java:1.9.2'
-//    compileOnly 'org.apache.flink:flink-streaming-java_2.12:1.9.2'
-//    compileOnly 'org.apache.flink:flink-table-api-java-bridge_2.12:1.9.2'
-//    compileOnly 'org.apache.flink:flink-table-planner_2.12:1.9.2'
-
     implementation 'org.apache.flink:flink-clients_2.12:1.9.2'
     implementation 'org.apache.flink:flink-connector-wikiedits_2.12:1.9.2'
     implementation 'org.apache.flink:flink-connector-kafka_2.12:1.9.2'
@@ -94,15 +88,9 @@ dependencies {
 
     //just use in test to study grammar
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
-//    testImplementation 'org.scala-lang:scala-library:2.13.1'
 
     //real test
     testImplementation 'junit:junit:4.12'
-//    testImplementation 'org.scalatest:scalatest_2.13:3.1.0'
-//    testImplementation 'org.scalatestplus:junit-4-12_2.13:3.1.0.0'
-//
-//    testRuntimeOnly 'org.scala-lang.modules:scala-xml_2.13:1.2.0'
-
 
 }
 

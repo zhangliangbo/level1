@@ -198,6 +198,82 @@ public class Pay {
     }
 
     /**
+     * 微信统一下单
+     *
+     * @param mchId
+     * @param outTradeNo
+     * @param money
+     * @param goodsName
+     * @param goodsDesc
+     * @param deviceInfo
+     * @param ip
+     * @param notifyUrl
+     * @param type
+     * @param productId  trade_type=NATIVE时，此参数必传。此参数为二维码中包含的商品ID，商户自行定义。
+     * @param openId     trade_type=JSAPI时（即JSAPI支付），此参数必传，此参数为微信用户在商户对应appid下的唯一标识。
+     * @return
+     */
+    private static Map<String, String> wxOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String type, String productId, String openId) {
+        Map<String, String> map = new HashMap<>();
+        map.put("out_trade_no", outTradeNo);
+        map.put("total_fee", String.valueOf(money));
+        map.put("body", goodsName);
+        map.put("attach", goodsDesc);
+        map.put("device_info", deviceInfo);
+        map.put("spbill_create_ip", ip);
+        map.put("trade_type", type);
+        if (notifyUrl != null) {
+            map.put("notify_url", notifyUrl);
+        }
+        if (productId != null) {
+            map.put("product_id", productId);
+        }
+        if (openId != null) {
+            map.put("openid", openId);
+        }
+        try {
+            return getWxPay(mchId).unifiedOrder(map);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 微信JS下订单
+     *
+     * @param mchId
+     * @param outTradeNo
+     * @param money
+     * @param goodsName
+     * @param goodsDesc
+     * @param deviceInfo
+     * @param ip
+     * @param notifyUrl
+     * @return
+     */
+    public static Map<String, String> wxJsOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String openId) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "JSAPI", null, openId);
+    }
+
+    /**
+     * 微信APP下订单
+     *
+     * @param mchId
+     * @param outTradeNo
+     * @param money
+     * @param goodsName
+     * @param goodsDesc
+     * @param deviceInfo
+     * @param ip
+     * @param notifyUrl
+     * @return
+     */
+    public static Map<String, String> wxAppOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "APP", null, null);
+    }
+
+    /**
      * 微信支付二维码
      *
      * @param mchId
@@ -210,24 +286,8 @@ public class Pay {
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl) {
-        Map<String, String> map = new HashMap<>();
-        map.put("out_trade_no", outTradeNo);
-        map.put("total_fee", String.valueOf(money));
-        map.put("body", goodsName);
-        map.put("attach", goodsDesc);
-        map.put("device_info", deviceInfo);
-        map.put("spbill_create_ip", ip);
-        map.put("trade_type", "NATIVE");
-        if (notifyUrl != null) {
-            map.put("notify_url", notifyUrl);
-        }
-        try {
-            return getWxPay(mchId).unifiedOrder(map);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
+    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String productId) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "NATIVE", productId, null);
     }
 
     /**

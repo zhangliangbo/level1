@@ -1,12 +1,11 @@
-package xxl.wxpay
+package xxl.pay
 
 import xxl.id.ID
 import xxl.mathematica.image.BarcodeImage
 import xxl.mathematica.image.ShowImage
 import xxl.mathematica.io.Import
-import xxl.pay.Pay
 
-class WXPayTest extends GroovyTestCase {
+class PayTest extends GroovyTestCase {
     String mchId
     String aliAppId
     String tid
@@ -36,9 +35,16 @@ class WXPayTest extends GroovyTestCase {
     void testWxOrder() {
         String outTradeNo = ID.snowflake(1)
         println(outTradeNo)
-        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder")
+        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", null)
         println(code)
         ShowImage.showImage(BarcodeImage.barcodeImage(code.get("code_url")))
+    }
+
+    void testWxJsOrder() {
+        String outTradeNo = ID.snowflake(1)
+        println(outTradeNo)
+        Map<String, String> code = Pay.wxJsOrder(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", "ohxe71d2mNOnSYumoBdNuQD7bnwg")
+        println(code)
     }
 
     void testQueryWxOrder() {
