@@ -73,6 +73,24 @@ public class FrameTwoByte {
     }
 
     /**
+     * 数据没有头，补充头再解析
+     *
+     * @param frame
+     * @param head
+     * @return
+     */
+    public static FrameTwoByte parseFrameWithHead(byte[] frame, byte head) {
+        ByteBuffer buffer = ByteBuffer.wrap(new byte[frame.length + 1]);
+        buffer.put(head);
+        buffer.put(frame);
+        return parseFrame(buffer.array());
+    }
+
+    public static void main(String[] args) {
+        parseFrameWithHead(new byte[]{1, 2, 3}, (byte) 4);
+    }
+
+    /**
      * 打包数据帧
      *
      * @return
