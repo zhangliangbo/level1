@@ -57,7 +57,7 @@ public class TcpClientDemo {
                   public void accept(String s) {
                     System.out.println("client receive: " + s.replace(suffix, ""));
                   }
-                }).subscribeOn(Schedulers.parallel()),
+                }).subscribeOn(Schedulers.newSingle("ClientRead")),
                 nettyOutbound.sendString(Flux.create(new Consumer<FluxSink<String>>() {
                   @Override
                   public void accept(FluxSink<String> stringFluxSink) {
@@ -73,7 +73,7 @@ public class TcpClientDemo {
                     }
                     stringFluxSink.complete();
                   }
-                }).subscribeOn(Schedulers.parallel()))).then();
+                }).subscribeOn(Schedulers.newSingle("ClientWrite")))).then();
           }
         })
         .host(host)
