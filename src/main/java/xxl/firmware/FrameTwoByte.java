@@ -90,14 +90,11 @@ public class FrameTwoByte {
         parseFrameWithHead(new byte[]{1, 2, 3}, (byte) 4);
     }
 
-    /**
-     * 打包数据帧
-     *
-     * @return
-     */
-    public byte[] toFrame() {
+    private byte[] toFrame(boolean hasHead) {
         ByteBuffer buffer = ByteBuffer.wrap(new byte[this.len]).order(ByteOrder.BIG_ENDIAN);
-        buffer.put(head);
+        if (hasHead) {
+            buffer.put(head);
+        }
         buffer.putShort(len);
         buffer.putShort(source);
         buffer.putShort(target);
@@ -112,6 +109,24 @@ public class FrameTwoByte {
         }
         buffer.put(check);
         return buffer.array();
+    }
+
+    /**
+     * 打包数据帧，有头
+     *
+     * @return
+     */
+    public byte[] toFrame() {
+        return toFrame(true);
+    }
+
+    /**
+     * 打包帧数据，没有头
+     *
+     * @return
+     */
+    public byte[] toFrameWithoutHead() {
+        return toFrame(false);
     }
 
     /**
