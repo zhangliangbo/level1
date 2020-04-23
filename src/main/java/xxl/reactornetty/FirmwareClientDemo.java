@@ -61,7 +61,7 @@ public class FirmwareClientDemo {
                                 }).subscribeOn(Schedulers.newSingle("FirmwareWrite")))).then();
                     }
                 })
-                .host("localhost")
+                .host("47.97.183.24")
                 .port(12307)
                 .connectNow();
         connection.onDispose().block();
