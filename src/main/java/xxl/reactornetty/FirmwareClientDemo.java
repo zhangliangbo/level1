@@ -9,13 +9,22 @@ import reactor.netty.Connection;
 import reactor.netty.NettyInbound;
 import reactor.netty.NettyOutbound;
 import reactor.netty.tcp.TcpClient;
+import xxl.firmware.FrameContainer;
 import xxl.firmware.FrameTwoByte;
+import xxl.firmware.ICache;
 
 import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class FirmwareClientDemo {
     public static void main(String[] args) {
+        FrameContainer container = new FrameContainer((byte) 0xA5, 1024, new ICache.OnNewFrameListener() {
+            @Override
+            public void onNewFrame(byte[] frame) {
+                FrameTwoByte in = FrameTwoByte.parseFrame(frame);
+                System.out.println("client receive: " + new String(in.getData()));
+            }
+        });
         Connection connection = TcpClient.create()
                 .doOnConnected(new Consumer<Connection>() {
                     @Override
@@ -30,8 +39,7 @@ public class FirmwareClientDemo {
                                 nettyInbound.receive().asByteArray().doOnNext(new Consumer<byte[]>() {
                                     @Override
                                     public void accept(byte[] s) {
-                                        FrameTwoByte in = FrameTwoByte.parseFrame(s);
-                                        System.out.println("client receive: " + new String(in.getData()));
+                                        container.append(s);
                                     }
                                 }).subscribeOn(Schedulers.newSingle("FirmwareRead")),
                                 nettyOutbound.sendByteArray(Flux.create(new Consumer<FluxSink<byte[]>>() {
