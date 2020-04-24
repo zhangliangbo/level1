@@ -85,6 +85,8 @@ dependencies {
     implementation 'org.yaml:snakeyaml:1.26'
     //media type
     implementation 'org.apache.tika:tika-core:1.24'
+    //google core api for java
+    implementation("com.google.guava:guava:29.0-jre")
 
     //just use in test to study grammar
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
