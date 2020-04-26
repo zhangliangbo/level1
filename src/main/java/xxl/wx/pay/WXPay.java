@@ -43,7 +43,7 @@ public class WXPay {
     if (useSandbox) {
       this.signType = SignType.MD5; // 沙箱环境
     } else {
-      this.signType = SignType.HMACSHA256;
+      this.signType = SignType.MD5;
     }
     this.wxPayRequest = new WXPayRequest(config);
   }
@@ -60,23 +60,12 @@ public class WXPay {
     reqData.put("appid", config.getAppID());
     reqData.put("mch_id", config.getMchID());
     reqData.put("nonce_str", WXPayUtil.generateNonceStr());
-    SignType nowSignType;
-    if (reqData.containsKey("sign_type")) {
-      String signType = reqData.get("sign_type");
-      if ("MD5".equals(signType)) {
-        nowSignType = SignType.MD5;
-      } else {
-        nowSignType = SignType.HMACSHA256;
-      }
-    } else {
-      if (SignType.MD5.equals(this.signType)) {
-        reqData.put("sign_type", WXPayConstants.MD5);
-      } else if (SignType.HMACSHA256.equals(this.signType)) {
-        reqData.put("sign_type", WXPayConstants.HMACSHA256);
-      }
-      nowSignType = this.signType;
+    if (SignType.MD5.equals(this.signType)) {
+      reqData.put("sign_type", WXPayConstants.MD5);
+    } else if (SignType.HMACSHA256.equals(this.signType)) {
+      reqData.put("sign_type", WXPayConstants.HMACSHA256);
     }
-    reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), nowSignType));
+    reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
     return reqData;
   }
 
