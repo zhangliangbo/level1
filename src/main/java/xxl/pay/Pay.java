@@ -213,7 +213,7 @@ public class Pay {
      * @param openId     trade_type=JSAPI时（即JSAPI支付），此参数必传，此参数为微信用户在商户对应appid下的唯一标识。
      * @return
      */
-    private static Map<String, String> wxOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String type, String productId, String openId) {
+    private static Map<String, String> wxOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String type, String productId, String openId, String signType) {
         Map<String, String> map = new HashMap<>();
         map.put("out_trade_no", outTradeNo);
         map.put("total_fee", String.valueOf(money));
@@ -222,7 +222,6 @@ public class Pay {
         map.put("device_info", deviceInfo);
         map.put("spbill_create_ip", ip);
         map.put("trade_type", type);
-        map.put("sign_type", "MD5");
         if (notifyUrl != null) {
             map.put("notify_url", notifyUrl);
         }
@@ -231,6 +230,9 @@ public class Pay {
         }
         if (openId != null) {
             map.put("openid", openId);
+        }
+        if (signType != null) {
+            map.put("sign_type", signType);
         }
         try {
             return getWxPay(mchId).unifiedOrder(map);
@@ -254,7 +256,7 @@ public class Pay {
      * @return
      */
     public static Map<String, String> wxJsOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String openId) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "JSAPI", null, openId);
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "JSAPI", null, openId, "MD5");
     }
 
     /**
@@ -271,7 +273,7 @@ public class Pay {
      * @return
      */
     public static Map<String, String> wxAppOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "APP", null, null);
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "APP", null, null, null);
     }
 
     /**
@@ -288,7 +290,7 @@ public class Pay {
      * @return
      */
     public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String productId) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "NATIVE", productId, null);
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "NATIVE", productId, null, null);
     }
 
     /**
