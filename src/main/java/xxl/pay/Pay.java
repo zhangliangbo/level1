@@ -222,6 +222,7 @@ public class Pay {
         map.put("device_info", deviceInfo);
         map.put("spbill_create_ip", ip);
         map.put("trade_type", type);
+        map.put("sign_type", "MD5");
         if (notifyUrl != null) {
             map.put("notify_url", notifyUrl);
         }
