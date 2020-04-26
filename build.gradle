@@ -22,8 +22,13 @@ dependencies {
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     implementation "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0"
-
-    implementation "io.reactivex.rxjava2:rxjava:2.2.12"
+    //netty
+    implementation 'io.netty:netty-all:4.1.49.Final'
+    //reactivex
+    implementation "io.reactivex.rxjava3:rxjava:3.0.2"
+    //reactor
+    implementation 'io.projectreactor.addons:reactor-extra:3.3.3.RELEASE'
+    implementation 'io.projectreactor.netty:reactor-netty:0.9.6.RELEASE'
 
     implementation 'org.apache.commons:commons-lang3:3.9'
 
@@ -75,8 +80,6 @@ dependencies {
     implementation 'redis.clients:jedis:3.2.0'
     //kafka-streams
     implementation 'org.apache.kafka:kafka-streams:2.2.0'
-    //reactor-netty
-    implementation 'io.projectreactor.netty:reactor-netty:0.9.4.RELEASE'
     //mongo
     implementation 'org.mongodb:mongodb-driver:3.12.2'
     //function programming
@@ -93,6 +96,7 @@ dependencies {
 
     //real test
     testImplementation 'junit:junit:4.12'
+    testImplementation 'io.projectreactor:reactor-test:3.3.4.RELEASE'
 
 }
 
