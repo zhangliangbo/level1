@@ -27,9 +27,8 @@ dependencies {
     //reactivex
     implementation "io.reactivex.rxjava3:rxjava:3.0.2"
     //reactor
-    implementation 'io.projectreactor.addons:reactor-extra：3.3.3.RELEASE'
+    implementation 'io.projectreactor.addons:reactor-extra:3.3.3.RELEASE'
     implementation 'io.projectreactor.netty:reactor-netty:0.9.6.RELEASE'
-    implementation 'io.projectreactor.netty:reactor-test:3.3.4.RELEASE'
 
     implementation 'org.apache.commons:commons-lang3:3.9'
 
@@ -97,6 +96,7 @@ dependencies {
 
     //real test
     testImplementation 'junit:junit:4.12'
+    testImplementation 'io.projectreactor:reactor-test:3.3.4.RELEASE'
 
 }
 
