@@ -35,7 +35,7 @@ class PayTest extends GroovyTestCase {
     void testWxOrder() {
         String outTradeNo = ID.snowflake(1)
         println(outTradeNo)
-        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", null)
+        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", null, "充值")
         println(code)
         ShowImage.showImage(BarcodeImage.barcodeImage(code.get("code_url")))
     }
@@ -43,7 +43,7 @@ class PayTest extends GroovyTestCase {
     void testWxJsOrder() {
         String outTradeNo = ID.snowflake(1)
         println(outTradeNo)
-        Map<String, String> code = Pay.wxJsOrder(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", "*****")
+        Map<String, String> code = Pay.wxJsOrder(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", "*****", "充值")
         println(code)
     }
 

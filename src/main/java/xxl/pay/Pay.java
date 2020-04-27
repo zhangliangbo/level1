@@ -211,9 +211,10 @@ public class Pay {
      * @param type
      * @param productId  trade_type=NATIVE时，此参数必传。此参数为二维码中包含的商品ID，商户自行定义。
      * @param openId     trade_type=JSAPI时（即JSAPI支付），此参数必传，此参数为微信用户在商户对应appid下的唯一标识。
+     * @param attach     附加数据
      * @return
      */
-    private static Map<String, String> wxOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String type, String productId, String openId) {
+    private static Map<String, String> wxOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String type, String productId, String openId, String attach) {
         Map<String, String> map = new HashMap<>();
         map.put("out_trade_no", outTradeNo);
         map.put("total_fee", String.valueOf(money));
@@ -230,6 +231,9 @@ public class Pay {
         }
         if (openId != null) {
             map.put("openid", openId);
+        }
+        if (attach != null) {
+            map.put("attach", attach);
         }
         try {
             return getWxPay(mchId).unifiedOrder(map);
@@ -252,8 +256,8 @@ public class Pay {
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxJsOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String openId) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "JSAPI", null, openId);
+    public static Map<String, String> wxJsOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String openId, String attach) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "JSAPI", null, openId, attach);
     }
 
     /**
@@ -269,8 +273,8 @@ public class Pay {
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxAppOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "APP", null, null);
+    public static Map<String, String> wxAppOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String attach) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "APP", null, null, attach);
     }
 
     /**
@@ -286,8 +290,8 @@ public class Pay {
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String productId) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "NATIVE", productId, null);
+    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String productId, String attach) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "NATIVE", productId, null, attach);
     }
 
     /**
