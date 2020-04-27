@@ -36,8 +36,12 @@ public class ImportString {
     public static Map<String, String> importStringMapString(String json) {
         Map<String, Object> res = importStringMapObject(json);
         Map<String, Object> select = KeySelect.keySelect(res, s -> {
-            Class<?> cls = res.get(s).getClass();
-            return cls.isPrimitive() || ClassUtils.isPrimitiveWrapper(cls) || cls.equals(String.class);
+            if (res.get(s) != null) {
+                Class<?> cls = res.get(s).getClass();
+                return cls.isPrimitive() || ClassUtils.isPrimitiveWrapper(cls) || cls.equals(String.class);
+            } else {
+                return false;
+            }
         });
         return AssociationMap.associationMap(t -> String.valueOf(select.get(t)), Keys.keys(select));
     }
