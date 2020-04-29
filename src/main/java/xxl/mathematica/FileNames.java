@@ -19,6 +19,7 @@ public class FileNames {
      *
      * @param regex
      * @param dir
+     * @param recursive 是否递归
      * @return
      */
     public static List<String> fileNames(String regex, String dir, boolean recursive) {
