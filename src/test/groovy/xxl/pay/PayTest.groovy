@@ -28,7 +28,7 @@ class PayTest extends GroovyTestCase {
     }
 
     void testSandboxKey() {
-
+        println(System.getProperty("java.specification.version"))
     }
 
 
