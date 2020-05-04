@@ -15,7 +15,7 @@ public class ReactorDemo {
     java.util.List<Integer> all = new CopyOnWriteArrayList<>();
     java.util.List<Integer> three = new CopyOnWriteArrayList<>();
     java.util.List<Integer> seven = new CopyOnWriteArrayList<>();
-    WorkQueueProcessor<Integer> processor = WorkQueueProcessor.create("xxl", 16);
+    TopicProcessor<Integer> processor = TopicProcessor.create("xxl", 16);
     processor.subscribe(new Consumer<Integer>() {
       @Override
       public void accept(Integer integer) {
