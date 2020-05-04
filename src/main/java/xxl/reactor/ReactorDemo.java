@@ -1,10 +1,7 @@
 package xxl.reactor;
 
 import io.vavr.collection.List;
-import org.reactivestreams.Processor;
-import reactor.core.publisher.DirectProcessor;
-import reactor.core.publisher.EmitterProcessor;
-import reactor.core.publisher.ReplayProcessor;
+import reactor.extra.processor.TopicProcessor;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -17,7 +14,7 @@ public class ReactorDemo {
     java.util.List<Integer> all = new CopyOnWriteArrayList<>();
     java.util.List<Integer> three = new CopyOnWriteArrayList<>();
     java.util.List<Integer> seven = new CopyOnWriteArrayList<>();
-    ReplayProcessor<Integer> processor = ReplayProcessor.create(3);
+    TopicProcessor<Integer> processor = TopicProcessor.create("xxl", 16);
     processor.subscribe(new Consumer<Integer>() {
       @Override
       public void accept(Integer integer) {
