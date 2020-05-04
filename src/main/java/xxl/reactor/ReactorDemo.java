@@ -1,39 +1,54 @@
 package xxl.reactor;
 
 import io.vavr.collection.List;
+import org.reactivestreams.Processor;
+import reactor.core.publisher.DirectProcessor;
 import reactor.core.publisher.EmitterProcessor;
+import reactor.core.publisher.ReplayProcessor;
 
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
 public class ReactorDemo {
   public static void main(String[] args) {
-    CountDownLatch latch = new CountDownLatch(1);
-    EmitterProcessor<Integer> processor = EmitterProcessor.create(16);
+    int threadCount = 10;
+    CountDownLatch latch = new CountDownLatch(threadCount);
+    java.util.List<Integer> all = new CopyOnWriteArrayList<>();
+    java.util.List<Integer> three = new CopyOnWriteArrayList<>();
+    java.util.List<Integer> seven = new CopyOnWriteArrayList<>();
+    ReplayProcessor<Integer> processor = ReplayProcessor.create(3);
     processor.subscribe(new Consumer<Integer>() {
       @Override
       public void accept(Integer integer) {
-        System.err.println("all: " + integer);
+        all.add(integer);
       }
     });
-    List.range(0, 10).forEach(new Consumer<Integer>() {
+    List.range(0, threadCount).forEach(new Consumer<Integer>() {
       @Override
       public void accept(Integer integer) {
-        new Thread(new Runnable() {
-          @Override
-          public void run() {
-            System.out.println("next: " + integer);
-            processor.onNext(integer);
-          }
-        }).start();
-        if (integer == 5) {
+        if (integer == 3) {
           processor.subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) {
-              System.err.println("5: " + integer);
+              three.add(integer);
+            }
+          });
+        } else if (integer == 7) {
+          processor.subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) {
+              seven.add(integer);
             }
           });
         }
+        new Thread(new Runnable() {
+          @Override
+          public void run() {
+            processor.onNext(integer);
+            latch.countDown();
+          }
+        }).start();
       }
     });
     try {
@@ -41,5 +56,8 @@ public class ReactorDemo {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+    System.err.println(List.ofAll(all).mkString(","));
+    System.err.println(List.ofAll(three).mkString(","));
+    System.err.println(List.ofAll(seven).mkString(","));
   }
 }
