@@ -1,7 +1,7 @@
 package xxl.reactor;
 
 import io.vavr.collection.List;
-import reactor.extra.processor.TopicProcessor;
+import reactor.core.publisher.EmitterProcessor;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public class ReactorDemo {
   public static void main(String[] args) {
     CountDownLatch latch = new CountDownLatch(1);
-    TopicProcessor<Integer> processor = TopicProcessor.create("zlb", 16);
+    EmitterProcessor<Integer> processor = EmitterProcessor.create(16);
     processor.subscribe(new Consumer<Integer>() {
       @Override
       public void accept(Integer integer) {
@@ -19,6 +19,13 @@ public class ReactorDemo {
     List.range(0, 10).forEach(new Consumer<Integer>() {
       @Override
       public void accept(Integer integer) {
+        new Thread(new Runnable() {
+          @Override
+          public void run() {
+            System.out.println("next: " + integer);
+            processor.onNext(integer);
+          }
+        }).start();
         if (integer == 5) {
           processor.subscribe(new Consumer<Integer>() {
             @Override
@@ -27,12 +34,6 @@ public class ReactorDemo {
             }
           });
         }
-        new Thread(new Runnable() {
-          @Override
-          public void run() {
-            processor.onNext(integer);
-          }
-        }).start();
       }
     });
     try {
