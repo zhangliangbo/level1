@@ -2,6 +2,7 @@ package xxl.reactor;
 
 import io.vavr.collection.List;
 import reactor.extra.processor.TopicProcessor;
+import reactor.extra.processor.WorkQueueProcessor;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -14,7 +15,7 @@ public class ReactorDemo {
     java.util.List<Integer> all = new CopyOnWriteArrayList<>();
     java.util.List<Integer> three = new CopyOnWriteArrayList<>();
     java.util.List<Integer> seven = new CopyOnWriteArrayList<>();
-    TopicProcessor<Integer> processor = TopicProcessor.create("xxl", 16);
+    WorkQueueProcessor<Integer> processor = WorkQueueProcessor.create("xxl", 16);
     processor.subscribe(new Consumer<Integer>() {
       @Override
       public void accept(Integer integer) {
