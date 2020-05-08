@@ -364,7 +364,7 @@ public class Pay {
      * @param refundFee   退款总金额
      * @return
      */
-    public static Map<String, String> wxOrderRefund(String mchId, String tradeNo, String outTradeNo, String outRefundNo, long totalFee, long refundFee, String notifyUrl) {
+    public static Map<String, String> wxOrderRefund(String mchId, String tradeNo, String outTradeNo, String outRefundNo, long totalFee, long refundFee, String notifyUrl, String reason) {
         try {
             Map<String, String> map = new HashMap<>();
             if (tradeNo != null) {
@@ -377,6 +377,9 @@ public class Pay {
             map.put("refund_fee", String.valueOf(refundFee));
             if (notifyUrl != null) {
                 map.put("notify_url", notifyUrl);
+            }
+            if (reason != null) {
+                map.put("refund_desc", reason);
             }
             return getWxPay(mchId).refund(map);
         } catch (Exception e) {
