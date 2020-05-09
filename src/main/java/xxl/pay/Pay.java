@@ -12,6 +12,7 @@ import com.alipay.api.response.AlipayTradeCancelResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import xxl.codec.digest.DigestUtils;
 import xxl.mathematica.io.ExportString;
 import xxl.mathematica.string.StringRiffle;
@@ -20,6 +21,10 @@ import xxl.saobei.SaobeiPay;
 import xxl.wx.pay.WXPay;
 import xxl.wx.pay.WXPayUtil;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.Security;
 import java.util.*;
 
 /**
@@ -385,6 +390,30 @@ public class Pay {
         } catch (Exception e) {
             System.err.println("wx refund ex: " + e.getMessage());
             return null;
+        }
+    }
+
+    /**
+     * 微信退款回调解密
+     *
+     * @param mchId
+     * @param reqInfo
+     * @return
+     */
+    public static String wxRefundDecrypt(String mchId, String reqInfo) {
+        return getWxPay(mchId).refundDecryptReqInfo(reqInfo);
+    }
+
+    public static void main(String[] args) {
+        byte[] reqBytes = Base64.getDecoder().decode("oaRfjiQPwEPVbP2uMTXJ1fe/9VDJ5kDq0ZzuZK+owqTh0dXDYvYDrCLX7waWXZelYSYYTtrtfa1HMhM3tBkmRqq6hvQeTc7TLTEd8NFKnPkmW3+t5xpTWq29fZ+TfLvossAfImHPd1Lw6QVYquHzG+/P6UDAfhWaDQs95ICoZF41/JSUmyxGZgB3kIz4ERvP2Y5REc5cPp8VlqZpjm8qk8eo7XPb6HjGM6stVcqWWmdQSHBeEtYEfoTzu7jHNgnrEFUAoZYo974VAMLiqo3r/sgimLL5nW083w0h/P7Hx/NoZTBEb4Ycpao//hXglwcvla3QQEw77p5tb0wLNLxA2N91sFta2/9VCOj5pdVSN2uCu9PZ6Q6/K6LkLgfufgZp6Hc5EwdeuZwNJk4rzgTsbW4qw8M7rfSbHHjPBPs1MfBD+FC2X3+rqeqI/7xDnvxtTqg/jZbImtpzyVs+TbR4AKqSdoZxNjKtM/mBhpgAZsikp0scaMjR5mDE5k7M6xC1nqp6vivC6Gb26huofXuZZbow9vI/0j8gJZJGtWLjrPxWSlaiHNPcpLjzVMbgEEmIzUED807C1RRS7Jsg6P3XVOaCxYol0bc08qtMVXC2AaBR8CK3epouUIzpYrXOgZXumbeXN6oFnwT9mohhAvgFkZstLZuqOCBrbpucDM+l5CLSuQaS5/+BEtZdJCN2dQZ8Q5CxPnpHuhAQyERPG6r1popamy5I8U2CBVWRjjfFmShIq9Pjh8gwx+OW4c2Oh6ht/W9jc+SyT+TT3HlBHcQCyedeMeqHGmamGHnvInuyPX1sisLpjOHkiZmv9nJmWGuYAqwlxYQ5gz61cTULkCViRCjuoY9IU0nzTVkhh7e51sffMpyNmvyDQbtLF9fVs+BXf9Rs7puN1nZ93KH0T2UA6F2M0GLV1xWeG2k14VpLGS629s+mNR4QAIJ/jIDmcHbrQUiFeJYjKgX0bfRM8Wm+6GH83tA5OG3CUOCCNZmlrSvvAJb9HsAxhITElE4390nzqI8nwJJtnDZ/ShdNmMq1PU3wd08q4Ov4nkMLnDIOcEc=");
+        try {
+            SecretKeySpec key = new SecretKeySpec(DigestUtils.md5Hex("XINGXINGLUN0123456789xingxinglun").toLowerCase().getBytes(), "AES");
+            Security.addProvider(new BouncyCastleProvider());
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding", "BC");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            System.err.println(new String(cipher.doFinal(reqBytes), StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            System.err.println("wxRefundDecryptReqInfo: " + e.getMessage());
         }
     }
 

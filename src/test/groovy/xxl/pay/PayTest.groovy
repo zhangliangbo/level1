@@ -57,6 +57,11 @@ class PayTest extends GroovyTestCase {
         println(res)
     }
 
+    void testWxRefundDecrypt() {
+        def reqInfo = "oaRfjiQPwEPVbP2uMTXJ1fe/9VDJ5kDq0ZzuZK+owqTh0dXDYvYDrCLX7waWXZelYSYYTtrtfa1HMhM3tBkmRqq6hvQeTc7TLTEd8NFKnPkmW3+t5xpTWq29fZ+TfLvossAfImHPd1Lw6QVYquHzG+/P6UDAfhWaDQs95ICoZF41/JSUmyxGZgB3kIz4ERvP2Y5REc5cPp8VlqZpjm8qk8eo7XPb6HjGM6stVcqWWmdQSHBeEtYEfoTzu7jHNgnrEFUAoZYo974VAMLiqo3r/sgimLL5nW083w0h/P7Hx/NoZTBEb4Ycpao//hXglwcvla3QQEw77p5tb0wLNLxA2N91sFta2/9VCOj5pdVSN2uCu9PZ6Q6/K6LkLgfufgZp6Hc5EwdeuZwNJk4rzgTsbW4qw8M7rfSbHHjPBPs1MfBD+FC2X3+rqeqI/7xDnvxtTqg/jZbImtpzyVs+TbR4AKqSdoZxNjKtM/mBhpgAZsikp0scaMjR5mDE5k7M6xC1nqp6vivC6Gb26huofXuZZbow9vI/0j8gJZJGtWLjrPxWSlaiHNPcpLjzVMbgEEmIzUED807C1RRS7Jsg6P3XVOaCxYol0bc08qtMVXC2AaBR8CK3epouUIzpYrXOgZXumbeXN6oFnwT9mohhAvgFkZstLZuqOCBrbpucDM+l5CLSuQaS5/+BEtZdJCN2dQZ8Q5CxPnpHuhAQyERPG6r1popamy5I8U2CBVWRjjfFmShIq9Pjh8gwx+OW4c2Oh6ht/W9jc+SyT+TT3HlBHcQCyedeMeqHGmamGHnvInuyPX1sisLpjOHkiZmv9nJmWGuYAqwlxYQ5gz61cTULkCViRCjuoY9IU0nzTVkhh7e51sffMpyNmvyDQbtLF9fVs+BXf9Rs7puN1nZ93KH0T2UA6F2M0GLV1xWeG2k14VpLGS629s+mNR4QAIJ/jIDmcHbrQUiFeJYjKgX0bfRM8Wm+6GH83tA5OG3CUOCCNZmlrSvvAJb9HsAxhITElE4390nzqI8nwJJtnDZ/ShdNmMq1PU3wd08q4Ov4nkMLnDIOcEc="
+        println(Pay.wxRefundDecrypt(mchId, reqInfo))
+    }
+
     void testWxDownloadBill() {
         def res = Pay.wxDownloadBill(mchId, "20191113", "ALL")
         println(res)

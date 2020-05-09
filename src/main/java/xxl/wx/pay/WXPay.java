@@ -1,7 +1,14 @@
 package xxl.wx.pay;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import xxl.codec.digest.DigestUtils;
 import xxl.wx.pay.WXPayConstants.SignType;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.Security;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -683,6 +690,26 @@ public class WXPay {
       throw new Exception("http read timeout is too small");
     }
 
+  }
+
+  /**
+   * 解密退款的回调中的加密数据
+   *
+   * @param reqInfo
+   * @return
+   */
+  public String refundDecryptReqInfo(String reqInfo) {
+      byte[] reqBytes = Base64.getDecoder().decode(reqInfo);
+      try {
+          SecretKeySpec key = new SecretKeySpec(DigestUtils.md5Hex(config.getKey()).toLowerCase().getBytes(), "AES");
+          Security.addProvider(new BouncyCastleProvider());
+          Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding", "BC");
+          cipher.init(Cipher.DECRYPT_MODE, key);
+          return new String(cipher.doFinal(reqBytes), StandardCharsets.UTF_8);
+      } catch (Exception e) {
+          System.err.println("wxRefundDecryptReqInfo: " + e.getMessage());
+          return null;
+      }
   }
 
 } // end class
