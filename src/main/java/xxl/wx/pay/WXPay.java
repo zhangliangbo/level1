@@ -460,7 +460,7 @@ public class WXPay {
             url = WXPayConstants.REFUND_URL_SUFFIX;
         }
         String respXml = this.requestWithCert(url, this.fillRequestData(reqData), connectTimeoutMs, readTimeoutMs);
-        System.err.println("mathematica wx pay refund before response process");
+        System.err.println("mathematica wx pay refund before response process: " + respXml);
         return this.processResponseXml(respXml);
     }
 
