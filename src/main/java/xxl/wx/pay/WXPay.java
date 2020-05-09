@@ -702,7 +702,7 @@ public class WXPay {
     public String refundDecryptReqInfo(String reqInfo) {
         byte[] reqBytes = Base64.getDecoder().decode(reqInfo);
         try {
-            SecretKeySpec key = new SecretKeySpec(DigestUtils.md5Hex(config.getKey()).toLowerCase().getBytes(), "AES");
+            SecretKeySpec key = new SecretKeySpec(DigestUtils.md5Hex(this.config.getKey()).toLowerCase().getBytes(), "AES");
             Security.addProvider(new BouncyCastleProvider());
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding", "BC");
             cipher.init(Cipher.DECRYPT_MODE, key);
