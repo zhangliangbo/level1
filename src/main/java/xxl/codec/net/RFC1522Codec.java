@@ -34,19 +34,24 @@ import java.nio.charset.Charset;
  * This class is immutable and thread-safe.
  *
  * @see <a href="http://www.ietf.org/rfc/rfc1522.txt">MIME (Multipurpose Internet Mail Extensions) Part Two:
- *          Message Header Extensions for Non-ASCII Text</a>
- *
+ * Message Header Extensions for Non-ASCII Text</a>
  * @since 1.3
  */
 abstract class RFC1522Codec {
 
-    /** Separator. */
+    /**
+     * Separator.
+     */
     protected static final char SEP = '?';
 
-    /** Prefix. */
+    /**
+     * Prefix.
+     */
     protected static final String POSTFIX = "?=";
 
-    /** Postfix. */
+    /**
+     * Postfix.
+     */
     protected static final String PREFIX = "=?";
 
     /**
@@ -55,13 +60,10 @@ abstract class RFC1522Codec {
      * This method constructs the "encoded-word" header common to all the RFC 1522 codecs and then invokes
      * {@link #doEncoding(byte [])} method of a concrete class to perform the specific encoding.
      *
-     * @param text
-     *            a string to encode
-     * @param charset
-     *            a charset to be used
+     * @param text    a string to encode
+     * @param charset a charset to be used
      * @return RFC 1522 compliant "encoded-word"
-     * @throws EncoderException
-     *             thrown if there is an error condition during the Encoding process.
+     * @throws EncoderException thrown if there is an error condition during the Encoding process.
      * @see <a href="http://download.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
      */
     protected String encodeText(final String text, final Charset charset) throws EncoderException {
@@ -74,7 +76,7 @@ abstract class RFC1522Codec {
         buffer.append(SEP);
         buffer.append(this.getEncoding());
         buffer.append(SEP);
-        final byte [] rawData = this.doEncoding(text.getBytes(charset));
+        final byte[] rawData = this.doEncoding(text.getBytes(charset));
         buffer.append(StringUtils.newStringUsAscii(rawData));
         buffer.append(POSTFIX);
         return buffer.toString();
@@ -86,16 +88,11 @@ abstract class RFC1522Codec {
      * This method constructs the "encoded-word" header common to all the RFC 1522 codecs and then invokes
      * {@link #doEncoding(byte [])} method of a concrete class to perform the specific encoding.
      *
-     * @param text
-     *            a string to encode
-     * @param charsetName
-     *            the charset to use
+     * @param text        a string to encode
+     * @param charsetName the charset to use
      * @return RFC 1522 compliant "encoded-word"
-     * @throws EncoderException
-     *             thrown if there is an error condition during the Encoding process.
-     * @throws UnsupportedEncodingException
-     *             if charset is not available
-     *
+     * @throws EncoderException             thrown if there is an error condition during the Encoding process.
+     * @throws UnsupportedEncodingException if charset is not available
      * @see <a href="http://download.oracle.com/javase/7/docs/api/java/nio/charset/Charset.html">Standard charsets</a>
      */
     protected String encodeText(final String text, final String charsetName)
@@ -112,13 +109,10 @@ abstract class RFC1522Codec {
      * This method processes the "encoded-word" header common to all the RFC 1522 codecs and then invokes
      * {@link #doEncoding(byte [])} method of a concrete class to perform the specific decoding.
      *
-     * @param text
-     *            a string to decode
+     * @param text a string to decode
      * @return A new decoded String or <code>null</code> if the input is <code>null</code>.
-     * @throws DecoderException
-     *             thrown if there is an error condition during the decoding process.
-     * @throws UnsupportedEncodingException
-     *             thrown if charset specified in the "encoded-word" header is not supported
+     * @throws DecoderException             thrown if there is an error condition during the decoding process.
+     * @throws UnsupportedEncodingException thrown if charset specified in the "encoded-word" header is not supported
      */
     protected String decodeText(final String text)
             throws DecoderException, UnsupportedEncodingException {
@@ -164,22 +158,18 @@ abstract class RFC1522Codec {
     /**
      * Encodes an array of bytes using the defined encoding scheme.
      *
-     * @param bytes
-     *            Data to be encoded
+     * @param bytes Data to be encoded
      * @return A byte array containing the encoded data
-     * @throws EncoderException
-     *             thrown if the Encoder encounters a failure condition during the encoding process.
+     * @throws EncoderException thrown if the Encoder encounters a failure condition during the encoding process.
      */
     protected abstract byte[] doEncoding(byte[] bytes) throws EncoderException;
 
     /**
      * Decodes an array of bytes using the defined encoding scheme.
      *
-     * @param bytes
-     *            Data to be decoded
+     * @param bytes Data to be decoded
      * @return a byte array that contains decoded data
-     * @throws DecoderException
-     *             A decoder exception is thrown if a Decoder encounters a failure condition during the decode process.
+     * @throws DecoderException A decoder exception is thrown if a Decoder encounters a failure condition during the decode process.
      */
     protected abstract byte[] doDecoding(byte[] bytes) throws DecoderException;
 }

@@ -23,7 +23,7 @@ import java.util.Locale;
 
 /**
  * Match Rating Approach Phonetic Algorithm Developed by <CITE>Western Airlines</CITE> in 1977.
- *
+ * <p>
  * This class is immutable and thread-safe.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Match_rating_approach">Wikipedia - Match Rating Approach</a>
@@ -39,7 +39,7 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Constants used mainly for the min rating value.
      */
     private static final int ONE = 1, TWO = 2, THREE = 3, FOUR = 4, FIVE = 5, SIX = 6, SEVEN = 7,
-                             ELEVEN = 11, TWELVE = 12;
+            ELEVEN = 11, TWELVE = 12;
 
     /**
      * The plain letter equivalent of the accented letters.
@@ -64,8 +64,8 @@ public class MatchRatingApproachEncoder implements StringEncoder {
             "\u00C5\u00E5" + "\u00C7\u00E7" + "\u0150\u0151\u0170\u0171";
 
     private static final String[] DOUBLE_CONSONANT =
-            new String[] { "BB", "CC", "DD", "FF", "GG", "HH", "JJ", "KK", "LL", "MM", "NN", "PP", "QQ", "RR", "SS",
-                           "TT", "VV", "WW", "XX", "YY", "ZZ" };
+            new String[]{"BB", "CC", "DD", "FF", "GG", "HH", "JJ", "KK", "LL", "MM", "NN", "PP", "QQ", "RR", "SS",
+                    "TT", "VV", "WW", "XX", "YY", "ZZ"};
 
     /**
      * Cleans up a name: 1. Upper-cases everything 2. Removes some common punctuation 3. Removes accents 4. Removes any
@@ -76,14 +76,13 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Consider this method private, it is package protected for unit testing only.
      * </p>
      *
-     * @param name
-     *            The name to be cleaned
+     * @param name The name to be cleaned
      * @return The cleaned name
      */
     String cleanName(final String name) {
         String upperName = name.toUpperCase(Locale.ENGLISH);
 
-        final String[] charsToTrim = { "\\-", "[&]", "\\'", "\\.", "[\\,]" };
+        final String[] charsToTrim = {"\\-", "[&]", "\\'", "\\.", "[\\,]"};
         for (final String str : charsToTrim) {
             upperName = upperName.replaceAll(str, EMPTY);
         }
@@ -98,12 +97,10 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Encodes an Object using the Match Rating Approach algorithm. Method is here to satisfy the requirements of the
      * Encoder interface Throws an EncoderException if input object is not of type java.lang.String.
      *
-     * @param pObject
-     *            Object to encode
+     * @param pObject Object to encode
      * @return An object (or type java.lang.String) containing the Match Rating Approach code which corresponds to the
-     *         String supplied.
-     * @throws EncoderException
-     *             if the parameter supplied is not of type java.lang.String
+     * String supplied.
+     * @throws EncoderException if the parameter supplied is not of type java.lang.String
      */
     @Override
     public final Object encode(final Object pObject) throws EncoderException {
@@ -117,8 +114,7 @@ public class MatchRatingApproachEncoder implements StringEncoder {
     /**
      * Encodes a String using the Match Rating Approach (MRA) algorithm.
      *
-     * @param name
-     *            String object to encode
+     * @param name String object to encode
      * @return The MRA code corresponding to the String supplied
      */
     @Override
@@ -152,8 +148,7 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Consider this method private, it is package protected for unit testing only.
      * </p>
      *
-     * @param name
-     *            The string to get the substrings from
+     * @param name The string to get the substrings from
      * @return Annexed first and last 3 letters of input word.
      */
     String getFirst3Last3(final String name) {
@@ -176,8 +171,7 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Consider this method private, it is package protected for unit testing only.
      * </p>
      *
-     * @param sumLength
-     *            The length of 2 strings sent down
+     * @param sumLength The length of 2 strings sent down
      * @return The min rating value
      */
     int getMinRating(final int sumLength) {
@@ -202,10 +196,8 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Determines if two names are homophonous via Match Rating Approach (MRA) algorithm. It should be noted that the
      * strings are cleaned in the same way as {@link #encode(String)}.
      *
-     * @param name1
-     *            First of the 2 strings (names) to compare
-     * @param name2
-     *            Second of the 2 names to compare
+     * @param name1 First of the 2 strings (names) to compare
+     * @param name2 Second of the 2 names to compare
      * @return <code>true</code> if the encodings are identical <code>false</code> otherwise.
      */
     public boolean isEncodeEquals(String name1, String name2) {
@@ -268,13 +260,12 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Consider this method private, it is package protected for unit testing only.
      * </p>
      *
-     * @param letter
-     *            The letter under investiagtion
+     * @param letter The letter under investiagtion
      * @return True if a vowel, else false
      */
     boolean isVowel(final String letter) {
         return letter.equalsIgnoreCase("E") || letter.equalsIgnoreCase("A") || letter.equalsIgnoreCase("O") ||
-               letter.equalsIgnoreCase("I") || letter.equalsIgnoreCase("U");
+                letter.equalsIgnoreCase("I") || letter.equalsIgnoreCase("U");
     }
 
     /**
@@ -286,8 +277,7 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Consider this method private, it is package protected for unit testing only.
      * </p>
      *
-     * @param name1
-     *            name2
+     * @param name1 name2
      * @return the length as above
      */
     int leftToRightThenRightToLeftProcessing(final String name1, final String name2) {
@@ -342,8 +332,7 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Removes accented letters and replaces with non-accented ascii equivalent Case is preserved.
      * http://www.codecodex.com/wiki/Remove_accent_from_letters_%28ex_.%C3%A9_to_e%29
      *
-     * @param accentedWord
-     *            The word that may have accents in it.
+     * @param accentedWord The word that may have accents in it.
      * @return De-accented word
      */
     String removeAccents(final String accentedWord) {
@@ -375,8 +364,7 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Consider this method private, it is package protected for unit testing only.
      * </p>
      *
-     * @param name
-     *            String to have double consonants removed
+     * @param name String to have double consonants removed
      * @return Single consonant word
      */
     String removeDoubleConsonants(final String name) {
@@ -398,8 +386,7 @@ public class MatchRatingApproachEncoder implements StringEncoder {
      * Consider this method private, it is package protected for unit testing only.
      * </p>
      *
-     * @param name
-     *            The name to have vowels removed
+     * @param name The name to have vowels removed
      * @return De-voweled word
      */
     String removeVowels(String name) {

@@ -8,18 +8,18 @@ import xxl.rabbitmq.Record;
 import java.io.IOException;
 
 public class FRDeserialization implements DeserializationSchema<Record> {
-  @Override
-  public Record deserialize(byte[] message) throws IOException {
-    return new Record(message, null, null, null, 0, false);
-  }
+    @Override
+    public Record deserialize(byte[] message) throws IOException {
+        return new Record(message, null, null, null, 0, false);
+    }
 
-  @Override
-  public boolean isEndOfStream(Record nextElement) {
-    return false;
-  }
+    @Override
+    public boolean isEndOfStream(Record nextElement) {
+        return false;
+    }
 
-  @Override
-  public TypeInformation<Record> getProducedType() {
-    return new GenericTypeInfo<>(Record.class);
-  }
+    @Override
+    public TypeInformation<Record> getProducedType() {
+        return new GenericTypeInfo<>(Record.class);
+    }
 }

@@ -15,7 +15,7 @@ class ParentDirectoryTest {
 
     @Test
     void name1() throws Exception {
-        File file=new File("")
+        File file = new File("")
         System.out.println(file.getAbsolutePath())
     }
 }

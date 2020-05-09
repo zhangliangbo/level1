@@ -158,7 +158,7 @@ public class PercentCodec implements BinaryEncoder, BinaryDecoder {
     private int expectedEncodingBytes(final byte[] bytes) {
         int byteCount = 0;
         for (final byte b : bytes) {
-            byteCount += canEncode(b) ? 3: 1;
+            byteCount += canEncode(b) ? 3 : 1;
         }
         return byteCount;
     }
@@ -220,7 +220,7 @@ public class PercentCodec implements BinaryEncoder, BinaryDecoder {
         int byteCount = 0;
         for (int i = 0; i < bytes.length; ) {
             final byte b = bytes[i];
-            i += b == ESCAPE_CHAR ? 3: 1;
+            i += b == ESCAPE_CHAR ? 3 : 1;
             byteCount++;
         }
         return byteCount;

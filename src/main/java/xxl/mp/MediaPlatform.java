@@ -2,7 +2,6 @@ package xxl.mp;
 
 import okhttp3.Request;
 import okhttp3.Response;
-import xxl.codec.CharEncoding;
 import xxl.mathematica.io.ImportString;
 import xxl.mathematica.single.OkHttpSingle;
 

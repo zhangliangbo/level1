@@ -43,11 +43,9 @@ public class Crypt {
      * {@link SecureRandom} to generate your own salts and calling {@link #crypt(byte[], String)}.
      * </p>
      *
-     * @param keyBytes
-     *            plaintext password
+     * @param keyBytes plaintext password
      * @return hash value
-     * @throws IllegalArgumentException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String crypt(final byte[] keyBytes) {
         return crypt(keyBytes, null);
@@ -59,18 +57,14 @@ public class Crypt {
      * If no salt is provided, a random salt and the default algorithm (currently SHA-512) will be used. See
      * {@link #crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext password
-     * @param salt
-     *            real salt value without prefix or "rounds=". The salt may be null,
-     *            in which case a salt is generated for you using {@link ThreadLocalRandom};
-     *            for more secure salts consider using {@link SecureRandom} to
-     *            generate your own salts.
+     * @param keyBytes plaintext password
+     * @param salt     real salt value without prefix or "rounds=". The salt may be null,
+     *                 in which case a salt is generated for you using {@link ThreadLocalRandom};
+     *                 for more secure salts consider using {@link SecureRandom} to
+     *                 generate your own salts.
      * @return hash value
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws IllegalArgumentException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws IllegalArgumentException when a {@link java.security.NoSuchAlgorithmException} is caught.
      */
     public static String crypt(final byte[] keyBytes, final String salt) {
         if (salt == null) {
@@ -96,12 +90,10 @@ public class Crypt {
      * {@link SecureRandom} to generate your own salts and calling {@link #crypt(String, String)}.
      * </p>
      *
-     * @see #crypt(String, String)
-     * @param key
-     *            plaintext password
+     * @param key plaintext password
      * @return hash value
-     * @throws IllegalArgumentException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException when a {@link java.security.NoSuchAlgorithmException} is caught.
+     * @see #crypt(String, String)
      */
     public static String crypt(final String key) {
         return crypt(key, null);
@@ -151,18 +143,14 @@ public class Crypt {
      * This method comes in a variation that accepts a byte[] array to support input strings that are not encoded in
      * UTF-8 but e.g. in ISO-8859-1 where equal characters result in different byte values.
      *
-     * @see "The man page of the libc crypt (3) function."
-     * @param key
-     *            plaintext password as entered by the used
-     * @param salt
-     *            real salt value without prefix or "rounds=". The salt may be null, in which case a
-     *            salt is generated for you using {@link ThreadLocalRandom}; for more secure salts
-     *            consider using {@link SecureRandom} to generate your own salts.
+     * @param key  plaintext password as entered by the used
+     * @param salt real salt value without prefix or "rounds=". The salt may be null, in which case a
+     *             salt is generated for you using {@link ThreadLocalRandom}; for more secure salts
+     *             consider using {@link SecureRandom} to generate your own salts.
      * @return hash value, i.e. encrypted password including the salt string
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws IllegalArgumentException
-     *             when a {@link java.security.NoSuchAlgorithmException} is caught. *
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws IllegalArgumentException when a {@link java.security.NoSuchAlgorithmException} is caught. *
+     * @see "The man page of the libc crypt (3) function."
      */
     public static String crypt(final String key, final String salt) {
         return crypt(key.getBytes(Charsets.UTF_8), salt);

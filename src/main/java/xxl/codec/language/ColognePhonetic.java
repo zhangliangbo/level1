@@ -182,15 +182,15 @@ import java.util.Locale;
 public class ColognePhonetic implements StringEncoder {
 
     // Predefined char arrays for better performance and less GC load
-    private static final char[] AEIJOUY = new char[] { 'A', 'E', 'I', 'J', 'O', 'U', 'Y' };
-    private static final char[] CSZ = new char[] { 'C', 'S', 'Z' };
-    private static final char[] FPVW = new char[] { 'F', 'P', 'V', 'W' };
-    private static final char[] GKQ = new char[] { 'G', 'K', 'Q' };
-    private static final char[] CKQ = new char[] { 'C', 'K', 'Q' };
-    private static final char[] AHKLOQRUX = new char[] { 'A', 'H', 'K', 'L', 'O', 'Q', 'R', 'U', 'X' };
-    private static final char[] SZ = new char[] { 'S', 'Z' };
-    private static final char[] AHKOQUX = new char[] { 'A', 'H', 'K', 'O', 'Q', 'U', 'X' };
-    private static final char[] DTX = new char[] { 'D', 'T', 'X' };
+    private static final char[] AEIJOUY = new char[]{'A', 'E', 'I', 'J', 'O', 'U', 'Y'};
+    private static final char[] CSZ = new char[]{'C', 'S', 'Z'};
+    private static final char[] FPVW = new char[]{'F', 'P', 'V', 'W'};
+    private static final char[] GKQ = new char[]{'G', 'K', 'Q'};
+    private static final char[] CKQ = new char[]{'C', 'K', 'Q'};
+    private static final char[] AHKLOQRUX = new char[]{'A', 'H', 'K', 'L', 'O', 'Q', 'R', 'U', 'X'};
+    private static final char[] SZ = new char[]{'S', 'Z'};
+    private static final char[] AHKOQUX = new char[]{'A', 'H', 'K', 'O', 'Q', 'U', 'X'};
+    private static final char[] DTX = new char[]{'D', 'T', 'X'};
 
     private static final char CHAR_IGNORE = '-';    // is this character to be ignored?
 
@@ -332,7 +332,7 @@ public class ColognePhonetic implements StringEncoder {
             }
 
             if (chr < 'A' || chr > 'Z') {
-                    continue; // ignore unwanted characters
+                continue; // ignore unwanted characters
             }
 
             if (arrayContains(AEIJOUY, chr)) {
@@ -387,10 +387,10 @@ public class ColognePhonetic implements StringEncoder {
     public Object encode(final Object object) throws EncoderException {
         if (!(object instanceof String)) {
             throw new EncoderException("This method's parameter was expected to be of the type " +
-                String.class.getName() +
-                ". But actually it was of the type " +
-                object.getClass().getName() +
-                ".");
+                    String.class.getName() +
+                    ". But actually it was of the type " +
+                    object.getClass().getName() +
+                    ".");
         }
         return encode((String) object);
     }

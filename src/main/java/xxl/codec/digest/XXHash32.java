@@ -27,6 +27,7 @@ import static java.lang.Integer.rotateLeft;
  * <p>Copied from Commons Compress 1.14
  * <a href="https://git-wip-us.apache.org/repos/asf?p=commons-compress.git;a=blob;f=src/main/java/org/apache/commons/compress/compressors/lz4/XXHash32.java;h=a406ffc197449be594d46f0d2712b2d4786a1e68;hb=HEAD">https://git-wip-us.apache.org/repos/asf?p=commons-compress.git;a=blob;f=src/main/java/org/apache/commons/compress/compressors/lz4/XXHash32.java;h=a406ffc197449be594d46f0d2712b2d4786a1e68;hb=HEAD</a></p>
  * <p>NotThreadSafe</p>
+ *
  * @see <a href="http://cyan4973.github.io/xxHash/">xxHash</a>
  * @since 1.11
  */
@@ -38,8 +39,8 @@ public class XXHash32 implements Checksum {
     private static final int PRIME1 = (int) 2654435761l;
     private static final int PRIME2 = (int) 2246822519l;
     private static final int PRIME3 = (int) 3266489917l;
-    private static final int PRIME4 =  668265263;
-    private static final int PRIME5 =  374761393;
+    private static final int PRIME4 = 668265263;
+    private static final int PRIME5 = 374761393;
 
     private final byte[] oneByte = new byte[1];
     private final int[] state = new int[4];
@@ -60,6 +61,7 @@ public class XXHash32 implements Checksum {
 
     /**
      * Creates an XXHash32 instance.
+     *
      * @param seed the seed to use
      */
     public XXHash32(final int seed) {
@@ -119,10 +121,10 @@ public class XXHash32 implements Checksum {
         int hash;
         if (totalLen > BUF_SIZE) {
             hash =
-                rotateLeft(state[0],  1) +
-                rotateLeft(state[1],  7) +
-                rotateLeft(state[2], 12) +
-                rotateLeft(state[3], 18);
+                    rotateLeft(state[0], 1) +
+                            rotateLeft(state[1], 7) +
+                            rotateLeft(state[2], 12) +
+                            rotateLeft(state[3], 18);
         } else {
             hash = state[2] + PRIME5;
         }
@@ -178,8 +180,9 @@ public class XXHash32 implements Checksum {
 
     /**
      * Reads the given byte array as a little endian long.
-     * @param bytes the byte array to convert
-     * @param off the offset into the array that starts the value
+     *
+     * @param bytes  the byte array to convert
+     * @param off    the offset into the array that starts the value
      * @param length the number of bytes representing the value
      * @return the number read
      * @throws IllegalArgumentException if len is bigger than eight

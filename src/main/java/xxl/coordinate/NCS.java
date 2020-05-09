@@ -18,4 +18,5 @@ public enum NCS {
 
     public String getCode() {
         return code;
-    }}
+    }
+}

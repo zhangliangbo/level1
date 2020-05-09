@@ -9,66 +9,66 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.util.Collector;
 
 public class SocketWindowWordCount {
-  public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-    // the port to connect to
-    final int port;
-    try {
-      final ParameterTool params = ParameterTool.fromArgs(args);
-      port = params.getInt("port");
-    } catch (Exception e) {
-      System.err.println("No port specified. Please run 'SocketWindowWordCount --port <port>'");
-      return;
+        // the port to connect to
+        final int port;
+        try {
+            final ParameterTool params = ParameterTool.fromArgs(args);
+            port = params.getInt("port");
+        } catch (Exception e) {
+            System.err.println("No port specified. Please run 'SocketWindowWordCount --port <port>'");
+            return;
+        }
+
+        // get the execution environment
+        final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
+        // get input data by connecting to the socket
+        DataStream<String> text = env.socketTextStream("localhost", port, "\n");
+
+        // parse the data, group it, window it, and aggregate the counts
+        DataStream<WordWithCount> windowCounts = text
+                .flatMap(new FlatMapFunction<String, WordWithCount>() {
+                    @Override
+                    public void flatMap(String value, Collector<WordWithCount> out) {
+                        for (String word : value.split("\\s")) {
+                            out.collect(new WordWithCount(word, 1L));
+                        }
+                    }
+                })
+                .keyBy("word")
+                .timeWindow(Time.seconds(5), Time.seconds(1))
+                .reduce(new ReduceFunction<WordWithCount>() {
+                    @Override
+                    public WordWithCount reduce(WordWithCount a, WordWithCount b) {
+                        return new WordWithCount(a.word, a.count + b.count);
+                    }
+                });
+
+        // print the results with a single thread, rather than in parallel
+        windowCounts.print().setParallelism(1);
+
+        env.execute("Socket Window WordCount");
     }
 
-    // get the execution environment
-    final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+    // Data type for words with count
+    public static class WordWithCount {
 
-    // get input data by connecting to the socket
-    DataStream<String> text = env.socketTextStream("localhost", port, "\n");
+        public long count;
+        public String word;
 
-    // parse the data, group it, window it, and aggregate the counts
-    DataStream<WordWithCount> windowCounts = text
-        .flatMap(new FlatMapFunction<String, WordWithCount>() {
-          @Override
-          public void flatMap(String value, Collector<WordWithCount> out) {
-            for (String word : value.split("\\s")) {
-              out.collect(new WordWithCount(word, 1L));
-            }
-          }
-        })
-        .keyBy("word")
-        .timeWindow(Time.seconds(5), Time.seconds(1))
-        .reduce(new ReduceFunction<WordWithCount>() {
-          @Override
-          public WordWithCount reduce(WordWithCount a, WordWithCount b) {
-            return new WordWithCount(a.word, a.count + b.count);
-          }
-        });
+        public WordWithCount() {
+        }
 
-    // print the results with a single thread, rather than in parallel
-    windowCounts.print().setParallelism(1);
+        public WordWithCount(String word, long count) {
+            this.word = word;
+            this.count = count;
+        }
 
-    env.execute("Socket Window WordCount");
-  }
-
-  // Data type for words with count
-  public static class WordWithCount {
-
-    public long count;
-    public String word;
-
-    public WordWithCount() {
+        @Override
+        public String toString() {
+            return word + " : " + count;
+        }
     }
-
-    public WordWithCount(String word, long count) {
-      this.word = word;
-      this.count = count;
-    }
-
-    @Override
-    public String toString() {
-      return word + " : " + count;
-    }
-  }
 }

@@ -9,13 +9,13 @@ import org.junit.Test
 class FileExtensionTest {
     @Test
     void name() throws Exception {
-        println("ext:"+FileExtension.fileExtension("file"))
-        println("ext:"+FileExtension.fileExtension("file."))
-        println("ext:"+FileExtension.fileExtension("file.txt"))
-        println("ext:"+FileExtension.fileExtension("file.tar.gz"))
-        println("ext:"+FileExtension.fileExtension("C:\\file\\file\\file.tar.gz"))
-        println("ext:"+FileExtension.fileExtension("C:\\file\\file\\file.txt"))
-        println("ext:"+FileExtension.fileExtension("C:\\file\\file\\file"))
-        println("ext:"+FileExtension.fileExtension(null))
+        println("ext:" + FileExtension.fileExtension("file"))
+        println("ext:" + FileExtension.fileExtension("file."))
+        println("ext:" + FileExtension.fileExtension("file.txt"))
+        println("ext:" + FileExtension.fileExtension("file.tar.gz"))
+        println("ext:" + FileExtension.fileExtension("C:\\file\\file\\file.tar.gz"))
+        println("ext:" + FileExtension.fileExtension("C:\\file\\file\\file.txt"))
+        println("ext:" + FileExtension.fileExtension("C:\\file\\file\\file"))
+        println("ext:" + FileExtension.fileExtension(null))
     }
 }

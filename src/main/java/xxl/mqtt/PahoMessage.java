@@ -1,55 +1,55 @@
 package xxl.mqtt;
 
 public class PahoMessage {
-  private String topic;
-  private byte[] body;
-  private int qos;
-  private int id;
-  private boolean retain;
-  private boolean duplicate;
+    private String topic;
+    private byte[] body;
+    private int qos;
+    private int id;
+    private boolean retain;
+    private boolean duplicate;
 
-  public PahoMessage(String topic, byte[] body, int qos, int id, boolean retain, boolean duplicate) {
-    this.topic = topic;
-    this.body = body;
-    this.qos = qos;
-    this.id = id;
-    this.retain = retain;
-    this.duplicate = duplicate;
-  }
+    public PahoMessage(String topic, byte[] body, int qos, int id, boolean retain, boolean duplicate) {
+        this.topic = topic;
+        this.body = body;
+        this.qos = qos;
+        this.id = id;
+        this.retain = retain;
+        this.duplicate = duplicate;
+    }
 
-  public String topic() {
-    return topic;
-  }
+    public String topic() {
+        return topic;
+    }
 
-  public byte[] body() {
-    return body;
-  }
+    public byte[] body() {
+        return body;
+    }
 
-  public int qos() {
-    return qos;
-  }
+    public int qos() {
+        return qos;
+    }
 
-  public int id() {
-    return id;
-  }
+    public int id() {
+        return id;
+    }
 
-  public boolean retain() {
-    return retain;
-  }
+    public boolean retain() {
+        return retain;
+    }
 
-  public boolean duplicate() {
-    return duplicate;
-  }
+    public boolean duplicate() {
+        return duplicate;
+    }
 
-  @Override
-  public String toString() {
-    return "PahoMessage{" +
-        "topic='" + topic + '\'' +
-        ", body=" + new String(body) +
-        ", qos=" + qos +
-        ", id=" + id +
-        ", retain=" + retain +
-        ", duplicate=" + duplicate +
-        '}';
-  }
+    @Override
+    public String toString() {
+        return "PahoMessage{" +
+                "topic='" + topic + '\'' +
+                ", body=" + new String(body) +
+                ", qos=" + qos +
+                ", id=" + id +
+                ", retain=" + retain +
+                ", duplicate=" + duplicate +
+                '}';
+    }
 }

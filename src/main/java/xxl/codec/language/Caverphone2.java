@@ -19,7 +19,7 @@ package xxl.codec.language;
 
 /**
  * Encodes a string into a Caverphone 2.0 value.
- *
+ * <p>
  * This is an algorithm created by the Caversham Project at the University of Otago. It implements the Caverphone 2.0
  * algorithm:
  *
@@ -36,8 +36,7 @@ public class Caverphone2 extends AbstractCaverphone {
     /**
      * Encodes the given String into a Caverphone 2.0 value.
      *
-     * @param source
-     *            String the source string
+     * @param source String the source string
      * @return A caverphone code for the given String
      */
     @Override
@@ -62,7 +61,7 @@ public class Caverphone2 extends AbstractCaverphone {
         txt = txt.replaceAll("^tough", "tou2f");
         txt = txt.replaceAll("^enough", "enou2f"); // 2.0 only
         txt = txt.replaceAll("^trough", "trou2f"); // 2.0 only
-                                                   // note the spec says ^enough here again, c+p error I assume
+        // note the spec says ^enough here again, c+p error I assume
         txt = txt.replaceAll("^gn", "2n");
 
         // End

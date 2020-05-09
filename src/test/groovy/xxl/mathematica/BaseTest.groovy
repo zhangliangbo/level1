@@ -1,6 +1,7 @@
 package xxl.mathematica
 
 import xxl.mathematica.function.Function
+
 /**
  * Created by zhang on 2017/9/1.
  */

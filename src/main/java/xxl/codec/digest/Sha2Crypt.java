@@ -42,31 +42,49 @@ import java.util.regex.Pattern;
  */
 public class Sha2Crypt {
 
-    /** Default number of rounds if not explicitly specified. */
+    /**
+     * Default number of rounds if not explicitly specified.
+     */
     private static final int ROUNDS_DEFAULT = 5000;
 
-    /** Maximum number of rounds. */
+    /**
+     * Maximum number of rounds.
+     */
     private static final int ROUNDS_MAX = 999999999;
 
-    /** Minimum number of rounds. */
+    /**
+     * Minimum number of rounds.
+     */
     private static final int ROUNDS_MIN = 1000;
 
-    /** Prefix for optional rounds specification. */
+    /**
+     * Prefix for optional rounds specification.
+     */
     private static final String ROUNDS_PREFIX = "rounds=";
 
-    /** The number of bytes the final hash value will have (SHA-256 variant). */
+    /**
+     * The number of bytes the final hash value will have (SHA-256 variant).
+     */
     private static final int SHA256_BLOCKSIZE = 32;
 
-    /** The prefixes that can be used to identify this crypt() variant (SHA-256). */
+    /**
+     * The prefixes that can be used to identify this crypt() variant (SHA-256).
+     */
     static final String SHA256_PREFIX = "$5$";
 
-    /** The number of bytes the final hash value will have (SHA-512 variant). */
+    /**
+     * The number of bytes the final hash value will have (SHA-512 variant).
+     */
     private static final int SHA512_BLOCKSIZE = 64;
 
-    /** The prefixes that can be used to identify this crypt() variant (SHA-512). */
+    /**
+     * The prefixes that can be used to identify this crypt() variant (SHA-512).
+     */
     static final String SHA512_PREFIX = "$6$";
 
-    /** The pattern to match valid salt values. */
+    /**
+     * The pattern to match valid salt values.
+     */
     private static final Pattern SALT_PATTERN = Pattern
             .compile("^\\$([56])\\$(rounds=(\\d+)\\$)?([\\.\\/a-zA-Z0-9]{1,16}).*");
 
@@ -80,11 +98,9 @@ public class Sha2Crypt {
      * {@link SecureRandom} to generate your own salts and calling {@link #sha256Crypt(byte[], String)}.
      * </p>
      *
-     * @param keyBytes
-     *            plaintext to hash
+     * @param keyBytes plaintext to hash
      * @return complete hash value
-     * @throws IllegalArgumentException
-     *             when a {@link NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException when a {@link NoSuchAlgorithmException} is caught.
      */
     public static String sha256Crypt(final byte[] keyBytes) {
         return sha256Crypt(keyBytes, null);
@@ -95,17 +111,14 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      * </p>
-     * @param keyBytes
-     *            plaintext to hash
-     * @param salt
-     *            real salt value without prefix or "rounds=". The salt may be null, in which case a salt
-     *            is generated for you using {@link SecureRandom}. If one does not want to use {@link SecureRandom},
-     *            you can pass your own {@link Random} in {@link #sha256Crypt(byte[], String, Random)}.
+     *
+     * @param keyBytes plaintext to hash
+     * @param salt     real salt value without prefix or "rounds=". The salt may be null, in which case a salt
+     *                 is generated for you using {@link SecureRandom}. If one does not want to use {@link SecureRandom},
+     *                 you can pass your own {@link Random} in {@link #sha256Crypt(byte[], String, Random)}.
      * @return complete hash value including salt
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws IllegalArgumentException
-     *             when a {@link NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws IllegalArgumentException when a {@link NoSuchAlgorithmException} is caught.
      */
     public static String sha256Crypt(final byte[] keyBytes, String salt) {
         if (salt == null) {
@@ -119,18 +132,14 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      * </p>
-     * @param keyBytes
-     *            plaintext to hash
-     * @param salt
-     *            real salt value without prefix or "rounds=".
-     * @param random
-     *            the instance of {@link Random} to use for generating the salt. Consider using {@link SecureRandom}
-     *            or {@link ThreadLocalRandom}.
+     *
+     * @param keyBytes plaintext to hash
+     * @param salt     real salt value without prefix or "rounds=".
+     * @param random   the instance of {@link Random} to use for generating the salt. Consider using {@link SecureRandom}
+     *                 or {@link ThreadLocalRandom}.
      * @return complete hash value including salt
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws IllegalArgumentException
-     *             when a {@link NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws IllegalArgumentException when a {@link NoSuchAlgorithmException} is caught.
      * @since 1.12
      */
     public static String sha256Crypt(final byte[] keyBytes, String salt, final Random random) {
@@ -148,25 +157,18 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      *
-     * @param keyBytes
-     *            plaintext to hash
-     * @param salt
-     *            real salt value without prefix or "rounds="; may not be null
-     * @param saltPrefix
-     *            either $5$ or $6$
-     * @param blocksize
-     *            a value that differs between $5$ and $6$
-     * @param algorithm
-     *            {@link MessageDigest} algorithm identifier string
+     * @param keyBytes   plaintext to hash
+     * @param salt       real salt value without prefix or "rounds="; may not be null
+     * @param saltPrefix either $5$ or $6$
+     * @param blocksize  a value that differs between $5$ and $6$
+     * @param algorithm  {@link MessageDigest} algorithm identifier string
      * @return complete hash value including prefix and salt
-     * @throws IllegalArgumentException
-     *             if the given salt is <code>null</code> or does not match the allowed pattern
-     * @throws IllegalArgumentException
-     *             when a {@link NoSuchAlgorithmException} is caught
+     * @throws IllegalArgumentException if the given salt is <code>null</code> or does not match the allowed pattern
+     * @throws IllegalArgumentException when a {@link NoSuchAlgorithmException} is caught
      * @see MessageDigestAlgorithms
      */
     private static String sha2Crypt(final byte[] keyBytes, final String salt, final String saltPrefix,
-            final int blocksize, final String algorithm) {
+                                    final int blocksize, final String algorithm) {
 
         final int keyLen = keyBytes.length;
 
@@ -551,11 +553,9 @@ public class Sha2Crypt {
      * {@link SecureRandom} to generate your own salts and calling {@link #sha512Crypt(byte[], String)}.
      * </p>
      *
-     * @param keyBytes
-     *            plaintext to hash
+     * @param keyBytes plaintext to hash
      * @return complete hash value
-     * @throws IllegalArgumentException
-     *             when a {@link NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException when a {@link NoSuchAlgorithmException} is caught.
      */
     public static String sha512Crypt(final byte[] keyBytes) {
         return sha512Crypt(keyBytes, null);
@@ -566,18 +566,15 @@ public class Sha2Crypt {
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      * </p>
-     * @param keyBytes
-     *            plaintext to hash
-     * @param salt
-     *            real salt value without prefix or "rounds=". The salt may be null, in which case a salt is generated
-     *            for you using {@link SecureRandom}; if you want to use a {@link Random} object other than
-     *            {@link SecureRandom} then we suggest you provide it using
-     *            {@link #sha512Crypt(byte[], String, Random)}.
+     *
+     * @param keyBytes plaintext to hash
+     * @param salt     real salt value without prefix or "rounds=". The salt may be null, in which case a salt is generated
+     *                 for you using {@link SecureRandom}; if you want to use a {@link Random} object other than
+     *                 {@link SecureRandom} then we suggest you provide it using
+     *                 {@link #sha512Crypt(byte[], String, Random)}.
      * @return complete hash value including salt
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws IllegalArgumentException
-     *             when a {@link NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws IllegalArgumentException when a {@link NoSuchAlgorithmException} is caught.
      */
     public static String sha512Crypt(final byte[] keyBytes, String salt) {
         if (salt == null) {
@@ -587,26 +584,21 @@ public class Sha2Crypt {
     }
 
 
-
     /**
      * Generates a libc6 crypt() compatible "$6$" hash value.
      * <p>
      * See {@link Crypt#crypt(String, String)} for details.
      * </p>
-     * @param keyBytes
-     *            plaintext to hash
-     * @param salt
-     *            real salt value without prefix or "rounds=". The salt may be null, in which case a salt
-     *            is generated for you using {@link ThreadLocalRandom}; for more secure salts consider using
-     *            {@link SecureRandom} to generate your own salts.
-     * @param random
-     *            the instance of {@link Random} to use for generating the salt. Consider using {@link SecureRandom}
-     *            or {@link ThreadLocalRandom}.
+     *
+     * @param keyBytes plaintext to hash
+     * @param salt     real salt value without prefix or "rounds=". The salt may be null, in which case a salt
+     *                 is generated for you using {@link ThreadLocalRandom}; for more secure salts consider using
+     *                 {@link SecureRandom} to generate your own salts.
+     * @param random   the instance of {@link Random} to use for generating the salt. Consider using {@link SecureRandom}
+     *                 or {@link ThreadLocalRandom}.
      * @return complete hash value including salt
-     * @throws IllegalArgumentException
-     *             if the salt does not match the allowed pattern
-     * @throws IllegalArgumentException
-     *             when a {@link NoSuchAlgorithmException} is caught.
+     * @throws IllegalArgumentException if the salt does not match the allowed pattern
+     * @throws IllegalArgumentException when a {@link NoSuchAlgorithmException} is caught.
      * @since 1.12
      */
     public static String sha512Crypt(final byte[] keyBytes, String salt, final Random random) {

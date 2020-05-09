@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
 
 /**
  * Charsets required of every implementation of the Java platform.
- *
+ * <p>
  * From the Java documentation <a href="http://docs.oracle.com/javase/6/docs/api/java/nio/charset/Charset.html">Standard
  * charsets</a>:
  * <p>
@@ -44,7 +44,7 @@ import java.nio.charset.Charset;
  * Sixteen-bit Unicode Transformation Format, byte order specified by a mandatory initial byte-order mark (either order
  * accepted on input, big-endian used on output.)</p></li>
  * </ul>
- *
+ * <p>
  * This perhaps would best belong in the Commons Lang project. Even if a similar class is defined in Commons Lang, it is
  * not foreseen that Commons Codec would be made to depend on Commons Lang.
  *
@@ -65,8 +65,7 @@ public class Charsets {
     /**
      * Returns the given Charset or the default Charset if the given Charset is null.
      *
-     * @param charset
-     *            A charset or null.
+     * @param charset A charset or null.
      * @return the given Charset or the default Charset if the given Charset is null
      */
     public static Charset toCharset(final Charset charset) {
@@ -76,11 +75,9 @@ public class Charsets {
     /**
      * Returns a Charset for the named charset. If the name is null, return the default Charset.
      *
-     * @param charset
-     *            The name of the requested charset, may be null.
+     * @param charset The name of the requested charset, may be null.
      * @return a Charset for the named charset
-     * @throws java.nio.charset.UnsupportedCharsetException
-     *             If the named charset is unavailable
+     * @throws java.nio.charset.UnsupportedCharsetException If the named charset is unavailable
      */
     public static Charset toCharset(final String charset) {
         return charset == null ? Charset.defaultCharset() : Charset.forName(charset);

@@ -138,7 +138,7 @@ public class Rule {
         @Deprecated
         public Phoneme join(final Phoneme right) {
             return new Phoneme(this.phonemeText.toString() + right.phonemeText.toString(),
-                               this.languages.restrictTo(right.languages));
+                    this.languages.restrictTo(right.languages));
         }
 
         /**
@@ -149,12 +149,12 @@ public class Rule {
          * @return a new Phoneme
          */
         public Phoneme mergeWithLanguage(final LanguageSet lang) {
-          return new Phoneme(this.phonemeText.toString(), this.languages.merge(lang));
+            return new Phoneme(this.phonemeText.toString(), this.languages.merge(lang));
         }
 
         @Override
         public String toString() {
-          return phonemeText.toString() + "[" + languages + "]";
+            return phonemeText.toString() + "[" + languages + "]";
         }
     }
 
@@ -238,7 +238,7 @@ public class Rule {
 
     private static String createResourceName(final NameType nameType, final RuleType rt, final String lang) {
         return String.format("xxl/codec/language/bm/%s_%s_%s.txt",
-                             nameType.getName(), rt.getName(), lang);
+                nameType.getName(), rt.getName(), lang);
     }
 
     private static Scanner createScanner(final NameType nameType, final RuleType rt, final String lang) {
@@ -266,12 +266,9 @@ public class Rule {
     /**
      * Gets rules for a combination of name type, rule type and languages.
      *
-     * @param nameType
-     *            the NameType to consider
-     * @param rt
-     *            the RuleType to consider
-     * @param langs
-     *            the set of languages to consider
+     * @param nameType the NameType to consider
+     * @param rt       the RuleType to consider
+     * @param langs    the set of languages to consider
      * @return a list of Rules that apply
      */
     public static List<Rule> getInstance(final NameType nameType, final RuleType rt,
@@ -287,12 +284,9 @@ public class Rule {
     /**
      * Gets rules for a combination of name type, rule type and a single language.
      *
-     * @param nameType
-     *            the NameType to consider
-     * @param rt
-     *            the RuleType to consider
-     * @param lang
-     *            the language to consider
+     * @param nameType the NameType to consider
+     * @param rt       the RuleType to consider
+     * @param lang     the language to consider
      * @return a list of Rules that apply
      */
     public static List<Rule> getInstance(final NameType nameType, final RuleType rt, final String lang) {
@@ -302,30 +296,24 @@ public class Rule {
     /**
      * Gets rules for a combination of name type, rule type and languages.
      *
-     * @param nameType
-     *            the NameType to consider
-     * @param rt
-     *            the RuleType to consider
-     * @param langs
-     *            the set of languages to consider
+     * @param nameType the NameType to consider
+     * @param rt       the RuleType to consider
+     * @param langs    the set of languages to consider
      * @return a map containing all Rules that apply, grouped by the first character of the rule pattern
      * @since 1.9
      */
     public static Map<String, List<Rule>> getInstanceMap(final NameType nameType, final RuleType rt,
                                                          final Languages.LanguageSet langs) {
         return langs.isSingleton() ? getInstanceMap(nameType, rt, langs.getAny()) :
-                                     getInstanceMap(nameType, rt, Languages.ANY);
+                getInstanceMap(nameType, rt, Languages.ANY);
     }
 
     /**
      * Gets rules for a combination of name type, rule type and a single language.
      *
-     * @param nameType
-     *            the NameType to consider
-     * @param rt
-     *            the RuleType to consider
-     * @param lang
-     *            the language to consider
+     * @param nameType the NameType to consider
+     * @param rt       the RuleType to consider
+     * @param lang     the language to consider
      * @return a map containing all Rules that apply, grouped by the first character of the rule pattern
      * @since 1.9
      */
@@ -335,7 +323,7 @@ public class Rule {
 
         if (rules == null) {
             throw new IllegalArgumentException(String.format("No rules found for %s, %s, %s.",
-                                               nameType.getName(), rt.getName(), lang));
+                    nameType.getName(), rt.getName(), lang));
         }
 
         return rules;
@@ -412,7 +400,7 @@ public class Rule {
                         final String incl = line.substring(HASH_INCLUDE.length()).trim();
                         if (incl.contains(" ")) {
                             throw new IllegalArgumentException("Malformed import statement '" + rawLine + "' in " +
-                                                               location);
+                                    location);
                         }
                         try (final Scanner hashIncludeScanner = createScanner(incl)) {
                             lines.putAll(parseRules(hashIncludeScanner, location + "->" + incl));
@@ -422,7 +410,7 @@ public class Rule {
                         final String[] parts = line.split("\\s+");
                         if (parts.length != 4) {
                             throw new IllegalArgumentException("Malformed rule statement split into " + parts.length +
-                                                               " parts: " + rawLine + " in " + location);
+                                    " parts: " + rawLine + " in " + location);
                         }
                         try {
                             final String pat = stripQuotes(parts[0]);
@@ -447,7 +435,7 @@ public class Rule {
                                     return sb.toString();
                                 }
                             };
-                            final String patternKey = r.pattern.substring(0,1);
+                            final String patternKey = r.pattern.substring(0, 1);
                             List<Rule> rules = lines.get(patternKey);
                             if (rules == null) {
                                 rules = new ArrayList<>();
@@ -456,7 +444,7 @@ public class Rule {
                             rules.add(r);
                         } catch (final IllegalArgumentException e) {
                             throw new IllegalStateException("Problem parsing line '" + currentLine + "' in " +
-                                                            location, e);
+                                    location, e);
                         }
                     }
                 }
@@ -469,8 +457,7 @@ public class Rule {
     /**
      * Attempts to compile the regex into direct string ops, falling back to Pattern and Matcher in the worst case.
      *
-     * @param regex
-     *            the regular expression to compile
+     * @param regex the regular expression to compile
      * @return an RPattern that will match this regex
      */
     private static RPattern pattern(final String regex) {
@@ -554,7 +541,7 @@ public class Rule {
                             @Override
                             public boolean isMatch(final CharSequence input) {
                                 return input.length() > 0 &&
-                                       contains(bContent, input.charAt(input.length() - 1)) == shouldMatch;
+                                        contains(bContent, input.charAt(input.length() - 1)) == shouldMatch;
                             }
                         };
                     }
@@ -608,14 +595,10 @@ public class Rule {
     /**
      * Creates a new rule.
      *
-     * @param pattern
-     *            the pattern
-     * @param lContext
-     *            the left context
-     * @param rContext
-     *            the right context
-     * @param phoneme
-     *            the resulting phoneme
+     * @param pattern  the pattern
+     * @param lContext the left context
+     * @param rContext the right context
+     * @param phoneme  the resulting phoneme
      */
     public Rule(final String pattern, final String lContext, final String rContext, final PhonemeExpr phoneme) {
         this.pattern = pattern;
@@ -665,10 +648,8 @@ public class Rule {
      * <code>lContext</code> matches <code>input</code> up to <code>i</code>, <code>pattern</code> matches at i and
      * <code>rContext</code> matches from the end of the match of <code>pattern</code> to the end of <code>input</code>.
      *
-     * @param input
-     *            the input String
-     * @param i
-     *            the int position within the input
+     * @param input the input String
+     * @param i     the int position within the input
      * @return true if the pattern and left/right context match, false otherwise
      */
     public boolean patternAndContextMatches(final CharSequence input, final int i) {

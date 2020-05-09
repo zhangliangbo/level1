@@ -45,16 +45,11 @@ class B64 {
     /**
      * Base64 like conversion of bytes to ASCII chars.
      *
-     * @param b2
-     *            A byte from the result.
-     * @param b1
-     *            A byte from the result.
-     * @param b0
-     *            A byte from the result.
-     * @param outLen
-     *            The number of expected output chars.
-     * @param buffer
-     *            Where the output chars is appended to.
+     * @param b2     A byte from the result.
+     * @param b1     A byte from the result.
+     * @param b0     A byte from the result.
+     * @param outLen The number of expected output chars.
+     * @param buffer Where the output chars is appended to.
      */
     static void b64from24bit(final byte b2, final byte b1, final byte b0, final int outLen,
                              final StringBuilder buffer) {
@@ -68,18 +63,18 @@ class B64 {
         }
     }
 
-  /**
-   * Generates a string of random chars from the B64T set.
-   * <p>
-   * The salt is generated with {@link SecureRandom}.
-   * </p>
-   *
-   * @param num Number of chars to generate.
-   * @return a random salt {@link String}.
-   */
-  static String getRandomSalt(final int num) {
-    return getRandomSalt(num, new SecureRandom());
-  }
+    /**
+     * Generates a string of random chars from the B64T set.
+     * <p>
+     * The salt is generated with {@link SecureRandom}.
+     * </p>
+     *
+     * @param num Number of chars to generate.
+     * @return a random salt {@link String}.
+     */
+    static String getRandomSalt(final int num) {
+        return getRandomSalt(num, new SecureRandom());
+    }
 
     /**
      * Generates a string of random chars from the B64T set.
@@ -87,15 +82,15 @@ class B64 {
      * The salt is generated with the {@link Random} provided.
      * </p>
      *
-     * @param num Number of chars to generate.
+     * @param num    Number of chars to generate.
      * @param random an instance of {@link Random}.
      * @return a random salt {@link String}.
      */
     static String getRandomSalt(final int num, final Random random) {
-      final StringBuilder saltString = new StringBuilder(num);
-      for (int i = 1; i <= num; i++) {
-        saltString.append(B64T_STRING.charAt(random.nextInt(B64T_STRING.length())));
-      }
-      return saltString.toString();
+        final StringBuilder saltString = new StringBuilder(num);
+        for (int i = 1; i <= num; i++) {
+            saltString.append(B64T_STRING.charAt(random.nextInt(B64T_STRING.length())));
+        }
+        return saltString.toString();
     }
 }

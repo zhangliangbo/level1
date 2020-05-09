@@ -97,8 +97,7 @@ public class Lang {
     /**
      * Gets a Lang instance for one of the supported NameTypes.
      *
-     * @param nameType
-     *            the NameType to look up
+     * @param nameType the NameType to look up
      * @return a Lang encapsulating the language guessing rules for that name type
      */
     public static Lang instance(final NameType nameType) {
@@ -111,10 +110,8 @@ public class Lang {
      * In normal use, you will obtain instances of Lang through the {@link #instance(NameType)} method.
      * You will only need to call this yourself if you are developing custom language mapping rules.
      *
-     * @param languageRulesResourceName
-     *            the fully-qualified resource name to load
-     * @param languages
-     *            the languages that these rules will support
+     * @param languageRulesResourceName the fully-qualified resource name to load
+     * @param languages                 the languages that these rules will support
      * @return a Lang encapsulating the loaded language-guessing rules.
      */
     public static Lang loadFromResource(final String languageRulesResourceName, final Languages languages) {
@@ -178,8 +175,7 @@ public class Lang {
     /**
      * Guesses the language of a word.
      *
-     * @param text
-     *            the word
+     * @param text the word
      * @return the language that the word originates from or {@link Languages#ANY} if there was no unique match
      */
     public String guessLanguage(final String text) {
@@ -190,8 +186,7 @@ public class Lang {
     /**
      * Guesses the languages of a word.
      *
-     * @param input
-     *            the word
+     * @param input the word
      * @return a Set of Strings of language names that are potential matches for the input word
      */
     public Languages.LanguageSet guessLanguages(final String input) {

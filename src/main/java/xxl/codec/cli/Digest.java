@@ -43,10 +43,9 @@ public class Digest {
      * The algorithm can also be {@code ALL} or {@code *} to output one line for each known algorithm.
      * </p>
      *
-     * @param args
-     *            {@code args[0]} is one of {@link MessageDigestAlgorithms} name,
-     *            {@link MessageDigest} name, {@code ALL}, or {@code *}.
-     *            {@code args[1+]} is a FILE/DIRECTORY/String.
+     * @param args {@code args[0]} is one of {@link MessageDigestAlgorithms} name,
+     *             {@link MessageDigest} name, {@code ALL}, or {@code *}.
+     *             {@code args[1+]} is a FILE/DIRECTORY/String.
      * @throws IOException if an error occurs
      */
     public static void main(final String[] args) throws IOException {
@@ -70,7 +69,7 @@ public class Digest {
         if (args.length <= 1) {
             inputs = null;
         } else {
-            inputs = new String[args.length -1];
+            inputs = new String[args.length - 1];
             System.arraycopy(args, 1, inputs, 0, inputs.length);
         }
     }
@@ -114,7 +113,7 @@ public class Digest {
             println(prefix, DigestUtils.digest(messageDigest, System.in));
             return;
         }
-        for(final String source : inputs) {
+        for (final String source : inputs) {
             final File file = new File(source);
             if (file.isFile()) {
                 println(prefix, DigestUtils.digest(messageDigest, file), source);

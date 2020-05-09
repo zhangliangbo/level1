@@ -22,7 +22,7 @@ import xxl.codec.StringEncoder;
 
 /**
  * Encodes a string into a Caverphone value.
- *
+ * <p>
  * This is an algorithm created by the Caversham Project at the University of Otago. It implements the Caverphone 2.0
  * algorithm:
  *
@@ -44,12 +44,10 @@ public abstract class AbstractCaverphone implements StringEncoder {
      * Encodes an Object using the caverphone algorithm. This method is provided in order to satisfy the requirements of
      * the Encoder interface, and will throw an EncoderException if the supplied object is not of type java.lang.String.
      *
-     * @param source
-     *            Object to encode
+     * @param source Object to encode
      * @return An object (or type java.lang.String) containing the caverphone code which corresponds to the String
-     *         supplied.
-     * @throws EncoderException
-     *             if the parameter supplied is not of type java.lang.String
+     * supplied.
+     * @throws EncoderException if the parameter supplied is not of type java.lang.String
      */
     @Override
     public Object encode(final Object source) throws EncoderException {
@@ -61,16 +59,13 @@ public abstract class AbstractCaverphone implements StringEncoder {
 
     /**
      * Tests if the encodings of two strings are equal.
-     *
+     * <p>
      * This method might be promoted to a new AbstractStringEncoder superclass.
      *
-     * @param str1
-     *            First of two strings to compare
-     * @param str2
-     *            Second of two strings to compare
+     * @param str1 First of two strings to compare
+     * @param str2 Second of two strings to compare
      * @return <code>true</code> if the encodings of these strings are identical, <code>false</code> otherwise.
-     * @throws EncoderException
-     *             thrown if there is an error condition during the encoding process.
+     * @throws EncoderException thrown if there is an error condition during the encoding process.
      */
     public boolean isEncodeEqual(final String str1, final String str2) throws EncoderException {
         return this.encode(str1).equals(this.encode(str2));

@@ -10,7 +10,6 @@ import xxl.mathematica.string.StringSplit;
 import xxl.os.OS;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -69,7 +68,7 @@ public class Adoc {
         } else {
             //可以尝试用本地命令
             try {
-                Rule<Integer,byte[]> rule = null;
+                Rule<Integer, byte[]> rule = null;
                 if (OS.isWindows()) {
                     rule = External.runProcess("where asciidoctorj");
                 } else if (OS.isLinux()) {

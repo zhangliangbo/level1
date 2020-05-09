@@ -90,8 +90,7 @@ public class BaseNCodecInputStream extends FilterInputStream {
      * Reads one <code>byte</code> from this input stream.
      *
      * @return the byte as an integer in the range 0 to 255. Returns -1 if EOF has been reached.
-     * @throws IOException
-     *             if an I/O error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     public int read() throws IOException {
@@ -110,20 +109,13 @@ public class BaseNCodecInputStream extends FilterInputStream {
      * Attempts to read <code>len</code> bytes into the specified <code>b</code> array starting at <code>offset</code>
      * from this InputStream.
      *
-     * @param b
-     *            destination byte array
-     * @param offset
-     *            where to start writing the bytes
-     * @param len
-     *            maximum number of bytes to read
-     *
+     * @param b      destination byte array
+     * @param offset where to start writing the bytes
+     * @param len    maximum number of bytes to read
      * @return number of bytes read
-     * @throws IOException
-     *             if an I/O error occurs.
-     * @throws NullPointerException
-     *             if the byte array parameter is null
-     * @throws IndexOutOfBoundsException
-     *             if offset, len or buffer size are invalid
+     * @throws IOException               if an I/O error occurs.
+     * @throws NullPointerException      if the byte array parameter is null
+     * @throws IndexOutOfBoundsException if offset, len or buffer size are invalid
      */
     @Override
     public int read(final byte b[], final int offset, final int len) throws IOException {

@@ -25,7 +25,6 @@ import java.util.Comparator;
  * as Soundex.
  *
  * <p>This class is immutable and thread-safe.</p>
- *
  */
 @SuppressWarnings("rawtypes")
 // TODO ought to implement Comparator<String> but that's not possible whilst maintaining binary compatibility.
@@ -40,7 +39,7 @@ public class StringEncoderComparator implements Comparator {
      * Constructs a new instance.
      *
      * @deprecated Creating an instance without a {@link StringEncoder} leads to a {@link NullPointerException}. Will be
-     *             removed in 2.0.
+     * removed in 2.0.
      */
     @Deprecated
     public StringEncoderComparator() {
@@ -50,8 +49,7 @@ public class StringEncoderComparator implements Comparator {
     /**
      * Constructs a new instance with the given algorithm.
      *
-     * @param stringEncoder
-     *            the StringEncoder used for comparisons.
+     * @param stringEncoder the StringEncoder used for comparisons.
      */
     public StringEncoderComparator(final StringEncoder stringEncoder) {
         this.stringEncoder = stringEncoder;
@@ -60,13 +58,11 @@ public class StringEncoderComparator implements Comparator {
     /**
      * Compares two strings based not on the strings themselves, but on an encoding of the two strings using the
      * StringEncoder this Comparator was created with.
-     *
+     * <p>
      * If an {@link EncoderException} is encountered, return <code>0</code>.
      *
-     * @param o1
-     *            the object to compare
-     * @param o2
-     *            the object to compare to
+     * @param o1 the object to compare
+     * @param o2 the object to compare to
      * @return the Comparable.compareTo() return code or 0 if an encoding error was caught.
      * @see Comparable
      */

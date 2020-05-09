@@ -26,14 +26,14 @@ package xxl.codec.digest;
  * </p>
  *
  * @see <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html#SunJCEProvider"> Java
- *      6 Cryptography Architecture Sun Providers Documentation</a>
+ * 6 Cryptography Architecture Sun Providers Documentation</a>
  * @see <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html#SunJCEProvider"> Java
- *      7 Cryptography Architecture Sun Providers Documentation</a>
+ * 7 Cryptography Architecture Sun Providers Documentation</a>
  * @see <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html#SunJCEProvider"> Java
- *      8 Cryptography Architecture Sun Providers Documentation</a>
+ * 8 Cryptography Architecture Sun Providers Documentation</a>
  * @see <a href=
- *      "http://docs.oracle.com/javase/9/security/oracleproviders.htm#JSSEC-GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7">
- *      Java 9 Cryptography Architecture Sun Providers Documentation</a>
+ * "http://docs.oracle.com/javase/9/security/oracleproviders.htm#JSSEC-GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7">
+ * Java 9 Cryptography Architecture Sun Providers Documentation</a>
  * @since 1.10
  */
 public enum HmacAlgorithms {
@@ -59,6 +59,7 @@ public enum HmacAlgorithms {
      * <p>
      * Every implementation of the Java 8+ platform is required to support this standard MAC algorithm.
      * </p>
+     *
      * @since 1.11
      */
     HMAC_SHA_224("HmacSHA224"),
@@ -106,16 +107,16 @@ public enum HmacAlgorithms {
     /**
      * The algorithm name
      *
-     * @see <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html#SunJCEProvider">
-     *      Java 6 Cryptography Architecture Sun Providers Documentation</a>
-     * @see <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html#SunJCEProvider">
-     *      Java 7 Cryptography Architecture Sun Providers Documentation</a>
-     * @see <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html#SunJCEProvider">
-     *      Java 8 Cryptography Architecture Sun Providers Documentation</a>
-     * @see <a href=
-     *      "http://docs.oracle.com/javase/9/security/oracleproviders.htm#JSSEC-GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7">
-     *      Java 9 Cryptography Architecture Sun Providers Documentation</a>
      * @return The algorithm name ("HmacSHA512" for example)
+     * @see <a href="http://docs.oracle.com/javase/6/docs/technotes/guides/security/SunProviders.html#SunJCEProvider">
+     * Java 6 Cryptography Architecture Sun Providers Documentation</a>
+     * @see <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html#SunJCEProvider">
+     * Java 7 Cryptography Architecture Sun Providers Documentation</a>
+     * @see <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html#SunJCEProvider">
+     * Java 8 Cryptography Architecture Sun Providers Documentation</a>
+     * @see <a href=
+     * "http://docs.oracle.com/javase/9/security/oracleproviders.htm#JSSEC-GUID-A47B1249-593C-4C38-A0D0-68FA7681E0A7">
+     * Java 9 Cryptography Architecture Sun Providers Documentation</a>
      */
     @Override
     public String toString() {

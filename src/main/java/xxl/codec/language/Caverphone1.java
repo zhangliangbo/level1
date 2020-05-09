@@ -19,7 +19,7 @@ package xxl.codec.language;
 
 /**
  * Encodes a string into a Caverphone 1.0 value.
- *
+ * <p>
  * This is an algorithm created by the Caversham Project at the University of Otago. It implements the Caverphone 1.0
  * algorithm:
  *
@@ -36,8 +36,7 @@ public class Caverphone1 extends AbstractCaverphone {
     /**
      * Encodes the given String into a Caverphone value.
      *
-     * @param source
-     *            String the source string
+     * @param source String the source string
      * @return A caverphone code for the given String
      */
     @Override
