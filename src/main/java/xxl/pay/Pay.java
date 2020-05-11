@@ -20,6 +20,7 @@ import xxl.saobei.SaobeiPay;
 import xxl.wx.pay.WXPay;
 import xxl.wx.pay.WXPayUtil;
 
+import java.io.FileInputStream;
 import java.util.*;
 
 /**
@@ -175,7 +176,7 @@ public class Pay {
      * @param appId    公众平台账号
      * @param key      商户平台校验值
      */
-    public static void registerWx(String mchId, String certFile, String appId, String key) {
+    public static void registerWx(String mchId, FileInputStream certFile, String appId, String key) {
         WXPay wxPay = payMap.get(mchId);
         if (wxPay == null) {
             payMap.put(mchId, new WXPay(new SimpleWxConfig(appId, certFile, key, mchId), null, false));
