@@ -383,7 +383,7 @@ public class Pay {
             }
             return getWxPay(mchId).refund(map);
         } catch (Exception e) {
-            System.err.println("wx refund ex: " + e.getMessage());
+            e.printStackTrace(System.err);
             return null;
         }
     }
