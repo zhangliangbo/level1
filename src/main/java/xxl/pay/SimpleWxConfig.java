@@ -4,18 +4,16 @@ import xxl.wx.pay.IWXPayDomain;
 import xxl.wx.pay.WXPayConfig;
 import xxl.wx.pay.WXPayConstants;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 class SimpleWxConfig extends WXPayConfig {
 
     private final String appId;
-    private final String certFile;
+    private final InputStream certFile;
     private final String key;
     private final String mchId;
 
-    SimpleWxConfig(String appId, String certFile, String key, String mchId) {
+    SimpleWxConfig(String appId, InputStream certFile, String key, String mchId) {
         this.appId = appId;
         this.certFile = certFile;
         this.key = key;
@@ -40,11 +38,7 @@ class SimpleWxConfig extends WXPayConfig {
 
     @Override
     public InputStream getCertStream() {
-        try {
-            return new FileInputStream(certFile);
-        } catch (FileNotFoundException e) {
-            return null;
-        }
+        return certFile;
     }
 
     @Override
