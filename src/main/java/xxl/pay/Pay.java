@@ -205,7 +205,7 @@ public class Pay {
      * @param outTradeNo
      * @param money
      * @param goodsName
-     * @param goodsDesc
+     * @param attach
      * @param deviceInfo
      * @param ip
      * @param notifyUrl
@@ -215,12 +215,14 @@ public class Pay {
      * @param attach     附加数据
      * @return
      */
-    private static Map<String, String> wxOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String type, String productId, String openId, String attach) {
+    private static Map<String, String> wxOrder(String mchId, String outTradeNo, long money, String goodsName, String attach, String deviceInfo, String ip, String notifyUrl, String type, String productId, String openId) {
         Map<String, String> map = new HashMap<>();
         map.put("out_trade_no", outTradeNo);
         map.put("total_fee", String.valueOf(money));
         map.put("body", goodsName);
-        map.put("attach", goodsDesc);
+        if (attach != null) {
+            map.put("attach", attach);
+        }
         map.put("device_info", deviceInfo);
         map.put("spbill_create_ip", ip);
         map.put("trade_type", type);
@@ -233,9 +235,7 @@ public class Pay {
         if (openId != null) {
             map.put("openid", openId);
         }
-        if (attach != null) {
-            map.put("attach", attach);
-        }
+
         try {
             return getWxPay(mchId).unifiedOrder(map);
         } catch (Exception e) {
@@ -251,14 +251,14 @@ public class Pay {
      * @param outTradeNo
      * @param money
      * @param goodsName
-     * @param goodsDesc
+     * @param attach
      * @param deviceInfo
      * @param ip
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxJsOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String openId, String attach) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "JSAPI", null, openId, attach);
+    public static Map<String, String> wxJsOrder(String mchId, String outTradeNo, long money, String goodsName, String attach, String deviceInfo, String ip, String notifyUrl, String openId) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, attach, deviceInfo, ip, notifyUrl, "JSAPI", null, openId);
     }
 
     /**
@@ -268,14 +268,14 @@ public class Pay {
      * @param outTradeNo
      * @param money
      * @param goodsName
-     * @param goodsDesc
+     * @param attach
      * @param deviceInfo
      * @param ip
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxAppOrder(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String attach) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "APP", null, null, attach);
+    public static Map<String, String> wxAppOrder(String mchId, String outTradeNo, long money, String goodsName, String attach, String deviceInfo, String ip, String notifyUrl) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, attach, deviceInfo, ip, notifyUrl, "APP", null, null);
     }
 
     /**
@@ -285,14 +285,14 @@ public class Pay {
      * @param outTradeNo
      * @param money
      * @param goodsName
-     * @param goodsDesc
+     * @param attach
      * @param deviceInfo
      * @param ip
      * @param notifyUrl
      * @return
      */
-    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goodsName, String goodsDesc, String deviceInfo, String ip, String notifyUrl, String productId, String attach) {
-        return wxOrder(mchId, outTradeNo, money, goodsName, goodsDesc, deviceInfo, ip, notifyUrl, "NATIVE", productId, null, attach);
+    public static Map<String, String> wxBarcode(String mchId, String outTradeNo, long money, String goodsName, String attach, String deviceInfo, String ip, String notifyUrl, String productId) {
+        return wxOrder(mchId, outTradeNo, money, goodsName, attach, deviceInfo, ip, notifyUrl, "NATIVE", productId, null);
     }
 
     /**
