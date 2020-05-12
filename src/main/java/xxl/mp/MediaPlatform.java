@@ -4,6 +4,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.apache.commons.collections4.map.PassiveExpiringMap;
 import xxl.mathematica.io.ExportString;
 import xxl.mathematica.io.ImportString;
 import xxl.mathematica.single.OkHttpSingle;
@@ -11,11 +12,14 @@ import xxl.mathematica.single.OkHttpSingle;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 公众平台
  */
 public class MediaPlatform {
+
+    private final static PassiveExpiringMap<String, String> cache = new PassiveExpiringMap<>(7000, TimeUnit.SECONDS);
 
     /**
      * 获取token授权码的地址
@@ -176,21 +180,33 @@ public class MediaPlatform {
      * @param appSecret
      * @return
      */
-    public static Map<String, String> wxServerToken(String appId, String appSecret) {
-        Request request = new Request.Builder()
-                .url("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret=" + appSecret)
-                .get()
-                .build();
-        try {
-            Response response = OkHttpSingle.instance().newCall(request).execute();
-            if (response.isSuccessful() && response.body() != null) {
-                String json = response.body().string();
-                return ImportString.importStringMapString(json);
-            } else {
+    public static String wxServerToken(String appId, String appSecret) {
+        String tokenKey = "access_token";
+        if (cache.containsKey(tokenKey)) {
+            return cache.get(tokenKey);
+        } else {
+            Request request = new Request.Builder()
+                    .url("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret=" + appSecret)
+                    .get()
+                    .build();
+            try {
+                Response response = OkHttpSingle.instance().newCall(request).execute();
+                if (response.isSuccessful() && response.body() != null) {
+                    String json = response.body().string();
+                    Map<String, String> map = ImportString.importStringMapString(json);
+                    if (map.containsKey(tokenKey)) {
+                        String value = map.get(tokenKey);
+                        cache.put(tokenKey, value);
+                        return value;
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            } catch (IOException e) {
                 return null;
             }
-        } catch (IOException e) {
-            return null;
         }
     }
 }
