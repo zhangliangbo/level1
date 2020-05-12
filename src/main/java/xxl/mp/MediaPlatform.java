@@ -1,7 +1,10 @@
 package xxl.mp;
 
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+import xxl.mathematica.io.ExportString;
 import xxl.mathematica.io.ImportString;
 import xxl.mathematica.single.OkHttpSingle;
 
@@ -126,6 +129,31 @@ public class MediaPlatform {
                         "&access_token=" + accessToken +
                         "&lang=zh_CN")
                 .get()
+                .build();
+        try {
+            Response response = OkHttpSingle.instance().newCall(request).execute();
+            if (response.isSuccessful() && response.body() != null) {
+                String json = response.body().string();
+                return ImportString.importStringMapString(json);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 发送微信模版消息
+     *
+     * @param accessToken
+     * @param message
+     * @param <T>
+     */
+    public <T> Map<String, String> sendMpMessage(String accessToken, MpTemplateMessage<T> message) {
+        Request request = new Request.Builder()
+                .url("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken)
+                .post(RequestBody.create(MediaType.parse("application/json"), ExportString.exportStringJson(message)))
                 .build();
         try {
             Response response = OkHttpSingle.instance().newCall(request).execute();
