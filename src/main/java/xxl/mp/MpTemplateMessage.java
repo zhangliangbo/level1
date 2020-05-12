@@ -3,7 +3,7 @@ package xxl.mp;
 /**
  * 公众号消息模版
  */
-public class MpTemplateMessage<T> {
+public class  MpTemplateMessage<T> {
 
     private final String touser;
     private final String template_id;

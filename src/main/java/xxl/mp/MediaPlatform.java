@@ -150,10 +150,36 @@ public class MediaPlatform {
      * @param message
      * @param <T>
      */
-    public <T> Map<String, String> sendMpMessage(String accessToken, MpTemplateMessage<T> message) {
+    public static <T> boolean wxSendMpMessage(String accessToken, MpTemplateMessage<T> message) {
         Request request = new Request.Builder()
                 .url("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken)
                 .post(RequestBody.create(MediaType.parse("application/json"), ExportString.exportStringJson(message)))
+                .build();
+        try {
+            Response response = OkHttpSingle.instance().newCall(request).execute();
+            if (response.isSuccessful() && response.body() != null) {
+                String json = response.body().string();
+                Map<String, String> map = ImportString.importStringMapString(json);
+                return map.containsKey("errcode") && "0".equals(map.get("errcode"));
+            } else {
+                return false;
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * 获取后台访问的token，区别于公众号的token
+     *
+     * @param appId
+     * @param appSecret
+     * @return
+     */
+    public static Map<String, String> wxServerToken(String appId, String appSecret) {
+        Request request = new Request.Builder()
+                .url("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appId + "&secret=" + appSecret)
+                .get()
                 .build();
         try {
             Response response = OkHttpSingle.instance().newCall(request).execute();
