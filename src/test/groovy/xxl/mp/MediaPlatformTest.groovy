@@ -1,5 +1,6 @@
 package xxl.mp
 
+
 import xxl.mathematica.io.Import
 
 class MediaPlatformTest extends GroovyTestCase {
@@ -47,33 +48,19 @@ class MediaPlatformTest extends GroovyTestCase {
         println(res)
     }
 
-    class Node {
-        String value
-        String color = "#000000"
-
-        Node(String value) {
-            this.value = value
-            this.color = color
-        }
-    }
-
-    class TemplateData {
-        Node first = new Node("男杰你好")
-        Node keyword1 = new Node("20170928000001")
-        Node keyword2 = new Node("654321")
-        Node keyword3 = new Node("标准清洗")
-        Node keyword4 = new Node("2020.09.28 11:43")
-        Node keyword5 = new Node("宿舍楼三楼")
-        Node remark = new Node("很高兴为您服务，欢迎再次使用！")
-    }
-
     void testSendMpMessage() {
-        MpTemplateMessage<TemplateData> msg =
-                new MpTemplateMessage<>(openid,
+        MpTemplateMessage msg =
+                new MpTemplateMessage(openid,
                         "PVrtMMHMR3BntC7j0cUa8S42ZSsrot6OEsbLjv4dADI",
                         null,
-                        "#000000",
-                        new TemplateData())
+                        "#000000")
+        msg.put("first", new MsgValue("男杰你好"))
+        msg.put("keyword1", new MsgValue("20170928000001"))
+        msg.put("keyword2", new MsgValue("654321"))
+        msg.put("keyword3", new MsgValue("标准清洗"))
+        msg.put("keyword4", new MsgValue("2020.09.28 11:43"))
+        msg.put("keyword5", new MsgValue("宿舍楼三楼"))
+        msg.put("remark", new MsgValue("很高兴为您服务，欢迎再次使用！"))
         def res = MediaPlatform.wxSendMpMessage(token, msg)
         println(res)
     }

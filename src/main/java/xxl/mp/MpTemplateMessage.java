@@ -1,22 +1,24 @@
 package xxl.mp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 公众号消息模版
  */
-public class  MpTemplateMessage<T> {
+public class MpTemplateMessage {
 
     private final String touser;
     private final String template_id;
     private final String url;
     private final String topcolor;
-    private final T data;
+    private final Map<String, MsgValue> data = new HashMap<>();
 
-    public MpTemplateMessage(String touser, String template_id, String url, String topcolor, T data) {
+    public MpTemplateMessage(String touser, String template_id, String url, String topcolor) {
         this.touser = touser;
         this.template_id = template_id;
         this.url = url;
         this.topcolor = topcolor;
-        this.data = data;
     }
 
     public String getTouser() {
@@ -35,7 +37,11 @@ public class  MpTemplateMessage<T> {
         return topcolor;
     }
 
-    public T getData() {
-        return data;
+    public void clear() {
+        this.data.clear();
+    }
+
+    public MsgValue put(String key, MsgValue value) {
+        return this.data.put(key, value);
     }
 }

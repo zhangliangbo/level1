@@ -150,7 +150,7 @@ public class MediaPlatform {
      * @param message
      * @param <T>
      */
-    public static <T> boolean wxSendMpMessage(String accessToken, MpTemplateMessage<T> message) {
+    public static <T> boolean wxSendMpMessage(String accessToken, MpTemplateMessage message) {
         Request request = new Request.Builder()
                 .url("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + accessToken)
                 .post(RequestBody.create(MediaType.parse("application/json"), ExportString.exportStringJson(message)))
