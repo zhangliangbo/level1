@@ -12,7 +12,7 @@ public class MpTemplateMessage {
     private final String template_id;
     private final String url;
     private final String topcolor;
-    private final Map<String, MsgValue> data = new HashMap<>();
+    private final Map<String, TemplateMessageValue> data = new HashMap<>();
 
     public MpTemplateMessage(String touser, String template_id, String url, String topcolor) {
         this.touser = touser;
@@ -41,7 +41,7 @@ public class MpTemplateMessage {
         this.data.clear();
     }
 
-    public MsgValue put(String key, MsgValue value) {
+    public TemplateMessageValue put(String key, TemplateMessageValue value) {
         return this.data.put(key, value);
     }
 }

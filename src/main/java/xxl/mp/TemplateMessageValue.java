@@ -1,15 +1,15 @@
 package xxl.mp;
 
-public class MsgValue {
+public class TemplateMessageValue {
     private final String value;
     private final String color;
 
-    public MsgValue(String value, String color) {
+    public TemplateMessageValue(String value, String color) {
         this.value = value;
         this.color = color;
     }
 
-    public MsgValue(String value) {
+    public TemplateMessageValue(String value) {
         this(value, "#000000");
     }
 
