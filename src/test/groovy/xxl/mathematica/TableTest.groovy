@@ -5,7 +5,7 @@ import xxl.mathematica.function.BiFunction
 import xxl.mathematica.function.Function
 
 import static xxl.mathematica.BaseTest.printList
-import static xxl.mathematica.Range.range
+import static xxl.mathematica.list.Range.range
 
 /**
  * Created by zhang on 2017/9/3.

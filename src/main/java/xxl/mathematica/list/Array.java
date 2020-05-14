@@ -1,5 +1,6 @@
-package xxl.mathematica;
+package xxl.mathematica.list;
 
+import xxl.mathematica.ObjectHelper;
 import xxl.mathematica.function.BiFunction;
 import xxl.mathematica.function.Function;
 

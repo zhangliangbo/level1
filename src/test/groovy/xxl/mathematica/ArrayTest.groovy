@@ -3,6 +3,7 @@ package xxl.mathematica
 import org.junit.Test
 import xxl.mathematica.function.BiFunction
 import xxl.mathematica.function.Function
+import xxl.mathematica.list.Array
 
 import static xxl.mathematica.BaseTest.printList
 

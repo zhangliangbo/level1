@@ -2,6 +2,7 @@ package xxl.mathematica;
 
 import xxl.mathematica.function.BiFunction;
 import xxl.mathematica.function.Function;
+import xxl.mathematica.list.Range;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,7 @@
 package xxl.mathematica
 
 import org.junit.Test
+import xxl.mathematica.list.Range
 
 import static xxl.mathematica.BaseTest.printList
 
