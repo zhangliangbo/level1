@@ -1,4 +1,4 @@
-package xxl.mathematica.integration;
+package xxl.mathematica.analysis;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.BaseAbstractUnivariateIntegrator;
