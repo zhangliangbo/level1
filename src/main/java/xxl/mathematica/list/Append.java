@@ -1,6 +1,5 @@
-package xxl.mathematica;
+package xxl.mathematica.list;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,9 +16,8 @@ public class Append {
      * @return
      */
     public static <T> List<T> append(List<T> list, T t) {
-        ObjectHelper.requireNonNull(list, t);
-        List<T> result = new ArrayList<>(list);
-        result.add(t);
-        return result;
+        return io.vavr.collection.List.ofAll(list)
+                .append(t)
+                .asJava();
     }
 }

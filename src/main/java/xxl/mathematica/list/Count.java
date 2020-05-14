@@ -1,8 +1,7 @@
-package xxl.mathematica;
-
-import xxl.mathematica.function.Predicate;
+package xxl.mathematica.list;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * 计数
@@ -18,13 +17,7 @@ public class Count {
      * @return
      */
     public static <T> int count(List<T> list, Predicate<T> p) {
-        ObjectHelper.requireNonNull(list, p);
-        int count = 0;
-        for (T t : list) {
-            if (p.test(t)) {
-                count++;
-            }
-        }
-        return count;
+        return io.vavr.collection.List.ofAll(list)
+                .count(p);
     }
 }

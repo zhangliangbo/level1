@@ -1,6 +1,5 @@
-package xxl.mathematica;
+package xxl.mathematica.list;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,10 +16,8 @@ public class Prepend {
      * @return
      */
     public static <T> List<T> prepend(List<T> list, T t) {
-        ObjectHelper.requireNonNull(list, t);
-        List<T> result = new ArrayList<>();
-        result.add(t);
-        result.addAll(list);
-        return result;
+        return io.vavr.collection.List.ofAll(list)
+                .prepend(t)
+                .asJava();
     }
 }

@@ -2,6 +2,7 @@ package xxl.mathematica
 
 import org.junit.Test
 import xxl.mathematica.function.Function
+import xxl.mathematica.list.Take
 
 import static xxl.mathematica.BaseTest.printList
 
@@ -73,7 +74,7 @@ class TakeTest {
             }
         }, 10)
         printList(list)
-        printList(Take.take(list, -1, -5, -1))
+        printList(Take.take(list, -1, -5))
     }
 
     @Test

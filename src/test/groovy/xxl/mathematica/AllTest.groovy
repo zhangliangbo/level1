@@ -3,6 +3,7 @@ package xxl.mathematica
 import org.junit.Test
 import xxl.mathematica.function.Function
 import xxl.mathematica.function.Predicate
+import xxl.mathematica.list.Count
 
 import static xxl.mathematica.BaseTest.printList
 

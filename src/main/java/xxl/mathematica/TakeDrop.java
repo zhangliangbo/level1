@@ -1,5 +1,8 @@
 package xxl.mathematica;
 
+import xxl.mathematica.list.Drop;
+import xxl.mathematica.list.Take;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,25 +67,6 @@ public class TakeDrop {
         List<List<T>> result = new ArrayList<>();
         result.add(Take.take(list, m, n));
         result.add(Drop.drop(list, m, n));
-        return result;
-    }
-
-    /**
-     * 给出 {Take[list,seq],Drop[list,seq]} 对
-     *
-     * @param list
-     * @param m    开始索引
-     * @param n    结束索引
-     * @param step 步长
-     * @param <T>
-     * @return
-     */
-    public static <T> List<List<T>> takeDrop(List<T> list, int m, int n, int step) {
-        ObjectHelper.requireNonNull(list);
-        ObjectHelper.requireNonZero(step, "step");
-        List<List<T>> result = new ArrayList<>();
-        result.add(Take.take(list, m, n, step));
-        result.add(Drop.drop(list, m, n, step));
         return result;
     }
 }

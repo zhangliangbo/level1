@@ -3,7 +3,7 @@ package xxl.mathematica
 import org.junit.Test
 
 import static xxl.mathematica.BaseTest.printList
-import static xxl.mathematica.Delete.delete
+import static xxl.mathematica.list.Delete.delete
 
 /**
  * Created by zhang on 2017/9/3.

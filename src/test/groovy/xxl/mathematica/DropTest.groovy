@@ -2,6 +2,7 @@ package xxl.mathematica
 
 
 import org.junit.Test
+import xxl.mathematica.list.Drop
 
 import static xxl.mathematica.BaseTest.printList
 
@@ -53,7 +54,7 @@ class DropTest {
                 return student
         }, 10)
         printList(list)
-        printList(Drop.drop(list, -1, -5, -2))
+        printList(Drop.drop(list, -5, -1))
     }
 
     @Test

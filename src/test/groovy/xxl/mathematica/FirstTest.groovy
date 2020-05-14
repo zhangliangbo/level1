@@ -2,6 +2,7 @@ package xxl.mathematica
 
 import org.junit.Test
 import xxl.mathematica.function.Function
+import xxl.mathematica.list.Take
 
 import static xxl.mathematica.BaseTest.printList
 

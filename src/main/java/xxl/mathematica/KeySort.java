@@ -1,5 +1,7 @@
 package xxl.mathematica;
 
+import xxl.mathematica.list.Sort;
+
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;

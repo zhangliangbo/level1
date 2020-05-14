@@ -1,6 +1,7 @@
 package xxl.mathematica;
 
 import xxl.mathematica.function.Function;
+import xxl.mathematica.list.Sort;
 
 import java.util.ArrayList;
 import java.util.Collections;
