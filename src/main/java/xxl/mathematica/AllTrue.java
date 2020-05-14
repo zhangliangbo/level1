@@ -1,8 +1,8 @@
 package xxl.mathematica;
 
-import xxl.mathematica.function.Predicate;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * 全真

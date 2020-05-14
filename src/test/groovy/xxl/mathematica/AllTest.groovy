@@ -2,9 +2,10 @@ package xxl.mathematica
 
 import org.junit.Test
 import xxl.mathematica.function.Function
-import xxl.mathematica.function.Predicate
 import xxl.mathematica.list.Array
 import xxl.mathematica.list.Count
+
+import java.util.function.Predicate
 
 import static xxl.mathematica.BaseTest.printList
 

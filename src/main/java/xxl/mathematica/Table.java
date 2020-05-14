@@ -71,24 +71,6 @@ public class Table {
     }
 
     /**
-     * 根据范围来生成表
-     *
-     * @param function
-     * @param range
-     * @param <R>
-     * @return
-     */
-    public static <T, R> List<R> table(Function<T, R> function, Range<T> range) {
-        ObjectHelper.requireNonNull(function, range);
-
-        List<R> result = new ArrayList<>(0);
-        for (T t : range) {
-            result.add(function.apply(t));
-        }
-        return result;
-    }
-
-    /**
      * 根据离散点列表来生成二维表
      *
      * @param function
