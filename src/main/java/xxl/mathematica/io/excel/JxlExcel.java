@@ -5,8 +5,8 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import xxl.mathematica.First;
-import xxl.mathematica.Position;
 import xxl.mathematica.Select;
+import xxl.mathematica.list.Position;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -139,7 +139,7 @@ final class JxlExcel implements IExcel {
                 Field[] fields = Select.select(Arrays.asList(obj.getClass().getDeclaredFields()), t -> t.isAnnotationPresent(ExcelColumnName.class)).toArray(new Field[0]);
                 for (Field field : fields) {
                     String columnName = field.getAnnotation(ExcelColumnName.class).value();
-                    int columnIndex = First.first(Position.position(columnNames, t -> t.equals(columnName)), -1);
+                    int columnIndex = First.first(Position.position(columnNames, columnName), -1);
                     if (columnIndex > -1) {
                         if (!field.isAccessible()) {
                             field.setAccessible(true);

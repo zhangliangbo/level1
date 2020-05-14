@@ -2,7 +2,11 @@ package xxl.mathematica
 
 import org.junit.Test
 import xxl.mathematica.function.Function
+import xxl.mathematica.list.Extract
+import xxl.mathematica.list.Position
 import xxl.mathematica.list.Take
+
+import java.util.function.Predicate
 
 import static xxl.mathematica.BaseTest.printList
 
@@ -88,6 +92,11 @@ class TakeTest {
             }
         }, 10)
         printList(list)
-        printList(Extract.extract(list, Arrays.asList(-1, -5, -1, 3, 6)))
+        printList(Extract.extract(list, Position.position(list, new Predicate<Student>() {
+            @Override
+            boolean test(Student t) {
+                return t.name.contains("5") || t.name.contains("2") || t.name.contains("0")
+            }
+        })))
     }
 }
