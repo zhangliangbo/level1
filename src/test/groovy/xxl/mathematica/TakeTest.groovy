@@ -4,6 +4,7 @@ import org.junit.Test
 import xxl.mathematica.function.Function
 import xxl.mathematica.list.Extract
 import xxl.mathematica.list.Position
+import xxl.mathematica.list.Table
 import xxl.mathematica.list.Take
 
 import java.util.function.Predicate

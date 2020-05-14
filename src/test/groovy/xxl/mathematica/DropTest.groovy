@@ -3,6 +3,7 @@ package xxl.mathematica
 
 import org.junit.Test
 import xxl.mathematica.list.Drop
+import xxl.mathematica.list.Table
 
 import static xxl.mathematica.BaseTest.printList
 
