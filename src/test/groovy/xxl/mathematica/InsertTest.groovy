@@ -4,8 +4,8 @@ import org.junit.Test
 import xxl.mathematica.function.Function
 
 import static xxl.mathematica.BaseTest.printList
-import static xxl.mathematica.list.Insert.insert
 import static xxl.mathematica.Nest.nest
+import static xxl.mathematica.list.Insert.insert
 
 /**
  * Created by zhang on 2017/9/3.
