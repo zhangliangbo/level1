@@ -1,5 +1,6 @@
 package xxl.mathematica.string
 
+import org.apache.commons.text.matcher.StringMatcherFactory
 import xxl.mathematica.io.Import
 
 class StringCasesTest extends GroovyTestCase {
@@ -15,5 +16,11 @@ class StringCasesTest extends GroovyTestCase {
 
     void test1() {
         println(StringCases.stringCases("abcdabcdcd", "abc|cd"))
+    }
+
+    void test2() {
+        def matcher = StringMatcherFactory.INSTANCE.stringMatcher("abc")
+        char[] buffer = "abcdef".toCharArray()
+        println(matcher.isMatch(buffer, 1, 0, buffer.length))
     }
 }
