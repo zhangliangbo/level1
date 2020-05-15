@@ -90,6 +90,8 @@ dependencies {
     implementation 'com.google.guava:guava:29.0-jre'
     //zip
     implementation 'net.lingala.zip4j:zip4j:2.5.2'
+    //jsoup
+    implementation 'org.jsoup:jsoup:1.13.1'
 
     //just use in test to study grammar
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.8'
