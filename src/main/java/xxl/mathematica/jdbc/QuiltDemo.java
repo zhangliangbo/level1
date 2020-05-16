@@ -12,6 +12,6 @@ public class QuiltDemo {
         source.setURL(mysql.get("url"));
         source.setUser(mysql.get("username"));
         source.setPassword(mysql.get("password"));
-        System.err.println(SQLSelect.sqlSelect(source, "select * from qf_building"));
+        System.err.println(SQLExecute.sqlExecute(source, "select * from qf_building"));
     }
 }

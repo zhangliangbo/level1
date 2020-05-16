@@ -16,11 +16,18 @@ import java.util.Map;
 /**
  * 选择数据
  */
-public class SQLSelect {
+public class SQLExecute {
 
     private static final ICacheAccess<DataSource, QueryRunner> cache = JCS.getInstance("xxl.mathematica.jdbc");
 
-    public static List<Map<String, Object>> sqlSelect(DataSource source, String sql) {
+    /**
+     * 在数据源source执行sql
+     *
+     * @param source
+     * @param sql
+     * @return 列表表示集合，字典表示对象
+     */
+    public static List<Map<String, Object>> sqlExecute(DataSource source, String sql) {
         if (cache.get(source) == null) {
             cache.put(source, new QueryRunner(source));
         }
