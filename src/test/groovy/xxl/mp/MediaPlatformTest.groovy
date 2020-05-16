@@ -57,13 +57,30 @@ class MediaPlatformTest extends GroovyTestCase {
                         "PVrtMMHMR3BntC7j0cUa8S42ZSsrot6OEsbLjv4dADI",
                         null,
                         "#000000")
-        msg.put("first", new TemplateMessageValue("男杰你好"))
+        msg.put("first", new TemplateMessageValue("**你好"))
         msg.put("keyword1", new TemplateMessageValue("20170928000001"))
         msg.put("keyword2", new TemplateMessageValue("654321"))
         msg.put("keyword3", new TemplateMessageValue("标准清洗"))
         msg.put("keyword4", new TemplateMessageValue("2020.09.28 11:43"))
         msg.put("keyword5", new TemplateMessageValue("宿舍楼三楼"))
         msg.put("remark", new TemplateMessageValue("很高兴为您服务，欢迎再次使用！"))
+        def res = MediaPlatform.wxSendMpMessage(token, msg)
+        println(res)
+    }
+
+    void testSendMpMessage2() {
+        MpTemplateMessage msg =
+                new MpTemplateMessage(openid,
+                        "RvVNCvhhW74PSt10dWQz_w_TRmqyLcU4OWWosu26E88",
+                        null,
+                        "#000000")
+        msg.put("first", new TemplateMessageValue("**你好"))
+        msg.put("keyword1", new TemplateMessageValue("20170928000001"))
+        msg.put("keyword2", new TemplateMessageValue("654321"))
+        msg.put("keyword3", new TemplateMessageValue("标准清洗"))
+        msg.put("keyword4", new TemplateMessageValue("2020.09.28 11:43"))
+        msg.put("keyword5", new TemplateMessageValue("宿舍楼三楼"))
+        msg.put("remark", new TemplateMessageValue("您的服务即将开始，请尽快去晒被！"))
         def res = MediaPlatform.wxSendMpMessage(token, msg)
         println(res)
     }

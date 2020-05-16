@@ -18,7 +18,7 @@ class PayTest extends GroovyTestCase {
         Map<String, Object> hello = Import.importJsonAsString("D:\\zlb\\微信平台\\微信商户平台\\hello.json")
         mchId = hello.get("mch_id")
         wxNotifyPrefix = hello.get("notify")
-        Pay.registerWx(hello.get("mch_id"), hello.get("cert"), hello.get("appid"), hello.get("key"))
+        Pay.registerWx(hello.get("mch_id"), new FileInputStream(hello.get("cert")), hello.get("appid"), hello.get("key"))
         Map<String, Object> ali = Import.importJsonAsString("D:\\zlb\\阿里平台\\release.json")
         aliAppId = ali.get("appId")
         Pay.registerAli(ali.get("url"), aliAppId, ali.get("private"), ali.get("public"))
@@ -35,7 +35,7 @@ class PayTest extends GroovyTestCase {
     void testWxOrder() {
         String outTradeNo = ID.snowflake(1)
         println(outTradeNo)
-        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", null, "充值")
+        Map<String, String> code = Pay.wxBarcode(mchId, outTradeNo, 1, "A座", "充值", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", null)
         println(code)
         ShowImage.showImage(BarcodeImage.barcodeImage(code.get("code_url")))
     }
@@ -43,7 +43,7 @@ class PayTest extends GroovyTestCase {
     void testWxJsOrder() {
         String outTradeNo = ID.snowflake(1)
         println(outTradeNo)
-        Map<String, String> code = Pay.wxJsOrder(mchId, outTradeNo, 1, "A座-1509", "这是一个商品详情iPhone", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", "*****", "充值")
+        Map<String, String> code = Pay.wxJsOrder(mchId, outTradeNo, 1, "A座-1509", "充值", "6688", "121.60.117.78", wxNotifyPrefix + "/pay/unifiedorder", "*****")
         println(code)
     }
 
