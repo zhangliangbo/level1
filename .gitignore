@@ -5,6 +5,7 @@
 out
 build/
 META-INF/
+jcs_swap/
 
 
 # Ignore Gradle GUI config
