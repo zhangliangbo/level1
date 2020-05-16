@@ -10,6 +10,7 @@ import java.util.Date;
 public class DateString {
     /**
      * 日期字符串
+     * TimeZone.getTimeZone("GMT+8")
      *
      * @param date
      * @param format
