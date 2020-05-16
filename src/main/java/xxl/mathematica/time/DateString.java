@@ -3,6 +3,7 @@ package xxl.mathematica.time;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * 日期字符串
@@ -17,7 +18,7 @@ public class DateString {
      * @return
      */
     public static String dateString(Date date, String format) {
-        return DateFormatUtils.format(date, format);
+        return DateFormatUtils.format(date, format, TimeZone.getTimeZone("GMT+8"));
     }
 
     /**
