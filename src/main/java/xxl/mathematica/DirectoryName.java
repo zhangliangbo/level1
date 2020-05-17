@@ -1,8 +1,9 @@
 package xxl.mathematica;
 
-import xxl.mathematica.function.Function;
+import xxl.mathematica.functional.Nest;
 
 import java.io.File;
+import java.util.function.Function;
 
 /**
  * 目录名称

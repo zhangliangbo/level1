@@ -1,7 +1,8 @@
 package xxl.mathematica.string
 
-import xxl.mathematica.Scan
-import xxl.mathematica.function.Function
+import xxl.mathematica.functional.Scan
+
+import java.util.function.Function
 
 class StringContainsQTest extends GroovyTestCase {
     void testStringContainQ() {

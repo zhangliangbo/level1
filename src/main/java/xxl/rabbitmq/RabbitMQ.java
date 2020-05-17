@@ -1,7 +1,7 @@
 package xxl.rabbitmq;
 
 import com.rabbitmq.client.*;
-import xxl.mathematica.Map;
+import xxl.mathematica.functional.Map;
 
 import java.io.IOException;
 import java.util.Arrays;

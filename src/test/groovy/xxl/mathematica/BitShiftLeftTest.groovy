@@ -3,7 +3,7 @@ package xxl.mathematica
 import org.junit.Test
 
 import static xxl.mathematica.BitShiftLeft.bitShiftLeft
-import static xxl.mathematica.Map.map
+import static xxl.mathematica.functional.Map.map
 
 /**
  * Created by zhang on 2017/9/12.

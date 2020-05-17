@@ -1,8 +1,8 @@
 package xxl.mathematica.string;
 
 import xxl.mathematica.ObjectHelper;
-import xxl.mathematica.function.Function;
 
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +18,7 @@ public class StringContainsQ {
      */
     public static Function<String, Boolean> stringContainQ(String regex) {
         return new Function<String, Boolean>() {
-            Pattern pattern = Pattern.compile(regex);
+            final Pattern pattern = Pattern.compile(regex);
 
             @Override
             public Boolean apply(String s) {

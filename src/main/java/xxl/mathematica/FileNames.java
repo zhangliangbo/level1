@@ -3,6 +3,7 @@ package xxl.mathematica;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import xxl.mathematica.functional.Map;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ import org.junit.Test
 
 import static xxl.mathematica.BaseTest.printList
 import static xxl.mathematica.BitOr.bitOr
-import static xxl.mathematica.Map.map
+import static xxl.mathematica.functional.Map.map
 
 /**
  * Created by zhang on 2017/9/12.
