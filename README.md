@@ -1,2 +1,2 @@
 # mathematica
-a java implementation of mathematica
+a java implementation of mathematica, for hobby.
