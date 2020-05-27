@@ -3,7 +3,7 @@ package xxl.xjwt;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
-import xxl.codec.digest.DigestUtils;
+import xxl.mathematica.Hash;
 import xxl.mathematica.RandomChoice;
 import xxl.mathematica.single.GsonSingle;
 import xxl.mathematica.single.OkHttpSingle;
@@ -40,7 +40,8 @@ public final class ILab {
     public String getUserInfo(String name, String pwd) {
         String nonce = StringJoin.stringJoin(RandomChoice.randomChoice(Arrays.asList(chars), 16));
         String cnonce = StringJoin.stringJoin(RandomChoice.randomChoice(Arrays.asList(chars), 16));
-        String password = DigestUtils.sha256Hex(nonce + DigestUtils.sha256Hex(pwd).toUpperCase() + cnonce).toUpperCase();
+        String pwdHex = Hash.encodeHexString(Hash.hashString(pwd, Hash.Algorithm.SHA256));
+        String password = Hash.encodeHexString(Hash.hashString(nonce + pwdHex.toUpperCase() + cnonce, Hash.Algorithm.SHA256)).toUpperCase();
         Request request = new Request.Builder()
                 .url(baseUrl + "/sys/api/user/validate?username=" + name + "&password=" + password + "&nonce=" + nonce + "&cnonce=" + cnonce)
                 .get()

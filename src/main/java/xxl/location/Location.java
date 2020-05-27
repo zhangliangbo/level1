@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import xxl.codec.digest.DigestUtils;
+import xxl.mathematica.Hash;
 import xxl.mathematica.single.GsonSingle;
 import xxl.mathematica.single.OkHttpSingle;
 
@@ -25,7 +25,7 @@ public class Location {
      */
     public static String wxLocation(double lon, double lat, String key, String sk) {
         String raw = "/ws/geocoder/v1?key=" + key + "&location=" + lat + "," + lon;
-        String sign = DigestUtils.md5Hex((raw + sk).getBytes());
+        String sign = Hash.encodeHexString(Hash.hashString(raw + sk, Hash.Algorithm.MD5));
         String path = raw + "&sig=" + sign;
         String url = "https://apis.map.qq.com" + path;
         Request request = new Request.Builder().url(url).get().build();

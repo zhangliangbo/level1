@@ -12,7 +12,7 @@ import com.alipay.api.response.AlipayTradeCancelResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.api.response.AlipayTradeRefundResponse;
-import xxl.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import xxl.mathematica.io.ExportString;
 import xxl.mathematica.string.StringRiffle;
 import xxl.mathematica.time.DateString;

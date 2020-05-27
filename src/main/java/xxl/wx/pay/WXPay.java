@@ -1,7 +1,7 @@
 package xxl.wx.pay;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import xxl.codec.digest.DigestUtils;
+import xxl.mathematica.Hash;
 import xxl.wx.pay.WXPayConstants.SignType;
 
 import javax.crypto.Cipher;
@@ -703,7 +703,7 @@ public class WXPay {
     public String refundDecryptReqInfo(String reqInfo) {
         byte[] reqBytes = Base64.getDecoder().decode(reqInfo);
         try {
-            SecretKeySpec key = new SecretKeySpec(DigestUtils.md5Hex(this.config.getKey()).toLowerCase().getBytes(), "AES");
+            SecretKeySpec key = new SecretKeySpec(Hash.encodeHexString(Hash.hashString(this.config.getKey(), Hash.Algorithm.MD5)).toLowerCase().getBytes(), "AES");
             Security.addProvider(new BouncyCastleProvider());
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding", "BC");
             cipher.init(Cipher.DECRYPT_MODE, key);

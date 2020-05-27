@@ -15,32 +15,30 @@ targetCompatibility = "8"
 repositories {
     jcenter()
     mavenCentral()
+    maven {
+        url 'http://localhost:8081/repository/maven-snapshots/'
+        credentials {
+            username 'xxl'
+            password 'civic'
+        }
+    }
+}
+
+configurations {
+    all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
 }
 
 dependencies {
-    implementation 'xxl.level0:level0:SNAPSHOT'
-    //function programming
-    implementation 'io.vavr:vavr:0.10.3'
-    //netty
-    implementation 'io.netty:netty-all:4.1.49.Final'
+    implementation 'xxl.level0:level0:1.0.0-SNAPSHOT'
+    //apache
+    implementation 'org.apache.commons:commons-text:1.8'
     //reactivex
     implementation "io.reactivex.rxjava3:rxjava:3.0.2"
     //reactor
     implementation 'io.projectreactor.addons:reactor-extra:3.3.3.RELEASE'
     implementation 'io.projectreactor.netty:reactor-netty:0.9.6.RELEASE'
-    //apache
-    implementation 'org.apache.commons:commons-lang3:3.10'
-    implementation 'org.apache.commons:commons-collections4:4.4'
-    implementation 'org.apache.commons:commons-text:1.8'
-    implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation 'org.apache.commons:commons-jcs-core:2.2.1'
-    implementation 'org.apache.commons:commons-compress:1.20'
-    implementation 'commons-dbutils:commons-dbutils:1.7'
-    implementation 'mysql:mysql-connector-java:8.0.20'
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'commons-cli:commons-cli:1.4'
-
-    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     implementation "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0"
 
@@ -67,9 +65,6 @@ dependencies {
 
     implementation 'com.relops:snowflake:1.1'
 
-    implementation 'com.google.zxing:core:3.4.0'
-    implementation 'com.google.zxing:javase:3.4.0'
-
     implementation 'com.alipay.sdk:alipay-sdk-java:4.8.10.ALL'
     implementation 'com.aliyun:aliyun-java-sdk-core:4.0.3'
 
@@ -93,8 +88,6 @@ dependencies {
     implementation 'org.yaml:snakeyaml:1.26'
     //media type
     implementation 'org.apache.tika:tika-core:1.24'
-    //google core api for java
-    implementation 'com.google.guava:guava:29.0-jre'
     //zip
     implementation 'net.lingala.zip4j:zip4j:2.5.2'
     //jsoup
