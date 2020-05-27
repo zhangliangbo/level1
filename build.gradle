@@ -63,8 +63,6 @@ dependencies {
     implementation 'org.slf4j:jcl-over-slf4j:1.7.30'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
 
-    implementation 'com.relops:snowflake:1.1'
-
     implementation 'com.alipay.sdk:alipay-sdk-java:4.8.10.ALL'
     implementation 'com.aliyun:aliyun-java-sdk-core:4.0.3'
 
