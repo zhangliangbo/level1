@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import xxl.mathematica.Hash;
+import xxl.mathematica.cryptology.Hash;
 import xxl.mathematica.single.GsonSingle;
 import xxl.mathematica.single.OkHttpSingle;
 

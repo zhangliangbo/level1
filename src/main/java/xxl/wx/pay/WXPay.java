@@ -1,7 +1,7 @@
 package xxl.wx.pay;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import xxl.mathematica.Hash;
+import xxl.mathematica.cryptology.Hash;
 import xxl.wx.pay.WXPayConstants.SignType;
 
 import javax.crypto.Cipher;

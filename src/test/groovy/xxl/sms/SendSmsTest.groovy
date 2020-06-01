@@ -1,7 +1,7 @@
 package xxl.sms
 
-import xxl.mathematica.RandomInteger
 import xxl.mathematica.io.Import
+import xxl.mathematica.random.RandomInteger
 import xxl.mathematica.string.StringRiffle
 
 class SendSmsTest extends GroovyTestCase {

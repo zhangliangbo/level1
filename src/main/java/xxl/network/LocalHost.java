@@ -1,7 +1,6 @@
 package xxl.network;
 
 import xxl.mathematica.DeleteDuplicates;
-import xxl.mathematica.function.BiPredicate;
 
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -10,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 /**
  * 本机ip地址

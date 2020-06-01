@@ -1,9 +1,8 @@
 package xxl.xjwt
 
 import com.google.gson.Gson
-import xxl.mathematica.Do
-import xxl.mathematica.RandomInteger
 import xxl.mathematica.function.Consumer
+import xxl.mathematica.random.RandomInteger
 
 class ILabTest extends GroovyTestCase {
     String name = "********";

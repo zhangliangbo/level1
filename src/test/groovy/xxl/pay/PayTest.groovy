@@ -1,6 +1,6 @@
 package xxl.pay
 
-import xxl.id.ID
+import xxl.mathematica.id.ID
 import xxl.mathematica.image.BarcodeImage
 import xxl.mathematica.image.ShowImage
 import xxl.mathematica.io.Import

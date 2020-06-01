@@ -3,9 +3,9 @@ package xxl.adoc;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
-import xxl.mathematica.FileBaseName;
 import xxl.mathematica.Rule;
 import xxl.mathematica.external.External;
+import xxl.mathematica.io.FileBaseName;
 import xxl.mathematica.string.StringSplit;
 import xxl.os.OS;
 
