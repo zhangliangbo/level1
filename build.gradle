@@ -90,8 +90,6 @@ dependencies {
     implementation 'net.lingala.zip4j:zip4j:2.5.2'
     //jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
-    //javacv
-    implementation 'org.bytedeco:javacv-platform:1.5.3'
     //just use in test to study grammar
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.4'
 

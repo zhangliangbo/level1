@@ -1,7 +1,7 @@
 package xxl.rabbitmq;
 
 /**
- * 返回的应答
+ * 投递失败打回的消息
  */
 public class Return {
     private int code;
