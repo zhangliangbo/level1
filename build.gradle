@@ -35,7 +35,7 @@ dependencies {
     //apache
     implementation 'org.apache.commons:commons-text:1.8'
     //reactivex
-    implementation "io.reactivex.rxjava3:rxjava:3.0.2"
+    implementation "io.reactivex.rxjava3:rxjava:3.0.4"
     //reactor
     implementation 'io.projectreactor.addons:reactor-extra:3.3.3.RELEASE'
     implementation 'io.projectreactor.netty:reactor-netty:0.9.6.RELEASE'
