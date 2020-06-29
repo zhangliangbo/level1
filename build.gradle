@@ -81,7 +81,7 @@ dependencies {
     //kafka-streams
     implementation 'org.apache.kafka:kafka-streams:2.5.0'
     //mongo
-    implementation 'org.mongodb:mongodb-driver:4.0.4'
+    implementation 'org.mongodb:mongodb-driver:3.12.5'
     //yaml
     implementation 'org.yaml:snakeyaml:1.26'
     //media type
