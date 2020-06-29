@@ -1,9 +1,9 @@
 package xxl.docker;
 
 import org.apache.commons.cli.*;
-import xxl.mathematica.First;
-import xxl.mathematica.Select;
 import xxl.mathematica.audio.Beep;
+import xxl.mathematica.list.First;
+import xxl.mathematica.list.Select;
 
 import java.util.List;
 
