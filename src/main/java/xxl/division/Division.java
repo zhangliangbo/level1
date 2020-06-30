@@ -1,21 +1,41 @@
 package xxl.division;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import xxl.mathematica.Rule;
+import xxl.mathematica.single.GsonSingle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Division {
+    /**
+     * 获取所有的区划信息
+     *
+     * @param level
+     */
+    public static String division(int level) {
+        return generateData(level, null, null);
+    }
 
-    public static void division(int level) {
-        generateData(level);
+    /**
+     * 获取省市区划信息
+     *
+     * @param level
+     * @param province
+     * @param city
+     */
+    public static String division(int level, Predicate<Rule<String, String>> province, Predicate<Rule<String, String>> city) {
+        return generateData(level, province, city);
     }
 
     private static class Node {
@@ -25,11 +45,6 @@ public class Division {
         private String html;
 
         public Node(String html) {
-            this.html = html;
-        }
-
-        public Node(String name, String html) {
-            this.name = name;
             this.html = html;
         }
 
@@ -74,39 +89,69 @@ public class Division {
     }
 
 
-    private static void generateData(int level) {
+    private static String generateData(int level, Predicate<Rule<String, String>> province, Predicate<Rule<String, String>> city) {
         //省份
-        if (level < 0) {
-            return;
-        }
+        if (level < 0) return null;
+        JsonArray pa = new JsonArray();
         List<Node> provinces = provinces();
         for (Node pn : provinces) {
-            System.out.println("province " + pn.getName());
+            if (province != null && !province.test(Rule.valueOf(pn.getCode(), pn.getName()))) continue;
+            System.err.println("province " + pn.getName());
+            JsonObject po = new JsonObject();
+            po.addProperty("name", pn.getName());
+            po.addProperty("code", pn.getCode());
+            pa.add(po);
             if (level < 1) continue;
+            JsonArray ca = new JsonArray();
+            po.add("cities", ca);
             //城市
             List<Node> cities = cities(pn);
             for (Node cn : cities) {
-                System.out.println("city " + cn.getName());
+                if (city != null && !city.test(Rule.valueOf(cn.getCode(), cn.getName()))) continue;
+                System.err.println("city " + cn.getName());
+                JsonObject co = new JsonObject();
+                co.addProperty("name", cn.getName());
+                co.addProperty("code", cn.getCode());
+                ca.add(co);
                 if (level < 2) continue;
+                JsonArray aa = new JsonArray();
+                co.add("areas", aa);
                 //地区
                 List<Node> areas = areas(cn);
                 for (Node an : areas) {
-                    System.out.println("area " + an.getName());
+                    System.err.println("area " + an.getName());
+                    JsonObject ao = new JsonObject();
+                    ao.addProperty("name", an.getName());
+                    ao.addProperty("code", an.getCode());
+                    aa.add(ao);
                     if (level < 3) continue;
+                    JsonArray sa = new JsonArray();
+                    ao.add("streets", sa);
                     //街道
                     List<Node> streets = streets(an);
                     for (Node sn : streets) {
-                        System.out.println("street " + sn.getName());
+                        System.err.println("street " + sn.getName());
+                        JsonObject so = new JsonObject();
+                        so.addProperty("name", sn.getName());
+                        so.addProperty("code", sn.getCode());
+                        sa.add(so);
                         if (level < 4) continue;
+                        JsonArray ma = new JsonArray();
+                        so.add("communities", ma);
                         //社区
                         List<Node> communities = communities(sn);
                         for (Node mn : communities) {
-                            System.out.println("community " + mn.getName());
+                            System.err.println("community " + mn.getName());
+                            JsonObject mo = new JsonObject();
+                            mo.addProperty("name", mn.getName());
+                            mo.addProperty("code", mn.getCode());
+                            ma.add(mo);
                         }
                     }
                 }
             }
         }
+        return GsonSingle.instance().toJson(pa);
     }
 
 
