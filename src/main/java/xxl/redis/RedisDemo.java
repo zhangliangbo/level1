@@ -15,7 +15,7 @@ public class RedisDemo {
         }
         System.err.println("flushall: " + jedis.flushAll());
         long start = System.currentTimeMillis();
-        io.vavr.collection.List.range(0, 10000000)
+        io.vavr.collection.List.range(0, 10)
                 .forEach(new Consumer<Integer>() {
                     @Override
                     public void accept(Integer integer) {
