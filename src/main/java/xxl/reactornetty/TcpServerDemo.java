@@ -106,7 +106,7 @@ public class TcpServerDemo {
                                 }).receive().asString().flatMap(new Function<String, Publisher<? extends Void>>() {
                                     @Override
                                     public Publisher<? extends Void> apply(String s) {
-                                        System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "=" + s.replace(suffix, ""));
+                                        System.err.println(conn.get().address().getHostName() + ":" + conn.get().address().getPort() + "\n" + s.replace(suffix, ""));
                                         if (noReply) {
                                             return nettyOutbound.then();
                                         } else {

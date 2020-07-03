@@ -39,6 +39,7 @@ dependencies {
     //reactor
     implementation 'io.projectreactor.addons:reactor-extra:3.3.3.RELEASE'
     implementation 'io.projectreactor.netty:reactor-netty:0.9.6.RELEASE'
+    testImplementation 'io.projectreactor:reactor-test:3.3.4.RELEASE'
 
     implementation "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0"
 
@@ -95,7 +96,6 @@ dependencies {
 
     //real test
     testImplementation 'junit:junit:4.12'
-    testImplementation 'io.projectreactor:reactor-test:3.3.4.RELEASE'
     testImplementation 'org.apache.commons:commons-jcs-jcache:2.2.1'
 
 }
