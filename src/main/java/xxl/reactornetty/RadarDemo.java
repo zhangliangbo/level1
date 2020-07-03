@@ -20,6 +20,7 @@ public class RadarDemo {
                 .handler(new ChannelInitializer<Channel>() {
                     @Override
                     protected void initChannel(Channel ch) throws Exception {
+//                        ch.pipeline().addLast(new DelimiterBasedFrameDecoder(8 ^ 4, false, Unpooled.wrappedBuffer(new byte[]{(byte) 0xA, 0xA, 0x5, 0x5})));
                         ch.pipeline().addLast(new SimpleChannelInboundHandler<ByteBuf>() {
                             @Override
                             public void channelActive(ChannelHandlerContext ctx) throws Exception {
