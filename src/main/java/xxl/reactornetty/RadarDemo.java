@@ -11,7 +11,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class RadarDemo {
     public static void main(String[] args) throws InterruptedException {
         final String host = "192.168.24.101";
-        final int port = 18000;
+        final int port = 9000;
         final NioEventLoopGroup group = new NioEventLoopGroup();
         System.err.println("start connected.");
         new Bootstrap()
