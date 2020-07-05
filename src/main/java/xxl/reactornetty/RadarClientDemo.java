@@ -28,7 +28,7 @@ public class RadarClientDemo {
         .handler(new ChannelInitializer<Channel>() {
           @Override
           protected void initChannel(Channel ch) throws Exception {
-            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(ByteOrder.BIG_ENDIAN, Integer.MAX_VALUE, 6, 4, 0, 12, true));
+            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(ByteOrder.BIG_ENDIAN, Integer.MAX_VALUE, 6, 4, 0, 10, true));
             ch.pipeline().addLast(new SimpleChannelInboundHandler<ByteBuf>() {
               @Override
               public void channelActive(ChannelHandlerContext ctx) throws Exception {
