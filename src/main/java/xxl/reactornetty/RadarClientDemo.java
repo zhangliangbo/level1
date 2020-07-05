@@ -17,8 +17,8 @@ import java.util.Arrays;
 
 public class RadarClientDemo {
   public static void main(String[] args) throws InterruptedException, FileNotFoundException {
-    final String host = "localhost";
-    final int port = 8080;
+    final String host = "192.168.24.101";
+    final int port = 9000;
     final NioEventLoopGroup group = new NioEventLoopGroup();
     FileOutputStream raw = new FileOutputStream(System.getProperty("user.dir") + File.separator + "raw.txt");
     FileOutputStream split = new FileOutputStream(System.getProperty("user.dir") + File.separator + "split.txt");
@@ -28,7 +28,7 @@ public class RadarClientDemo {
         .handler(new ChannelInitializer<Channel>() {
           @Override
           protected void initChannel(Channel ch) throws Exception {
-            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(ByteOrder.BIG_ENDIAN, Short.MAX_VALUE, 1, 2, -3, 0, true));
+            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(ByteOrder.BIG_ENDIAN, Integer.MAX_VALUE, 6, 4, 0, 0, true));
             ch.pipeline().addLast(new SimpleChannelInboundHandler<ByteBuf>() {
               @Override
               public void channelActive(ChannelHandlerContext ctx) throws Exception {
