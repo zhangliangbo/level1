@@ -7,7 +7,7 @@ import xxl.mathematica.Rule;
 import xxl.mathematica.external.External;
 import xxl.mathematica.io.FileBaseName;
 import xxl.mathematica.string.StringSplit;
-import xxl.os.OS;
+import xxl.mathematica.system.Os;
 
 import java.io.File;
 import java.util.List;
@@ -69,16 +69,16 @@ public class Adoc {
             //可以尝试用本地命令
             try {
                 Rule<Integer, byte[]> rule = null;
-                if (OS.isWindows()) {
+                if (Os.isWindows()) {
                     rule = External.runProcess("where asciidoctorj");
-                } else if (OS.isLinux()) {
+                } else if (Os.isLinux()) {
                     rule = External.runProcess("which asciidoctor");
                 }
                 if (rule == null) return null;
                 List<String> cmds = StringSplit.stringSplit(new String(rule.getValue()), "\r\n", "\n");
                 if (cmds.size() > 0) {
                     for (String cmd : cmds) {
-                        if ((OS.isWindows() && cmd.contains(".cmd")) || (OS.isLinux())) {
+                        if ((Os.isWindows() && cmd.contains(".cmd")) || (Os.isLinux())) {
                             String command = cmd.trim() + " -b " + backend + " -D " + destDir.getAbsolutePath() + " " + adocFile.getAbsolutePath();
                             System.out.println("start adoc cmd convert " + command);
                             External.runProcess(command);
