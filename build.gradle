@@ -31,7 +31,7 @@ configurations {
 }
 
 dependencies {
-    implementation 'xxl.level0:level0:1.0.0-SNAPSHOT'
+    implementation 'io.github.zhangliangbo:level0:1.0.0'
     //apache
     implementation 'org.apache.commons:commons-text:1.8'
     //reactivex
