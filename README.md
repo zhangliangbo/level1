@@ -2,6 +2,14 @@
 ## 
 ## kafka
 ## redis
+### RedisID 分布式ID
+```
+void testNextLong() {
+    println(RedisID.nextLong(pool, "zlb"))
+}
+
+1023
+```
 ## maven
 ### Repository 获取仓库地址
 ```
