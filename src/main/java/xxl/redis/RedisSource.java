@@ -1,7 +1,14 @@
 package xxl.redis;
 
+import io.vavr.Lazy;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.util.Pool;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.net.URI;
+import java.util.function.Supplier;
 
 /**
  * Redis源
@@ -11,26 +18,35 @@ import redis.clients.jedis.util.Pool;
  * @time 2020/8/31
  */
 public class RedisSource {
-  private static Pool<Jedis> jedisPool;
+  private static Lazy<Pool<Jedis>> jedisPool;
 
   /**
    * 设置redis源
    *
-   * @param pool
+   * @param uri 资源路径
    */
-  public static void use(Pool<Jedis> pool) {
-    jedisPool = pool;
+  public static void use(String uri) {
+    jedisPool = Lazy.of(() -> new JedisPool(URI.create(uri)));
+  }
+
+  /**
+   * 关闭redis源
+   */
+  public static void close() {
+    if (jedisPool == null) return;
+    jedisPool.get().close();
   }
 
   /**
    * 获取redis源
    *
-   * @return
+   * @return redis连接池
    */
   protected static Pool<Jedis> get() {
     if (jedisPool == null) {
       throw new IllegalStateException("使用RedisSource.use(..)设置Redis源");
     }
-    return jedisPool;
+    return jedisPool.get();
   }
+
 }

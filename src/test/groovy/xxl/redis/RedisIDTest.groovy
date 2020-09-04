@@ -8,19 +8,16 @@ import redis.clients.jedis.Transaction
 import redis.clients.jedis.util.Pool
 
 class RedisIDTest extends GroovyTestCase {
-    private Pool<Jedis> pool;
 
     @Override
     void setUp() throws Exception {
-        super.setUp()
-        pool = new JedisPool(URI.create("redis://:123456@localhost:6379/0"))
-        RedisSource.use(pool)
+        RedisSource.use("redis://:123456@localhost:6379/0")
     }
 
     @Override
     void tearDown() throws Exception {
-        super.tearDown();
-        pool.destroy()
+        super.tearDown()
+        RedisSource.close()
     }
 
     void testKeys() {
