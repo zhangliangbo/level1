@@ -14,6 +14,7 @@ class RedisIDTest extends GroovyTestCase {
     void setUp() throws Exception {
         super.setUp()
         pool = new JedisPool(URI.create("redis://:123456@localhost:6379/0"))
+        RedisSource.use(pool)
     }
 
     @Override
@@ -109,14 +110,22 @@ class RedisIDTest extends GroovyTestCase {
             new Thread(new Runnable() {
                 @Override
                 void run() {
-                    System.err.println(RedisID.nextLong(pool, "zlb"))
+                    System.err.println(RedisID.nextLong("zlb"))
                 }
             }).start()
         }
         Thread.sleep(3000)
     }
 
+    void testCas() {
+        while (true) {
+            def res = RedisCas.redisCas("zlb", "88")
+            println(res)
+            if (res) break
+        }
+    }
+
     void testNextLong() {
-        println(RedisID.nextLong(pool, "zlb"))
+        println(RedisID.nextLong("zlb"))
     }
 }
