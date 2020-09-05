@@ -18,35 +18,36 @@ import java.util.function.Supplier;
  * @time 2020/8/31
  */
 public class RedisSource {
-  private static Lazy<Pool<Jedis>> jedisPool;
+    private static Lazy<Pool<Jedis>> jedisPool;
 
-  /**
-   * 设置redis源
-   *
-   * @param uri 资源路径
-   */
-  public static void use(String uri) {
-    jedisPool = Lazy.of(() -> new JedisPool(URI.create(uri)));
-  }
-
-  /**
-   * 关闭redis源
-   */
-  public static void close() {
-    if (jedisPool == null) return;
-    jedisPool.get().close();
-  }
-
-  /**
-   * 获取redis源
-   *
-   * @return redis连接池
-   */
-  protected static Pool<Jedis> get() {
-    if (jedisPool == null) {
-      throw new IllegalStateException("使用RedisSource.use(..)设置Redis源");
+    /**
+     * 设置redis源
+     *
+     * @param uri 资源路径
+     */
+    public static void use(String uri) {
+        if (jedisPool != null) jedisPool.get().close();
+        jedisPool = Lazy.of(() -> new JedisPool(URI.create(uri)));
     }
-    return jedisPool.get();
-  }
+
+    /**
+     * 关闭redis源
+     */
+    public static void close() {
+        if (jedisPool == null) return;
+        jedisPool.get().close();
+    }
+
+    /**
+     * 获取redis源
+     *
+     * @return redis连接池
+     */
+    protected static Pool<Jedis> get() {
+        if (jedisPool == null) {
+            throw new IllegalStateException("使用RedisSource.use(..)设置Redis源");
+        }
+        return jedisPool.get();
+    }
 
 }
