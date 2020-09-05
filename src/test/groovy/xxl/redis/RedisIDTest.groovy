@@ -116,7 +116,10 @@ class RedisIDTest extends GroovyTestCase {
 
     void testCas() {
         while (true) {
-            def res = RedisCas.redisCas("zlb", "88")
+            def expect = RedisCas.get("zlb")
+            println(expect)
+            def update = String.valueOf(Integer.valueOf(expect) + 1)
+            def res = RedisCas.redisCas("zlb", expect, update)
             println(res)
             if (res) break
         }
