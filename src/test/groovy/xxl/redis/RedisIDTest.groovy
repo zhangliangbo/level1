@@ -1,11 +1,8 @@
 package xxl.redis
 
-
 import redis.clients.jedis.Jedis
-import redis.clients.jedis.JedisPool
 import redis.clients.jedis.Pipeline
 import redis.clients.jedis.Transaction
-import redis.clients.jedis.util.Pool
 
 class RedisIDTest extends GroovyTestCase {
 

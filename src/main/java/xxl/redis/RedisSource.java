@@ -5,10 +5,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.util.Pool;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.net.URI;
-import java.util.function.Supplier;
 
 /**
  * Redis源
@@ -26,7 +23,9 @@ public class RedisSource {
      * @param uri 资源路径
      */
     public static void use(String uri) {
-        if (jedisPool != null) jedisPool.get().close();
+        if (jedisPool != null) {
+            jedisPool.get().close();
+        }
         jedisPool = Lazy.of(() -> new JedisPool(URI.create(uri)));
     }
 
@@ -34,7 +33,9 @@ public class RedisSource {
      * 关闭redis源
      */
     public static void close() {
-        if (jedisPool == null) return;
+        if (jedisPool == null) {
+            return;
+        }
         jedisPool.get().close();
     }
 

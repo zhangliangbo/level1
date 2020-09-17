@@ -41,7 +41,10 @@ dependencies {
     implementation 'io.projectreactor.addons:reactor-extra:3.3.3.RELEASE'
     implementation 'io.projectreactor.netty:reactor-netty:0.9.9.RELEASE'
     testImplementation 'io.projectreactor:reactor-test:3.3.7.RELEASE'
-
+    //apache
+    implementation 'org.apache.commons:commons-dbcp2:2.7.0'
+    implementation 'commons-dbutils:commons-dbutils:1.7'
+    //mqtt
     implementation "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0"
 
     implementation 'org.osgeo:proj4j:0.1.0'
@@ -82,6 +85,8 @@ dependencies {
     implementation 'redis.clients:jedis:3.3.0'
     //kafka-streams
     implementation 'org.apache.kafka:kafka-streams:2.5.0'
+    //mysql
+    implementation 'mysql:mysql-connector-java:8.0.21'
     //mongo
     implementation 'org.mongodb:mongodb-driver:3.12.5'
     //yaml
@@ -92,6 +97,10 @@ dependencies {
     implementation 'net.lingala.zip4j:zip4j:2.5.2'
     //jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
+    //lombok
+    implementation 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
     //just use in test to study grammar
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.4'
 
