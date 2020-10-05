@@ -20,31 +20,6 @@ public class SQLExecute {
     private static QueryRunner queryRunner = null;
 
     /**
-     * 结果转成【字典集合】
-     */
-//    private static class MapListHandler implements ResultSetHandler<List<Map<String, Object>>> {
-//        @Override
-//        public List<Map<String, Object>> handle(ResultSet rs) throws SQLException {
-//            List<Map<String, Object>> list = new ArrayList<>();
-//            while (rs.next()) {
-//                Map<String, Object> map = new HashMap<>(1);
-//                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-//                    String name = rs.getMetaData().getColumnName(i);
-//                    Object value;
-//                    try {
-//                        value = rs.getObject(i);
-//                    } catch (Exception e) {
-//                        value = null;
-//                    }
-//                    map.put(name, value);
-//                }
-//                list.add(map);
-//            }
-//            return list;
-//        }
-//    }
-
-    /**
      * 查询
      *
      * @param sql    sql语句
