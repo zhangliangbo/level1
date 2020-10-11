@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,29 +33,6 @@ public class SQLExecute {
             return getRunner().query(sql, new MapListHandler(), params);
         } catch (SQLException e) {
             log.info("select error->{}", e.getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * 元数据
-     *
-     * @param tableName 表名
-     * @return 列表表示集合，字典表示对象
-     */
-    public static Map<String, String> sqlSelectMeta(String tableName) {
-        try {
-            return getRunner().query("select * from " + tableName + " limit 1", rs -> {
-                Map<String, String> map = new HashMap<>(1);
-                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-                    String name = rs.getMetaData().getColumnName(i);
-                    String type = rs.getMetaData().getColumnTypeName(i);
-                    map.put(name, type);
-                }
-                return map;
-            });
-        } catch (SQLException e) {
-            log.info("meta error->{}", e.getMessage());
             return null;
         }
     }
@@ -91,6 +70,81 @@ public class SQLExecute {
     }
 
     /**
+     * 列出所有的数据库名称
+     *
+     * @return 所有的数据库
+     */
+    public static List<Map<String, Object>> sqlDatabases() {
+        try {
+            //获取连接
+            Connection connection = getRunner().getDataSource().getConnection();
+            //获取元数据
+            DatabaseMetaData metaData = connection.getMetaData();
+            //获取所有数据库列表
+            ResultSet rs = metaData.getCatalogs();
+            //处理数据库
+            List<Map<String, Object>> mapList = new MapListHandler().handle(rs);
+            rs.close();
+            connection.close();
+            return mapList;
+        } catch (SQLException e) {
+            log.info("get database error->{}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 获取数据库的所有表格
+     *
+     * @param database 数据库
+     * @return 所有表格信息
+     */
+    public static List<Map<String, Object>> sqlTables(String database) {
+        try {
+            //获取连接
+            Connection connection = getRunner().getDataSource().getConnection();
+            //获取元数据
+            DatabaseMetaData metaData = connection.getMetaData();
+            //获取表格
+            ResultSet rs = metaData.getTables(database, null, null, new String[]{"TABLE"});
+            //转换数据
+            List<Map<String, Object>> mapList = new MapListHandler().handle(rs);
+            rs.close();
+            connection.close();
+            return mapList;
+        } catch (Exception e) {
+            log.info("get table error->{}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 获取所有字段信息
+     *
+     * @param database 数据库
+     * @param table    表格名称
+     * @return 字段信息
+     */
+    public static List<Map<String, Object>> sqlColumns(String database, String table) {
+        try {
+            //获取连接
+            Connection connection = getRunner().getDataSource().getConnection();
+            //获取元数据
+            DatabaseMetaData metaData = connection.getMetaData();
+            //获取表格
+            ResultSet rs = metaData.getColumns(database, null, table, null);
+            //转换数据
+            List<Map<String, Object>> mapList = new MapListHandler().handle(rs);
+            rs.close();
+            connection.close();
+            return mapList;
+        } catch (Exception e) {
+            log.info("get column error->{}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * 获取查询Runner
      *
      * @return 查询器
@@ -99,6 +153,7 @@ public class SQLExecute {
         if (queryRunner == null) {
             queryRunner = new QueryRunner(JdbcSource.get());
         }
+        JdbcSource.maybeReconnectSsh();
         return queryRunner;
     }
 }

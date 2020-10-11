@@ -303,6 +303,20 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
      *
      * @return
      */
+    public boolean publish(String exchange, String routingKey, byte[] body, boolean mandatory) {
+        try {
+            channel.basicPublish(exchange, routingKey, mandatory, null, body);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * 发布消息
+     *
+     * @return
+     */
     public boolean publish(String exchange, String routingKey, byte[] body, boolean mandatory, boolean immediate) {
         try {
             channel.basicPublish(exchange, routingKey, mandatory, immediate, null, body);

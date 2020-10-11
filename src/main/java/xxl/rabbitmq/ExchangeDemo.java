@@ -31,10 +31,12 @@ public class ExchangeDemo {
                 "mqtt",
                 "mqtt",
                 "/",
-                true
+                true,
+                System.out::println
         );
         if (rabbitMQ.newChannel()) {
-            if (rabbitMQ.confirmSelect()) {//打开消息确认模式
+            //打开消息确认模式
+            if (rabbitMQ.confirmSelect()) {
                 if (rabbitMQ.exchangeDeclare(ex, type, true, false)) {
                     Scanner sc = new Scanner(System.in);
                     while (sc.hasNextLine()) {
@@ -53,7 +55,7 @@ public class ExchangeDemo {
                             }
                         }
                         for (int i = 0; i < count; i++) {
-                            if (rabbitMQ.publish(ex, ro, (content + i).getBytes())) {
+                            if (rabbitMQ.publish(ex, ro, (content + i).getBytes(), true)) {
                                 System.err.println("send " + content + " " + i);
                                 if (rabbitMQ.waitForConfirms()) {
                                     System.err.println("confirmed");

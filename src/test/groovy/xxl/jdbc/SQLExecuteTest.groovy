@@ -1,10 +1,11 @@
 package xxl.jdbc
 
 class SQLExecuteTest extends GroovyTestCase {
+
     @Override
     protected void setUp() throws Exception {
         super.setUp()
-        JdbcSource.use("jdbc:mysql://localhost:3306/quilt", "xxl", "civic")
+        JdbcSource.use("", "", "")
     }
 
     @Override
@@ -29,8 +30,20 @@ class SQLExecuteTest extends GroovyTestCase {
         )
     }
 
-    void testMeta() {
-        println(SQLExecute.sqlSelectMeta("quilt_hello"))
+    void testDatabase() {
+        println(SQLExecute.sqlDatabases())
+    }
+
+    void testTable() {
+        println(SQLExecute.sqlTables(""))
+    }
+
+    void testColumn() {
+        println(SQLExecute.sqlColumns("", ""))
+    }
+
+    void testSSH() {
+
     }
 
 }

@@ -1,13 +1,13 @@
 plugins {
     id 'java'
     id 'groovy'
-    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'com.bmuschko.nexus' version '2.3.1'
 //    id 'io.codearte.nexus-staging' version '0.21.1'
 }
 
 group 'xxl.level1'
-version '1.0.0-SNAPSHOT'
+version '1.0.0'
 
 sourceCompatibility = "8"
 targetCompatibility = "8"
@@ -67,6 +67,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.29'
     implementation 'org.slf4j:jcl-over-slf4j:1.7.30'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'net.logstash.logback:logstash-logback-encoder:6.4'
 
     implementation 'com.alipay.sdk:alipay-sdk-java:4.8.10.ALL'
     implementation 'com.aliyun:aliyun-java-sdk-core:4.0.3'
@@ -100,7 +101,10 @@ dependencies {
     //lombok
     implementation 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
-
+    //rabbitmq
+    implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.9.0'
+    //ssh
+    implementation group: 'com.jcraft', name: 'jsch', version: '0.1.55'
     //just use in test to study grammar
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.4'
 
@@ -117,6 +121,10 @@ shadowJar {
     zip64 true
     manifest {
         attributes(['Main-Class': 'xxl.reactornetty.RadarClientDemo'])
+    }
+    exclude 'logback.xml'
+    dependencies {
+        exclude(dependency('ch.qos.logback:logback-classic'))
     }
 }
 
