@@ -150,7 +150,7 @@ public class SQLExecute {
      * @return 查询器
      */
     private static QueryRunner getRunner() {
-        if (queryRunner == null) {
+        if (queryRunner == null || !queryRunner.getDataSource().equals(JdbcSource.get())) {
             queryRunner = new QueryRunner(JdbcSource.get());
         }
         JdbcSource.maybeReconnectSsh();

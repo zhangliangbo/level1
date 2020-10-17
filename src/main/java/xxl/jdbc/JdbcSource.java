@@ -77,9 +77,14 @@ public class JdbcSource {
                     return null;
                 }
             });
-        }
-        if (sshInfo != null && sshInfo.get() != null) {
-            url = url.replace(uri.getHost(), "localhost").replace(String.valueOf(uri.getPort()), String.valueOf(sshInfo.get()._1()));
+            if (sshInfo.get() != null) {
+                url = url.replace(uri.getHost(), "localhost").replace(String.valueOf(uri.getPort()), String.valueOf(sshInfo.get()._1()));
+            }
+        } else {
+            if (sshInfo != null && sshInfo.get() != null) {
+                sshInfo.get()._4().disconnect();
+            }
+            sshInfo = null;
         }
         String finalUrl = url;
         dataSource = Lazy.of(() -> {
