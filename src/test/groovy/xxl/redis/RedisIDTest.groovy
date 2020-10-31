@@ -8,7 +8,8 @@ class RedisIDTest extends GroovyTestCase {
 
     @Override
     void setUp() throws Exception {
-        RedisSource.use("redis://:123456@localhost:6379/0")
+//        RedisSource.use("redis://:123456@localhost:6379/0")
+        RedisSource.useSentinel("mymaster", "redis-sentinel.dfs-dev.svc.comall.bj.public:26379")
     }
 
     @Override

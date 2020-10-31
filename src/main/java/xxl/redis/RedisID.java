@@ -4,6 +4,8 @@ import redis.clients.jedis.Jedis;
 
 /**
  * redis自增ID
+ *
+ * @author zhangliangbo
  */
 public class RedisID {
     /**

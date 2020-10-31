@@ -3,9 +3,12 @@ package xxl.redis;
 import io.vavr.Lazy;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisSentinelPool;
 import redis.clients.jedis.util.Pool;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Redis源
@@ -23,10 +26,23 @@ public class RedisSource {
      * @param uri 资源路径
      */
     public static void use(String uri) {
-        if (jedisPool != null) {
+        if (jedisPool != null && jedisPool.get() != null) {
             jedisPool.get().close();
         }
         jedisPool = Lazy.of(() -> new JedisPool(URI.create(uri)));
+    }
+
+    /**
+     * 设置redis源
+     *
+     * @param masterName 主服务器名称
+     * @param sentinels  哨兵地址
+     */
+    public static void useSentinel(String masterName, String... sentinels) {
+        if (jedisPool != null && jedisPool.get() != null) {
+            jedisPool.get().close();
+        }
+        jedisPool = Lazy.of(() -> new JedisSentinelPool(masterName, new HashSet<>(Arrays.asList(sentinels))));
     }
 
     /**

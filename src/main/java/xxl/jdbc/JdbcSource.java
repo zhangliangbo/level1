@@ -87,6 +87,7 @@ public class JdbcSource {
             sshInfo = null;
         }
         String finalUrl = url;
+        log.info("db url is {}", finalUrl);
         dataSource = Lazy.of(() -> {
             BasicDataSource basicDataSource = new BasicDataSource();
             basicDataSource.setUrl(finalUrl);
