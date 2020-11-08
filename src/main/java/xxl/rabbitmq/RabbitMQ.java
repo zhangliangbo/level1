@@ -20,12 +20,12 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 构造函数
      *
-     * @param servers
-     * @param username
-     * @param password
-     * @param vHost
-     * @param autoRecovery
-     * @param returnConsumer
+     * @param servers        host:port
+     * @param username       用户名
+     * @param password       密码
+     * @param vHost          虚拟机
+     * @param autoRecovery   自动回复
+     * @param returnConsumer 无法投递的消息接收器
      */
     public RabbitMQ(String[] servers, String username, String password, String vHost, boolean autoRecovery, ReturnConsumer returnConsumer) {
         this.servers = servers;
@@ -44,7 +44,7 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 建立通道
      *
-     * @return
+     * @return 成功或失败
      */
     public boolean newChannel() {
         try {
@@ -74,8 +74,11 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
      * direct, 处理路由键，且路由键完全匹配才会转发
      * topic, 处理路由键，支持通配符，#代表一个或多词（以.分隔），*代表不多不少一个词
      *
-     * @param exchange
-     * @return
+     * @param exchange   交换器
+     * @param type       类型
+     * @param durable    持久化
+     * @param autoDelete 自动删除
+     * @return 成功或失败
      */
     public boolean exchangeDeclare(String exchange, String type, boolean durable, boolean autoDelete) {
         try {
@@ -87,44 +90,44 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     }
 
     /**
-     * 默认没有绑定时（先绑过，后来没绑了），自动删除
+     * 不自动删除
      *
-     * @param exchange
-     * @param type
-     * @param durable
-     * @return
+     * @param exchange 交换器
+     * @param type     类型
+     * @param durable  持久化
+     * @return 成功或失败
      */
     public boolean exchangeDeclare(String exchange, String type, boolean durable) {
-        return exchangeDeclare(exchange, type, durable, true);
+        return exchangeDeclare(exchange, type, durable, false);
     }
 
     /**
-     * 默认不持久化
+     * 默认持久化
      *
-     * @param exchange
-     * @param type
-     * @return
+     * @param exchange 交换器
+     * @param type     类型
+     * @return 成功或失败
      */
     public boolean exchangeDeclare(String exchange, String type) {
-        return exchangeDeclare(exchange, type, false);
+        return exchangeDeclare(exchange, type, true);
     }
 
     /**
-     * 默认direct类型
+     * 默认topic类型
      *
-     * @param exchange
-     * @return
+     * @param exchange 交换器名称
+     * @return 成功或失败
      */
     public boolean exchangeDeclare(String exchange) {
-        return exchangeDeclare(exchange, "direct");
+        return exchangeDeclare(exchange, BuiltinExchangeType.TOPIC.getType());
     }
 
     /**
      * 删除交换器
      *
-     * @param exchange
-     * @param ifUnused
-     * @return
+     * @param exchange 交换器名称
+     * @param ifUnused 是否不在使用中
+     * @return 成功或失败
      */
     public boolean exchangeDelete(String exchange, boolean ifUnused) {
         try {
@@ -138,11 +141,11 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 声明一个队列
      *
-     * @param queue
-     * @param durable
-     * @param exclusive
-     * @param autoDelete
-     * @return
+     * @param queue      队列名称
+     * @param durable    是否持久化
+     * @param exclusive  是否被连接独占
+     * @param autoDelete 是否自动删除
+     * @return 成功或失败
      */
     public boolean queueDeclare(String queue, boolean durable, boolean exclusive, boolean autoDelete) {
         try {
@@ -154,45 +157,45 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     }
 
     /**
-     * 默认自动删除
+     * 默认不自动删除
      *
-     * @param queue
-     * @param durable
-     * @param exclusive
-     * @return
+     * @param queue     队列名称
+     * @param durable   是否持久化
+     * @param exclusive 是否被连接独占
+     * @return 成功或失败
      */
     public boolean queueDeclare(String queue, boolean durable, boolean exclusive) {
-        return queueDeclare(queue, durable, exclusive, true);
+        return queueDeclare(queue, durable, exclusive, false);
     }
 
     /**
-     * 默认不绑定连接
+     * 默认不被连接独占
      *
-     * @param queue
-     * @param durable
-     * @return
+     * @param queue   队列名称
+     * @param durable 是否持久化
+     * @return 成功或失败
      */
     public boolean queueDeclare(String queue, boolean durable) {
         return queueDeclare(queue, durable, false);
     }
 
     /**
-     * 不持久化
+     * 默认持久化
      *
-     * @param queue
-     * @return
+     * @param queue 队列名称
+     * @return 成功或失败
      */
     public boolean queueDeclare(String queue) {
-        return queueDeclare(queue, false);
+        return queueDeclare(queue, true);
     }
 
     /**
      * 删除队列
      *
-     * @param queue
-     * @param ifUnused
-     * @param ifEmpty
-     * @return
+     * @param queue    队列名称
+     * @param ifUnused 是否不在使用中
+     * @param ifEmpty  是否为空
+     * @return 成功或失败
      */
     public boolean queueDelete(String queue, boolean ifUnused, boolean ifEmpty) {
         try {
@@ -206,10 +209,10 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 交换器绑定交换器
      *
-     * @param dstExchange
-     * @param srcExchange
-     * @param routingKey
-     * @return
+     * @param dstExchange 目标交换器
+     * @param srcExchange 源交换器
+     * @param routingKey  路由键
+     * @return 成功或失败
      */
     public boolean exchangeBind(String dstExchange, String srcExchange, String routingKey) {
         try {
@@ -223,10 +226,10 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 绑定器解绑绑定器
      *
-     * @param dstExchange
-     * @param srcExchange
-     * @param routingKey
-     * @return
+     * @param dstExchange 目标交换器
+     * @param srcExchange 源交换器
+     * @param routingKey  路由键
+     * @return 成功或失败
      */
     public boolean exchangeUnbind(String dstExchange, String srcExchange, String routingKey) {
         try {
@@ -240,8 +243,10 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 队列绑定交换器
      *
-     * @param queue
-     * @return
+     * @param queue      队列名称
+     * @param exchange   交换器名称
+     * @param routingKey 路由键
+     * @return 成功或失败
      */
     public boolean queueBind(String queue, String exchange, String routingKey) {
         try {
@@ -255,10 +260,10 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 队列解绑交换器
      *
-     * @param queue
-     * @param exchange
-     * @param routingKey
-     * @return
+     * @param queue      队列名称
+     * @param exchange   交换器名称
+     * @param routingKey 路由键
+     * @return 成功或失败
      */
     public boolean queueUnbind(String queue, String exchange, String routingKey) {
         try {
@@ -272,8 +277,8 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 清空队列
      *
-     * @param queue
-     * @return
+     * @param queue 队列名称
+     * @return 成功或失败
      */
     public boolean queuePurge(String queue) {
         try {
@@ -286,36 +291,27 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
 
     /**
      * 发布消息
+     * 默认强制，即未投递成功会打回
      *
-     * @return
+     * @return 成功或失败
      */
     public boolean publish(String exchange, String routingKey, byte[] body) {
-        try {
-            channel.basicPublish(exchange, routingKey, null, body);
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+        return publish(exchange, routingKey, body, true);
     }
 
     /**
      * 发布消息
      *
-     * @return
+     * @return 成功或失败
      */
     public boolean publish(String exchange, String routingKey, byte[] body, boolean mandatory) {
-        try {
-            channel.basicPublish(exchange, routingKey, mandatory, null, body);
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+        return publish(exchange, routingKey, body, mandatory, false);
     }
 
     /**
      * 发布消息
      *
-     * @return
+     * @return 成功或失败
      */
     public boolean publish(String exchange, String routingKey, byte[] body, boolean mandatory, boolean immediate) {
         try {
@@ -327,9 +323,9 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     }
 
     /**
-     * 允许发布者确认消息是否送达
+     * 开启发布者确认模式
      *
-     * @return
+     * @return 成功或失败
      */
     public boolean confirmSelect() {
         try {
@@ -343,7 +339,7 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 等待应答
      *
-     * @return
+     * @return 成功或失败
      */
     public boolean waitForConfirms() {
         try {
@@ -356,8 +352,8 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 等待发布消息的应答
      *
-     * @param timeout
-     * @return
+     * @param timeout 超时时间
+     * @return 成功或失败
      */
     public boolean waitForConfirms(long timeout) {
         try {
@@ -370,11 +366,12 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 控制消费速度
      *
-     * @param prefetchCount
-     * @param global
-     * @return
+     * @param prefetchSize  预取大小
+     * @param prefetchCount 预取数量
+     * @param global        true表示整个通道，false表示单个消费者
+     * @return 成功或失败
      */
-    public boolean qos(int prefetchCount, boolean global) {
+    public boolean qos(int prefetchSize, int prefetchCount, boolean global) {
         try {
             channel.basicQos(prefetchCount, global);
             return true;
@@ -386,9 +383,9 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 获取一个消息
      *
-     * @param queue
-     * @param autoAck
-     * @return
+     * @param queue   队列名称
+     * @param autoAck 自动ack
+     * @return 消息
      */
     public Record get(String queue, boolean autoAck) {
         try {
@@ -406,12 +403,13 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 消费消息
      *
-     * @param queue
+     * @param queue     队列名称
      * @param autoAck   是否自动回复
      * @param tag       消费者标签
      * @param noLocal   不消费同一个连接发的消息
      * @param exclusive 是否接受其他连接的消费者
-     * @return
+     * @param consumer  消费者
+     * @return 成功或失败
      */
     public boolean consume(String queue, boolean autoAck, String tag, boolean noLocal, boolean exclusive, RecordConsumer consumer) {
         try {
@@ -431,10 +429,10 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 默认手动回复，不接受本地消息，允许其他连接消费
      *
-     * @param queue
-     * @param tag
-     * @param consumer
-     * @return
+     * @param queue    队列名称
+     * @param tag      消费者标签
+     * @param consumer 消费者
+     * @return 成功或失败
      */
     public boolean consume(String queue, String tag, RecordConsumer consumer) {
         return consume(queue, false, tag, true, false, consumer);
@@ -443,8 +441,8 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 取消消费
      *
-     * @param consumerTag
-     * @return
+     * @param consumerTag 消费者标签
+     * @return 成功或失败
      */
     public boolean cancel(String consumerTag) {
         try {
@@ -458,9 +456,9 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 应答消息
      *
-     * @param deliveryTag
+     * @param deliveryTag 投递标签
      * @param multiple    是否只应答本条消息
-     * @return
+     * @return 成功或失败
      */
     public boolean ack(long deliveryTag, boolean multiple) {
         try {
@@ -474,10 +472,10 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 拒绝一个或多个消息
      *
-     * @param deliveryTag
-     * @param multiple
-     * @param requeue     是否加入队列还是丢弃
-     * @return
+     * @param deliveryTag 投递标签
+     * @param multiple    否只应答本条消息
+     * @param requeue     是否加入队列（尽可能地保证在原来的位置）还是丢弃
+     * @return 成功或失败
      */
     public boolean nack(long deliveryTag, boolean multiple, boolean requeue) {
         try {
@@ -491,9 +489,9 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 拒绝一个消息
      *
-     * @param deliveryTag
-     * @param requeue
-     * @return
+     * @param deliveryTag 成功或失败
+     * @param requeue     是否加入队列（尽可能地保证在原来的位置）还是丢弃
+     * @return 成功或失败
      */
     public boolean reject(long deliveryTag, boolean requeue) {
         try {
@@ -507,8 +505,8 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 让服务器重发未回复的消息
      *
-     * @param requeue 是否发送到其他消费者
-     * @return
+     * @param requeue true发送到其他消费者，false发送到本消费者
+     * @return 成功或失败
      */
     public boolean recover(boolean requeue) {
         try {
@@ -522,7 +520,7 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 通道是否打开
      *
-     * @return
+     * @return 是否打开
      */
     public boolean isOpen() {
         return channel.isOpen();
@@ -531,8 +529,7 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     /**
      * 关闭通道和连接
      *
-     * @throws IOException
-     * @throws TimeoutException
+     * @return 成功或失败
      */
     public boolean close() {
         try {
