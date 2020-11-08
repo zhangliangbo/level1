@@ -5,7 +5,7 @@ class SQLExecuteTest extends GroovyTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp()
-        JdbcSource.use("", "", "")
+        JdbcSource.use("jdbc:mysql://127.0.0.1:3306/test", "root", "civic")
     }
 
     @Override
@@ -18,15 +18,27 @@ class SQLExecuteTest extends GroovyTestCase {
         println(SQLExecute.sqlSelect("select * from quilt_hello"))
     }
 
+    void testSqlIn() {
+        List<String> res = new ArrayList<>()
+        for (int i = 0; i < 10000; i++) {
+            res.add(i as String)
+        }
+        String inStr = String.join(",", res)
+        println(SQLExecute.sqlSelect("select * from test_in where num in (" + inStr + ")").size())
+    }
+
     void testSqlInsert() {
-        println(SQLExecute.sqlUpdate("insert into quilt_hello (id,name,number,version) values (?,'zlb',1,1)", 7))
+        println(SQLExecute.sqlUpdate("insert into `test_in` (`num`) values (?)", 7))
     }
 
     void testSqlInsertBatch() {
+        Object[][] objects = new Object[10000][];
+
+        for (int i = 0; i < 10000; i++) {
+            objects[i] = new Object[]{i}
+        }
         println(
-                SQLExecute.sqlInsertBatch("insert into quilt_hello (id,name,number,version) values (?,?,?,?)",
-                        [[8, "8", 8, 8], [9, "9", 9, 9]] as Object[][]
-                )
+                SQLExecute.sqlInsertBatch("insert into `test_in` (`num`) values (?)", objects)
         )
     }
 
@@ -35,11 +47,11 @@ class SQLExecuteTest extends GroovyTestCase {
     }
 
     void testTable() {
-        println(SQLExecute.sqlTables(""))
+        println(SQLExecute.sqlTables("test"))
     }
 
     void testColumn() {
-        println(SQLExecute.sqlColumns("", ""))
+        println(SQLExecute.sqlColumns("test", "test_in"))
     }
 
     void testSSH() {
