@@ -44,6 +44,8 @@ dependencies {
     //apache
     implementation 'org.apache.commons:commons-dbcp2:2.7.0'
     implementation 'commons-dbutils:commons-dbutils:1.7'
+    //druid
+    implementation 'com.alibaba:druid:1.2.3'
     //mqtt
     implementation "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0"
 

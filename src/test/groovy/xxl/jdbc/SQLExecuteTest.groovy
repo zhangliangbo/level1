@@ -32,13 +32,13 @@ class SQLExecuteTest extends GroovyTestCase {
     }
 
     void testSqlInsertBatch() {
-        Object[][] objects = new Object[10000][];
+        Object[][] objects = new Object[10000][]
 
         for (int i = 0; i < 10000; i++) {
             objects[i] = new Object[]{i}
         }
         println(
-                SQLExecute.sqlInsertBatch("insert into `test_in` (`num`) values (?)", objects)
+                SQLExecute.sqlBatch("insert into `test_in` (`num`) values (?)", objects)
         )
     }
 

@@ -1,6 +1,7 @@
 package xxl.jdbc;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
@@ -54,17 +55,23 @@ public class SQLExecute {
     }
 
     /**
-     * 批量插入
+     * 取消自动提交，手动一次性提交，真正的批量插入
      *
      * @param sql    sql语句
      * @param params 参数
-     * @return
+     * @return 修改的数量
      */
-    public static List<Map<String, Object>> sqlInsertBatch(String sql, Object[][] params) {
+    public static int[] sqlBatch(String sql, Object[][] params) {
+        Connection connection = null;
         try {
-            return getRunner().insertBatch(sql, new MapListHandler(), params);
+            connection = getRunner().getDataSource().getConnection();
+            connection.setAutoCommit(false);
+            int[] res = getRunner().batch(connection, sql, params);
+            DbUtils.commitAndCloseQuietly(connection);
+            return res;
         } catch (SQLException e) {
-            log.info("insert batch error->{}", e.getMessage());
+            DbUtils.rollbackAndCloseQuietly(connection);
+            log.info("batch error->{}", e.getMessage());
             return null;
         }
     }
