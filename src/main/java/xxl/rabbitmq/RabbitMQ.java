@@ -503,7 +503,7 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
     }
 
     /**
-     * 让服务器重发未回复的消息
+     * 让服务器重发未确认的消息
      *
      * @param requeue true发送到其他消费者，false发送到本消费者
      * @return 成功或失败
