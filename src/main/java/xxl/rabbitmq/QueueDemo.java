@@ -39,7 +39,7 @@ public class QueueDemo {
                     && rabbitMQ.queueDeclare(qu, true, false, false)
                     && rabbitMQ.queueBind(qu, ex, ro)
             ) {
-                if (rabbitMQ.qos(1, false)) {
+                if (rabbitMQ.qos(0, 1, false)) {
                     rabbitMQ.consume(qu, "random", new RecordConsumer() {
                         @Override
                         public void onDelivery(Record record) {

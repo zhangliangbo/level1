@@ -373,7 +373,7 @@ public class RabbitMQ implements ReturnListener, ShutdownListener {
      */
     public boolean qos(int prefetchSize, int prefetchCount, boolean global) {
         try {
-            channel.basicQos(prefetchCount, global);
+            channel.basicQos(prefetchSize, prefetchCount, global);
             return true;
         } catch (IOException e) {
             return false;
