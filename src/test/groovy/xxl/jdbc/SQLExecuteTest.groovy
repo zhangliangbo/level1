@@ -15,7 +15,7 @@ class SQLExecuteTest extends GroovyTestCase {
     }
 
     void testSqlSelect() {
-        println(SQLExecute.sqlSelect("select * from quilt_hello"))
+        println(SQLExecute.sqlSelect("select * from hello"))
     }
 
     void testSqlIn() {
