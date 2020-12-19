@@ -116,7 +116,7 @@ dependencies {
     //flink
     compileOnly group: "org.apache.flink", name: "flink-streaming-java_${scalaVersion}", version: "${flinkVersion}"
     compileOnly group: "org.apache.flink", name: "flink-clients_${scalaVersion}", version: "${flinkVersion}"
-    implementation group: "org.apache.flink", name: "flink-walkthrough-common_${scalaVersion}", version: "${flinkVersion}"
+    compileOnly group: "org.apache.flink", name: "flink-walkthrough-common_${scalaVersion}", version: "${flinkVersion}"
     //just use in test to study grammar
     testImplementation "org.codehaus.groovy:groovy-all:3.0.4"
 
