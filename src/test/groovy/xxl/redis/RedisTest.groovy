@@ -1,15 +1,18 @@
 package xxl.redis
 
+import org.apache.commons.lang3.time.StopWatch
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.Pipeline
 import redis.clients.jedis.Transaction
 
-class RedisIDTest extends GroovyTestCase {
+import java.util.stream.Collectors
+import java.util.stream.IntStream
+
+class RedisTest extends GroovyTestCase {
 
     @Override
     void setUp() throws Exception {
-//        RedisSource.use("redis://:123456@localhost:6379/0")
-        RedisSource.useSentinel("mymaster", "redis-sentinel.dfs-dev.svc.comall.bj.public:26379")
+        RedisSource.use("redis://localhost:6379/0")
     }
 
     @Override
@@ -19,7 +22,7 @@ class RedisIDTest extends GroovyTestCase {
     }
 
     void testKeys() {
-        Jedis jedis = pool.getResource()
+        Jedis jedis = RedisSource.get().getResource()
         Set<String> keys = jedis.keys("pipeline*")
         System.err.println(keys)
         Pipeline pipeline = jedis.pipelined()
@@ -32,7 +35,7 @@ class RedisIDTest extends GroovyTestCase {
 
     void testNormal() {
         long s = System.currentTimeMillis()
-        Jedis jedis = pool.getResource()
+        Jedis jedis = RedisSource.get().getResource()
         for (int i = 0; i < 10000; i++) {
             jedis.set("pipeline" + i, "value" + i)
         }
@@ -43,7 +46,7 @@ class RedisIDTest extends GroovyTestCase {
 
     void testPipeline() {
         long s = System.currentTimeMillis()
-        Jedis jedis = pool.getResource()
+        Jedis jedis = RedisSource.get().getResource()
         Pipeline pipeline = jedis.pipelined()
         for (int i = 0; i < 10000; i++) {
             pipeline.set("pipeline" + i, "value" + i)
@@ -55,7 +58,7 @@ class RedisIDTest extends GroovyTestCase {
     }
 
     void testPipelineTrans() {
-        Jedis jedis = pool.getResource()
+        Jedis jedis = RedisSource.get().getResource()
         Pipeline pipeline = jedis.pipelined()
         pipeline.multi()
         for (int i = 0; i < 10000; i++) {
@@ -68,7 +71,7 @@ class RedisIDTest extends GroovyTestCase {
     }
 
     void testTransaction() {
-        Jedis jedis = pool.getResource()
+        Jedis jedis = RedisSource.get().getResource()
         Transaction transaction = jedis.multi()
         for (int i = 0; i < 100; i++) {
             transaction.set("transaction" + i, "transaction" + i)
@@ -79,7 +82,7 @@ class RedisIDTest extends GroovyTestCase {
     }
 
     void testWatch() {
-        Jedis jedis = pool.getResource()
+        Jedis jedis = RedisSource.get().getResource()
         while (true) {
             jedis.watch("zlb")
             Transaction transaction = jedis.multi()
@@ -94,7 +97,7 @@ class RedisIDTest extends GroovyTestCase {
     }
 
     void testNoWatch() {
-        Jedis jedis = pool.getResource()
+        Jedis jedis = RedisSource.get().getResource()
         Long res = jedis.incr("zlb")
         System.err.println(res)
         jedis.close()
@@ -125,5 +128,64 @@ class RedisIDTest extends GroovyTestCase {
 
     void testNextLong() {
         println(RedisID.nextLong("zlb"))
+    }
+
+    void testString() {
+        def keys = IntStream.range(0, 10000)
+                .mapToObj({ x -> String.valueOf(x) })
+                .collect(Collectors.toList())
+        StopWatch stopWatch = new StopWatch()
+        stopWatch.start()
+        def res = RedisString.mGet(keys as String[])
+        stopWatch.split()
+        println(stopWatch.toSplitString())
+        println(res.size())
+
+        stopWatch.reset()
+        stopWatch.start()
+        res = keys.stream()
+                .map({ t -> RedisString.get(t) })
+                .collect(Collectors.toList())
+        stopWatch.split()
+        println(stopWatch.toSplitString())
+        println(res.size())
+
+        stopWatch.reset()
+        stopWatch.start()
+        res = RedisString.pipelineGet(keys as String[])
+        stopWatch.split()
+        println(stopWatch.toSplitString())
+        println(res.size())
+
+    }
+
+    void testHash() {
+        def key = "civic"
+        def keys = IntStream.range(0, 20000)
+                .mapToObj({ x -> String.valueOf(x) })
+                .collect(Collectors.toList())
+        StopWatch stopWatch = new StopWatch()
+        stopWatch.start()
+        def res = RedisHash.mGet(key, keys as String[])
+        stopWatch.split()
+        println(stopWatch.toSplitString())
+        println(res.size())
+
+        stopWatch.reset()
+        stopWatch.start()
+        res = keys.stream()
+                .map({ t -> RedisHash.get(key, t) })
+                .collect(Collectors.toList())
+        stopWatch.split()
+        println(stopWatch.toSplitString())
+        println(res.size())
+
+        stopWatch.reset()
+        stopWatch.start()
+        res = RedisHash.pipelineGet(key, keys as String[])
+        stopWatch.split()
+        println(stopWatch.toSplitString())
+        println(res.size())
+
     }
 }
