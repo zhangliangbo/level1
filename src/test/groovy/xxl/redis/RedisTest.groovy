@@ -161,7 +161,7 @@ class RedisTest extends GroovyTestCase {
 
     void testHash() {
         def key = "civic"
-        def keys = IntStream.range(0, 20000)
+        def keys = IntStream.range(0, 50000)
                 .mapToObj({ x -> String.valueOf(x) })
                 .collect(Collectors.toList())
         StopWatch stopWatch = new StopWatch()
