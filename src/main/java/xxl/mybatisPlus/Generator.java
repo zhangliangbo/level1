@@ -74,7 +74,9 @@ public class Generator {
     }
 
     public static void main(String[] args) {
-        boolean res = generate("zlb", "D:\\codeGen", "Po",
+        boolean res = generate("zlb",
+                "D:\\codeGen",
+                "Po",
                 "jdbc:mysql://10.90.28.50:3357/guide_shopping_dev?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=UTC",
                 "com.mysql.cj.jdbc.Driver",
                 "guide_shopping_dev",
