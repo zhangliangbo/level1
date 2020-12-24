@@ -33,7 +33,7 @@ public class Generator {
             gc.setOutputDir(outputDir);
             gc.setFileOverride(true);
             gc.setOpen(false);
-            gc.setSwagger2(true);
+            gc.setSwagger2(false);
             gc.setBaseResultMap(true);
             gc.setIdType(IdType.AUTO);
             gc.setEntityName("%s" + entitySuffix);
