@@ -6,7 +6,7 @@ out
 build/
 META-INF/
 jcs_swap/
-
+*.log
 
 # Ignore Gradle GUI config
 gradle-app.setting

@@ -113,6 +113,9 @@ dependencies {
     implementation group: "com.rabbitmq", name: "amqp-client", version: "5.10.0"
     //ssh
     implementation group: "com.jcraft", name: "jsch", version: "0.1.55"
+    //mybatis
+    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.4.1'
+    implementation group: 'org.apache.velocity', name: 'velocity', version: '1.7'
     //flink
     compileOnly group: "org.apache.flink", name: "flink-streaming-java_${scalaVersion}", version: "${flinkVersion}"
     compileOnly group: "org.apache.flink", name: "flink-clients_${scalaVersion}", version: "${flinkVersion}"
