@@ -20,7 +20,7 @@ import xxl.jdbc.JdbcSource;
 
 
 @Slf4j
-public class MybatisPlusGenerator {
+public class Generator {
     public static boolean generate(String author, String outputDir, String entitySuffix,
                                    String url, String driver, String username, String password,
                                    String parent, String entity, String mapper, String xml, String service, String serviceImpl, String controller,
