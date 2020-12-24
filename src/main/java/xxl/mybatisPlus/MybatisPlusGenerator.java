@@ -21,7 +21,7 @@ import xxl.jdbc.JdbcSource;
 
 @Slf4j
 public class MybatisPlusGenerator {
-    public static boolean generate(String author, String outputDir,
+    public static boolean generate(String author, String outputDir, String entitySuffix,
                                    String url, String driver, String username, String password,
                                    String parent, String entity, String mapper, String xml, String service, String serviceImpl, String controller,
                                    String tablePrefix, String... table) {
@@ -36,6 +36,7 @@ public class MybatisPlusGenerator {
             gc.setSwagger2(true);
             gc.setBaseResultMap(true);
             gc.setIdType(IdType.AUTO);
+            gc.setEntityName("%s" + entitySuffix);
             mpg.setGlobalConfig(gc);
 
             DataSourceConfig dsc = new DataSourceConfig();
@@ -73,7 +74,7 @@ public class MybatisPlusGenerator {
     }
 
     public static void main(String[] args) {
-        boolean res = generate("zlb", "D:\\codeGen",
+        boolean res = generate("zlb", "D:\\codeGen", "Po",
                 "jdbc:mysql://10.90.28.50:3357/guide_shopping_dev?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=UTC",
                 "com.mysql.cj.jdbc.Driver",
                 "guide_shopping_dev",
