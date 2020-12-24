@@ -114,7 +114,7 @@ dependencies {
     //ssh
     implementation group: "com.jcraft", name: "jsch", version: "0.1.55"
     //mybatis
-    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.4.1'
+    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.3.2'
     implementation group: 'org.apache.velocity', name: 'velocity', version: '1.7'
     //flink
     compileOnly group: "org.apache.flink", name: "flink-streaming-java_${scalaVersion}", version: "${flinkVersion}"

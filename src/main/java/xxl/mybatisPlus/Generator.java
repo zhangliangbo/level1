@@ -33,7 +33,6 @@ public class Generator {
             gc.setOutputDir(outputDir);
             gc.setFileOverride(true);
             gc.setOpen(false);
-            gc.setSwagger2(false);
             gc.setBaseResultMap(true);
             gc.setIdType(IdType.AUTO);
             gc.setEntityName("%s" + entitySuffix);
@@ -73,24 +72,4 @@ public class Generator {
         }
     }
 
-    public static void main(String[] args) {
-        boolean res = generate("zlb",
-                "D:\\codeGen",
-                "Po",
-                "jdbc:mysql://10.90.28.50:3357/guide_shopping_dev?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=UTC",
-                "com.mysql.cj.jdbc.Driver",
-                "guide_shopping_dev",
-                "Comall_guide_dev_1217",
-                "com.comall.dc.infrastructure",
-                "entity",
-                "dao",
-                "mapper.xml",
-                "service",
-                "service.impl",
-                "controller",
-                "cs_",
-                "cs_login_page"
-        );
-        System.err.println(res);
-    }
 }
