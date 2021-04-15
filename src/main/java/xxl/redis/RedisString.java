@@ -5,8 +5,10 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -121,6 +123,54 @@ public class RedisString {
                 .collect(Collectors.toList());
         jedis.close();
         return true;
+    }
+
+    /**
+     * 匹配所有键
+     *
+     * @param patten 模式
+     * @return 键列表
+     */
+    public static List<String> scan(String patten) {
+        Jedis jedis = RedisSource.get().getResource();
+        String cursor = ScanParams.SCAN_POINTER_START;
+        List<String> res = new ArrayList<>();
+        while (true) {
+            ScanResult<String> scanResult = jedis.scan(cursor, new ScanParams().match(patten));
+            cursor = scanResult.getCursor();
+            res.addAll(scanResult.getResult());
+            if (scanResult.isCompleteIteration()) {
+                break;
+            }
+        }
+        jedis.close();
+        return res;
+    }
+
+    /**
+     * 匹配键
+     *
+     * @param patten 模式
+     * @return 键集合
+     */
+    public static Set<String> keys(String patten) {
+        Jedis jedis = RedisSource.get().getResource();
+        Set<String> keys = jedis.keys(patten);
+        jedis.close();
+        return keys;
+    }
+
+    /**
+     * 删除键
+     *
+     * @param keys 键集合
+     * @return 删除个数
+     */
+    public static long delete(String... keys) {
+        Jedis jedis = RedisSource.get().getResource();
+        Long res = jedis.del(keys);
+        jedis.close();
+        return Optional.ofNullable(res).orElse(0L);
     }
 
 }

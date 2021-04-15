@@ -31,9 +31,9 @@ configurations {
     }
 }
 
-ext{
-    scalaVersion="2.11"
-    flinkVersion="1.12.0"
+ext {
+    scalaVersion = "2.11"
+    flinkVersion = "1.12.0"
 }
 
 dependencies {
@@ -91,7 +91,7 @@ dependencies {
     implementation "org.apache.flink:flink-connector-kafka_${scalaVersion}:${flinkVersion}"
     implementation "org.apache.flink:flink-connector-rabbitmq_${scalaVersion}:${flinkVersion}"
     //jedis
-    implementation "redis.clients:jedis:3.3.0"
+    implementation "redis.clients:jedis:3.5.2"
     //kafka-streams
     implementation "org.apache.kafka:kafka-streams:2.5.0"
     //mysql

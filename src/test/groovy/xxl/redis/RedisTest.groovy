@@ -188,4 +188,14 @@ class RedisTest extends GroovyTestCase {
         println(res.size())
 
     }
+
+    void testScan() {
+        String patten = "pipeline*"
+        List<String> res = RedisString.scan(patten)
+        System.err.println(res.size())
+        Set<String> set = RedisString.keys(patten)
+        System.err.println(set.size())
+//        RedisString.delete(res.toArray(new String[]{}))
+    }
+
 }
