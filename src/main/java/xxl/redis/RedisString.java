@@ -105,7 +105,7 @@ public class RedisString {
         Jedis jedis = RedisSource.get().getResource();
         Pipeline pipeline = jedis.pipelined();
         io.vavr.collection.List.of(kvs)
-                .sliding(2)
+                .sliding(2, 2)
                 .map(new Function<io.vavr.collection.List<String>, String[]>() {
                     @Override
                     public String[] apply(io.vavr.collection.List<String> strings) {
