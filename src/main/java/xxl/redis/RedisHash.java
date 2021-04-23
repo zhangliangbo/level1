@@ -137,6 +137,13 @@ public class RedisHash {
         return new ArrayList<>(hkeys);
     }
 
+    public static Long del(String key, String... hashKeys) {
+        Jedis jedis = RedisSource.get().getResource();
+        Long res = jedis.hdel(key, hashKeys);
+        jedis.close();
+        return res;
+    }
+
     /**
      * 获取所有的键
      *
