@@ -12,13 +12,25 @@ class RedisTest extends GroovyTestCase {
 
     @Override
     void setUp() throws Exception {
-        RedisSource.use("redis://localhost:6379/0")
+        RedisSource.use("redis://local:6379/0")
+    }
+
+    void testRandomPort() {
+        ServerSocket serverSocket = new ServerSocket(0, 1, InetAddress.getByAddress(new byte[]{127, 0, 0, 1}))
+        println(serverSocket.getLocalPort())
     }
 
     @Override
     void tearDown() throws Exception {
         super.tearDown()
         RedisSource.close()
+    }
+
+    void testScan() {
+        String patten = "pipeline*"
+        List<String> res = RedisString.scan(patten)
+        System.err.println(res.size())
+//        RedisString.delete(res.toArray(new String[]{}))
     }
 
     void testKeys() {
@@ -187,15 +199,6 @@ class RedisTest extends GroovyTestCase {
         println(stopWatch.toSplitString())
         println(res.size())
 
-    }
-
-    void testScan() {
-        String patten = "pipeline*"
-        List<String> res = RedisString.scan(patten)
-        System.err.println(res.size())
-        Set<String> set = RedisString.keys(patten)
-        System.err.println(set.size())
-//        RedisString.delete(res.toArray(new String[]{}))
     }
 
 }
