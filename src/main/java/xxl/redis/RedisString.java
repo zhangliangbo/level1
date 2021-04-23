@@ -140,17 +140,23 @@ public class RedisString {
     /**
      * 匹配所有键
      *
-     * @param patten 模式
+     * @param pattern 模式
      * @return 键列表
      */
-    public static List<String> scan(String patten, int count) {
+    public static List<String> scan(String pattern, int count) {
         Jedis jedis = RedisSource.get().getResource();
         String cursor = ScanParams.SCAN_POINTER_START;
-        ScanResult<String> scanResult = jedis.scan(cursor, new ScanParams().match(patten).count(count));
-        cursor = scanResult.getCursor();
-        List<String> result = scanResult.getResult();
+        List<String> res = new ArrayList<>();
+        while (true) {
+            ScanResult<String> scan = jedis.scan(cursor, new ScanParams().match(pattern));
+            res.addAll(scan.getResult());
+            cursor = scan.getCursor();
+            if (scan.isCompleteIteration() || res.size() >= count) {
+                break;
+            }
+        }
         jedis.close();
-        return result;
+        return res;
     }
 
     /**

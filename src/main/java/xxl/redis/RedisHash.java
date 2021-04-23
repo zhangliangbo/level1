@@ -181,9 +181,17 @@ public class RedisHash {
     public static List<String> scan(String key, String pattern, int count) {
         Jedis jedis = RedisSource.get().getResource();
         String cursor = ScanParams.SCAN_POINTER_START;
-        ScanResult<Map.Entry<String, String>> hscan = jedis.hscan(key, cursor, new ScanParams().match(pattern).count(count));
+        List<String> res = new ArrayList<>();
+        while (true) {
+            ScanResult<Map.Entry<String, String>> hscan = jedis.hscan(key, cursor, new ScanParams().match(pattern));
+            res.addAll(hscan.getResult().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
+            cursor = hscan.getCursor();
+            if (hscan.isCompleteIteration() || res.size() >= count) {
+                break;
+            }
+        }
         jedis.close();
-        return hscan.getResult().stream().map(Map.Entry::getKey).collect(Collectors.toList());
+        return res;
     }
 
 }

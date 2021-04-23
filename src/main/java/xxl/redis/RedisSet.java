@@ -7,7 +7,9 @@ import redis.clients.jedis.ScanResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangliangbo
@@ -73,12 +75,12 @@ public class RedisSet {
         return new ArrayList<>(res);
     }
 
-    public static List<String> scan(String key, String patten) {
+    public static List<String> scan(String key, String pattern) {
         Jedis jedis = RedisSource.get().getResource();
         List<String> res = new ArrayList<>();
         String cursor = ScanParams.SCAN_POINTER_START;
         while (true) {
-            ScanResult<String> sscan = jedis.sscan(key, cursor, new ScanParams().match(patten));
+            ScanResult<String> sscan = jedis.sscan(key, cursor, new ScanParams().match(pattern));
             res.addAll(sscan.getResult());
             cursor = sscan.getCursor();
             if (sscan.isCompleteIteration()) {
@@ -89,12 +91,20 @@ public class RedisSet {
         return new ArrayList<>(res);
     }
 
-    public static List<String> scan(String key, String patten, int count) {
+    public static List<String> scan(String key, String pattern, int count) {
         Jedis jedis = RedisSource.get().getResource();
         String cursor = ScanParams.SCAN_POINTER_START;
-        ScanResult<String> sscan = jedis.sscan(key, cursor, new ScanParams().match(patten).count(count));
+        List<String> res = new ArrayList<>();
+        while (true) {
+            ScanResult<String> sscan = jedis.sscan(key, cursor, new ScanParams().match(pattern));
+            res.addAll(sscan.getResult());
+            cursor = sscan.getCursor();
+            if (sscan.isCompleteIteration() || res.size() >= count) {
+                break;
+            }
+        }
         jedis.close();
-        return sscan.getResult();
+        return res;
     }
 
 }
