@@ -91,6 +91,7 @@ public class RedisString {
                 .stream()
                 .map(t -> (String) t)
                 .collect(Collectors.toList());
+        pipeline.close();
         jedis.close();
         return res;
     }
@@ -106,18 +107,7 @@ public class RedisString {
         Pipeline pipeline = jedis.pipelined();
         io.vavr.collection.List.of(kvs)
                 .sliding(2, 2)
-                .map(new Function<io.vavr.collection.List<String>, String[]>() {
-                    @Override
-                    public String[] apply(io.vavr.collection.List<String> strings) {
-                        return strings.toJavaArray(String[]::new);
-                    }
-                })
-                .forEach(new Consumer<String[]>() {
-                    @Override
-                    public void accept(String[] strings) {
-                        pipeline.set(strings[0], strings[1]);
-                    }
-                });
+                .forEach(strings -> pipeline.set(strings.get(0), strings.get(1)));
         List<String> res = pipeline.syncAndReturnAll().stream()
                 .map(t -> (String) t)
                 .collect(Collectors.toList());

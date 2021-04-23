@@ -1,6 +1,9 @@
 package xxl.redis;
 
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.keyvalue.DefaultMapEntry;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.ScanParams;
@@ -62,9 +65,12 @@ public class RedisHash {
      * @param kvs 哈希键值对
      * @return 是否成功
      */
-    public static boolean mSet(String key, Map<String, String> kvs) {
+    public static boolean mSet(String key, String... kvs) {
         Jedis jedis = RedisSource.get().getResource();
-        String res = jedis.hmset(key, kvs);
+        Map<String, String> map = io.vavr.collection.List.of(kvs)
+                .sliding(2, 2)
+                .toJavaMap(strings -> Tuple.of(strings.get(0), strings.get(1)));
+        String res = jedis.hmset(key, map);
         jedis.close();
         return RedisContext.OK.equals(res);
     }
@@ -98,6 +104,7 @@ public class RedisHash {
                 .stream()
                 .map(t -> (String) t)
                 .collect(Collectors.toList());
+        pipeline.close();
         jedis.close();
         return res;
     }
@@ -108,18 +115,16 @@ public class RedisHash {
      * @param kvs 键
      * @return 值
      */
-    public static boolean pipelineSet(String key, Map<String, String> kvs) {
+    public static boolean pipelineSet(String key, String... kvs) {
         Jedis jedis = RedisSource.get().getResource();
         Pipeline pipeline = jedis.pipelined();
-        kvs.forEach(new BiConsumer<String, String>() {
-            @Override
-            public void accept(String s, String s2) {
-                pipeline.hset(key, s, s2);
-            }
-        });
+        io.vavr.collection.List.of(kvs)
+                .sliding(2, 2)
+                .forEach(strings -> pipeline.hset(key, strings.get(0), strings.get(1)));
         List<Long> res = pipeline.syncAndReturnAll().stream()
                 .map(t -> (Long) t)
                 .collect(Collectors.toList());
+        pipeline.close();
         jedis.close();
         return true;
     }
