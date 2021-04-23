@@ -38,6 +38,13 @@ public class RedisSet {
         return new ArrayList<>(res);
     }
 
+    public static List<String> random(String key, int count) {
+        Jedis jedis = RedisSource.get().getResource();
+        List<String> res = jedis.srandmember(key, count);
+        jedis.close();
+        return res;
+    }
+
     public static Long remove(String key, String... values) {
         Jedis jedis = RedisSource.get().getResource();
         Long res = jedis.srem(key, values);
