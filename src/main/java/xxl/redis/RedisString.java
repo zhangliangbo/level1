@@ -111,6 +111,7 @@ public class RedisString {
         List<String> res = pipeline.syncAndReturnAll().stream()
                 .map(t -> (String) t)
                 .collect(Collectors.toList());
+        pipeline.close();
         jedis.close();
         return true;
     }
