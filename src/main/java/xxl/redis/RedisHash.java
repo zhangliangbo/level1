@@ -3,9 +3,13 @@ package xxl.redis;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -118,6 +122,56 @@ public class RedisHash {
                 .collect(Collectors.toList());
         jedis.close();
         return true;
+    }
+
+    /**
+     * 获取所有的键
+     *
+     * @param key 键
+     * @return 值
+     */
+    public static List<String> keys(String key) {
+        Jedis jedis = RedisSource.get().getResource();
+        Set<String> hkeys = jedis.hkeys(key);
+        jedis.close();
+        return new ArrayList<>(hkeys);
+    }
+
+    /**
+     * 获取所有的键
+     *
+     * @param key 键
+     * @return 值
+     */
+    public static Long len(String key) {
+        Jedis jedis = RedisSource.get().getResource();
+        Long len = jedis.hlen(key);
+        jedis.close();
+        return len;
+    }
+
+    public static List<String> scan(String key, String pattern) {
+        Jedis jedis = RedisSource.get().getResource();
+        String cursor = ScanParams.SCAN_POINTER_START;
+        List<String> res = new ArrayList<>();
+        while (true) {
+            ScanResult<Map.Entry<String, String>> hscan = jedis.hscan(key, cursor, new ScanParams().match(pattern));
+            res.addAll(hscan.getResult().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
+            cursor = hscan.getCursor();
+            if (hscan.isCompleteIteration()) {
+                break;
+            }
+        }
+        jedis.close();
+        return res;
+    }
+
+    public static List<String> scan(String key, String pattern, int count) {
+        Jedis jedis = RedisSource.get().getResource();
+        String cursor = ScanParams.SCAN_POINTER_START;
+        ScanResult<Map.Entry<String, String>> hscan = jedis.hscan(key, cursor, new ScanParams().match(pattern).count(count));
+        jedis.close();
+        return hscan.getResult().stream().map(Map.Entry::getKey).collect(Collectors.toList());
     }
 
 }

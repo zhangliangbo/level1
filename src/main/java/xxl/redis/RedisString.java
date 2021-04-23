@@ -137,14 +137,30 @@ public class RedisString {
         List<String> res = new ArrayList<>();
         while (true) {
             ScanResult<String> scanResult = jedis.scan(cursor, new ScanParams().match(patten));
-            cursor = scanResult.getCursor();
             res.addAll(scanResult.getResult());
+            cursor = scanResult.getCursor();
             if (scanResult.isCompleteIteration()) {
                 break;
             }
         }
         jedis.close();
         return res;
+    }
+
+    /**
+     * 匹配所有键
+     *
+     * @param patten 模式
+     * @return 键列表
+     */
+    public static List<String> scan(String patten, int count) {
+        Jedis jedis = RedisSource.get().getResource();
+        String cursor = ScanParams.SCAN_POINTER_START;
+        ScanResult<String> scanResult = jedis.scan(cursor, new ScanParams().match(patten).count(count));
+        cursor = scanResult.getCursor();
+        List<String> result = scanResult.getResult();
+        jedis.close();
+        return result;
     }
 
     /**
@@ -169,6 +185,13 @@ public class RedisString {
     public static long delete(String... keys) {
         Jedis jedis = RedisSource.get().getResource();
         Long res = jedis.del(keys);
+        jedis.close();
+        return Optional.ofNullable(res).orElse(0L);
+    }
+
+    public static Long expire(String key, int seconds) {
+        Jedis jedis = RedisSource.get().getResource();
+        Long res = jedis.expire(key, seconds);
         jedis.close();
         return Optional.ofNullable(res).orElse(0L);
     }
