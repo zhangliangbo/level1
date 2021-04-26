@@ -68,6 +68,13 @@ public class RedisSet {
         return new ArrayList<>(res);
     }
 
+    public static Long unionStore(String dstKey, String... keys) {
+        Jedis jedis = RedisSource.get().getResource();
+        Long res = jedis.sunionstore(dstKey, keys);
+        jedis.close();
+        return res;
+    }
+
     public static List<String> inter(String... keys) {
         Jedis jedis = RedisSource.get().getResource();
         Set<String> res = jedis.sinter(keys);
