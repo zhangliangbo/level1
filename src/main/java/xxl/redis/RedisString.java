@@ -193,4 +193,11 @@ public class RedisString {
         return Optional.ofNullable(res).orElse(0L);
     }
 
+    public static Long ttl(String key) {
+        Jedis jedis = RedisSource.get().getResource();
+        Long res = jedis.ttl(key);
+        jedis.close();
+        return Optional.ofNullable(res).orElse(0L);
+    }
+
 }
