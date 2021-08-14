@@ -1,11 +1,6 @@
 package xxl.redis;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import io.vavr.Lazy;
-import io.vavr.Tuple;
-import io.vavr.Tuple5;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.Jedis;
@@ -19,7 +14,6 @@ import xxl.source.SshSource;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Properties;
 
 /**
  * Redis源

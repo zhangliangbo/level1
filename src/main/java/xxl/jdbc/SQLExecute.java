@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class SQLExecute {
             return getRunner().query(sql, new MapListHandler(), params);
         } catch (SQLException e) {
             log.info("select error->{}", e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -72,7 +73,7 @@ public class SQLExecute {
         } catch (SQLException e) {
             DbUtils.rollbackAndCloseQuietly(connection);
             log.info("batch error->{}", e.getMessage());
-            return null;
+            return new int[0];
         }
     }
 
@@ -82,9 +83,7 @@ public class SQLExecute {
      * @return 所有的数据库
      */
     public static List<Map<String, Object>> sqlDatabases() {
-        try {
-            //获取连接
-            Connection connection = getRunner().getDataSource().getConnection();
+        try (Connection connection = getRunner().getDataSource().getConnection()) {
             //获取元数据
             DatabaseMetaData metaData = connection.getMetaData();
             //获取所有数据库列表
@@ -92,11 +91,10 @@ public class SQLExecute {
             //处理数据库
             List<Map<String, Object>> mapList = new MapListHandler().handle(rs);
             rs.close();
-            connection.close();
             return mapList;
         } catch (SQLException e) {
             log.info("get database error->{}", e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -107,9 +105,7 @@ public class SQLExecute {
      * @return 所有表格信息
      */
     public static List<Map<String, Object>> sqlTables(String database) {
-        try {
-            //获取连接
-            Connection connection = getRunner().getDataSource().getConnection();
+        try (Connection connection = getRunner().getDataSource().getConnection()) {
             //获取元数据
             DatabaseMetaData metaData = connection.getMetaData();
             //获取表格
@@ -117,11 +113,10 @@ public class SQLExecute {
             //转换数据
             List<Map<String, Object>> mapList = new MapListHandler().handle(rs);
             rs.close();
-            connection.close();
             return mapList;
         } catch (Exception e) {
             log.info("get table error->{}", e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -133,9 +128,7 @@ public class SQLExecute {
      * @return 字段信息
      */
     public static List<Map<String, Object>> sqlColumns(String database, String table) {
-        try {
-            //获取连接
-            Connection connection = getRunner().getDataSource().getConnection();
+        try (Connection connection = getRunner().getDataSource().getConnection()) {
             //获取元数据
             DatabaseMetaData metaData = connection.getMetaData();
             //获取表格
@@ -143,11 +136,10 @@ public class SQLExecute {
             //转换数据
             List<Map<String, Object>> mapList = new MapListHandler().handle(rs);
             rs.close();
-            connection.close();
             return mapList;
         } catch (Exception e) {
             log.info("get column error->{}", e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 

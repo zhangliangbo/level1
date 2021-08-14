@@ -114,4 +114,11 @@ public class RedisSet {
         return res;
     }
 
+    public static Boolean isMember(String key, String value) {
+        Jedis jedis = RedisSource.get().getResource();
+        Boolean res = jedis.sismember(key, value);
+        jedis.close();
+        return res;
+    }
+
 }

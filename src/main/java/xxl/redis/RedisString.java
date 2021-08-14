@@ -200,4 +200,11 @@ public class RedisString {
         return Optional.ofNullable(res).orElse(0L);
     }
 
+    public static Long memory(String key) {
+        Jedis jedis = RedisSource.get().getResource();
+        Long res = jedis.memoryUsage(key);
+        jedis.close();
+        return Optional.ofNullable(res).orElse(0L);
+    }
+
 }
