@@ -19,16 +19,30 @@ import java.util.List;
 @Slf4j
 public class RedisList {
 
-    public static Long append(String key, String... values) {
+    public static Long lPush(String key, String... values) {
         Jedis jedis = RedisSource.get().getResource();
         Long res = jedis.lpush(key, values);
         jedis.close();
         return res;
     }
 
-    public static Long prepend(String key, String... values) {
+    public static List<String> lPop(String key, int count) {
+        Jedis jedis = RedisSource.get().getResource();
+        List<String> res = jedis.lpop(key, count);
+        jedis.close();
+        return res;
+    }
+
+    public static Long rPush(String key, String... values) {
         Jedis jedis = RedisSource.get().getResource();
         Long res = jedis.rpush(key, values);
+        jedis.close();
+        return res;
+    }
+
+    public static List<String> rPop(String key, int count) {
+        Jedis jedis = RedisSource.get().getResource();
+        List<String> res = jedis.rpop(key, count);
         jedis.close();
         return res;
     }
@@ -50,6 +64,13 @@ public class RedisList {
     public static Long len(String key) {
         Jedis jedis = RedisSource.get().getResource();
         Long res = jedis.llen(key);
+        jedis.close();
+        return res;
+    }
+
+    public static String index(String key, long index) {
+        Jedis jedis = RedisSource.get().getResource();
+        String res = jedis.lindex(key, index);
         jedis.close();
         return res;
     }

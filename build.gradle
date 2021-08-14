@@ -116,10 +116,17 @@ dependencies {
     //mybatis
     implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.3.2'
     implementation group: 'org.apache.velocity', name: 'velocity', version: '1.7'
+    //es,lucene
+    implementation group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.11.2'
+
     //flink
     compileOnly group: "org.apache.flink", name: "flink-streaming-java_${scalaVersion}", version: "${flinkVersion}"
     compileOnly group: "org.apache.flink", name: "flink-clients_${scalaVersion}", version: "${flinkVersion}"
     compileOnly group: "org.apache.flink", name: "flink-walkthrough-common_${scalaVersion}", version: "${flinkVersion}"
+    //lettuce
+    implementation group: 'io.lettuce', name: 'lettuce-core', version: '6.1.4.RELEASE'
+    //file-upload
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
     //just use in test to study grammar
     testImplementation "org.codehaus.groovy:groovy-all:3.0.4"
 
