@@ -8,7 +8,18 @@ class ElasticSearchTest extends GroovyTestCase {
     }
 
     void testMatch() {
-        def obj = ElasticSearch.match("books", "author", "zlb")
+        def obj = ElasticSearch.match("books", "author", "张若愚")
+        println(obj)
+    }
+
+    void testMultiMatch() {
+        def obj = ElasticSearch.multiMatch("books", "Thinking", "title.value", "description")
+        System.err.println(obj.size())
+        println(obj)
+    }
+
+    void testMatchPhrase() {
+        def obj = ElasticSearch.matchPhrase("books", "author", "zlb")
         println(obj)
     }
 
@@ -74,7 +85,25 @@ class ElasticSearchTest extends GroovyTestCase {
     }
 
     void testMatchAllByName() {
-        def res = ElasticSearch.matchAllBy("books","id")
+        def res = ElasticSearch.matchAllBy("books", "id")
+        println(res)
+    }
+
+    void testNestedMatch() {
+        def res = ElasticSearch.nestedMatch("books", "title", "title.value", "Thinking")
+        System.err.println(res.size())
+        println(res)
+    }
+
+    void testNestedMatchPhrase() {
+        def res = ElasticSearch.nestedMatchPhrase("books", "title", "title.value", "Java编程思想")
+        System.err.println(res.size())
+        println(res)
+    }
+
+    void testNestedTerm() {
+        def res = ElasticSearch.nestedTerm("books", "title", "title.value", "Java编程思想")
+        System.err.println(res.size())
         println(res)
     }
 

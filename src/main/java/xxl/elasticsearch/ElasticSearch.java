@@ -10,6 +10,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -31,9 +32,7 @@ import org.elasticsearch.client.indices.GetMappingsRequest;
 import org.elasticsearch.client.indices.GetMappingsResponse;
 import org.elasticsearch.cluster.metadata.MappingMetadata;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.MatchAllQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -165,9 +164,36 @@ public class ElasticSearch {
         return search(searchRequest);
     }
 
+    public static List<Map<String, Object>> multiMatch(String index, Object value, String... field) {
+        Set<String> nested = Stream.of(field).filter(t -> t.contains(".")).collect(Collectors.toSet());
+        QueryBuilder queryBuilder;
+        if (nested.isEmpty()) {
+            queryBuilder = QueryBuilders.multiMatchQuery(value, field);
+        } else {
+            BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+            for (String n : nested) {
+                List<String> split = Stream.of(n.split("\\.")).collect(Collectors.toList());
+                String path = String.join(".", split.subList(0, split.size() - 1));
+                String name = String.join(".", split.subList(split.size() - 2, split.size()));
+                boolQueryBuilder.should(QueryBuilders.nestedQuery(path, QueryBuilders.matchQuery(name, value), ScoreMode.None));
+            }
+            boolQueryBuilder.should(QueryBuilders.multiMatchQuery(value, Stream.of(field).filter(t -> !t.contains(".")).distinct().toArray(String[]::new)));
+            queryBuilder = boolQueryBuilder;
+        }
+        SearchRequest searchRequest = Requests.searchRequest(index)
+                .source(SearchSourceBuilder.searchSource().query(queryBuilder));
+        return search(searchRequest);
+    }
+
     public static List<Map<String, Object>> match(String index, String field, Object value) {
         SearchRequest searchRequest = Requests.searchRequest(index)
                 .source(SearchSourceBuilder.searchSource().query(QueryBuilders.matchQuery(field, value)));
+        return search(searchRequest);
+    }
+
+    public static List<Map<String, Object>> matchPhrase(String index, String field, Object value) {
+        SearchRequest searchRequest = Requests.searchRequest(index)
+                .source(SearchSourceBuilder.searchSource().query(QueryBuilders.matchPhraseQuery(field, value)));
         return search(searchRequest);
     }
 
@@ -254,6 +280,24 @@ public class ElasticSearch {
     public static List<Map<String, Object>> matchAllBy(String index, String field) {
         SearchRequest searchRequest = Requests.searchRequest(index)
                 .source(SearchSourceBuilder.searchSource().query(QueryBuilders.matchAllQuery().queryName(field)));
+        return search(searchRequest);
+    }
+
+    public static List<Map<String, Object>> nestedMatch(String index, String path, String field, Object value) {
+        SearchRequest searchRequest = Requests.searchRequest(index)
+                .source(SearchSourceBuilder.searchSource().query(QueryBuilders.nestedQuery(path, QueryBuilders.matchQuery(field, value), ScoreMode.None)));
+        return search(searchRequest);
+    }
+
+    public static List<Map<String, Object>> nestedMatchPhrase(String index, String path, String field, Object value) {
+        SearchRequest searchRequest = Requests.searchRequest(index)
+                .source(SearchSourceBuilder.searchSource().query(QueryBuilders.nestedQuery(path, QueryBuilders.matchPhraseQuery(field, value), ScoreMode.None)));
+        return search(searchRequest);
+    }
+
+    public static List<Map<String, Object>> nestedTerm(String index, String path, String field, Object value) {
+        SearchRequest searchRequest = Requests.searchRequest(index)
+                .source(SearchSourceBuilder.searchSource().query(QueryBuilders.nestedQuery(path, QueryBuilders.termQuery(field, value), ScoreMode.None)));
         return search(searchRequest);
     }
 

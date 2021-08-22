@@ -9,8 +9,16 @@
         "type": "long"
       },
       "title": {
-        "type": "text",
-        "analyzer": "ik_max_word"
+        "type": "nested",
+        "properties": {
+          "code": {
+            "type": "keyword"
+          },
+          "value": {
+            "type": "text",
+            "analyzer": "ik_max_word"
+          }
+        }
       },
       "language": {
         "type": "keyword"
