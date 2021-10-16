@@ -14,6 +14,7 @@ targetCompatibility = "8"
 
 repositories {
     maven { url "https://maven.aliyun.com/repository/public/" }
+    maven { url "https://repo.spring.io/plugins-release/" }
     jcenter()
     mavenCentral()
     maven {
@@ -68,7 +69,12 @@ dependencies {
 
     implementation "org.apache.poi:poi-ooxml:4.1.1"
 
-    implementation "net.sourceforge.jexcelapi:jxl:2.6.12"
+    implementation ("net.sourceforge.jexcelapi:jxl:2.6.12"){
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+        exclude group: 'log4j', module: 'log4j'
+    }
 
 //    implementation "com.github.wxpay:wxpay-sdk:latest.integration"
 
@@ -86,10 +92,6 @@ dependencies {
 //    implementation "org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.18"  //wait for ripe
 //    implementation "org.asciidoctor:asciidoctorj-epub3:1.5.0-alpha.9"  //wait for ripe
 
-    implementation "org.apache.flink:flink-clients_${scalaVersion}:${flinkVersion}"
-    implementation "org.apache.flink:flink-connector-wikiedits_${scalaVersion}:${flinkVersion}"
-    implementation "org.apache.flink:flink-connector-kafka_${scalaVersion}:${flinkVersion}"
-    implementation "org.apache.flink:flink-connector-rabbitmq_${scalaVersion}:${flinkVersion}"
     //jedis
     implementation "redis.clients:jedis:3.5.2"
     //kafka-streams
@@ -109,24 +111,63 @@ dependencies {
     //lombok
     implementation "org.projectlombok:lombok:1.18.12"
     annotationProcessor "org.projectlombok:lombok:1.18.12"
-    //rabbitmq
-    implementation group: "com.rabbitmq", name: "amqp-client", version: "5.10.0"
+    // https://mvnrepository.com/artifact/com.rabbitmq/amqp-client
+    implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.13.1'
     //ssh
     implementation group: "com.jcraft", name: "jsch", version: "0.1.55"
     //mybatis
     implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.3.2'
     implementation group: 'org.apache.velocity', name: 'velocity', version: '1.7'
     //es,lucene
-    implementation group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.11.2'
+    implementation (group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.11.2'){
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    // https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch
+    implementation group: 'org.elasticsearch', name: 'elasticsearch', version: '7.15.0'
 
-    //flink
-    compileOnly group: "org.apache.flink", name: "flink-streaming-java_${scalaVersion}", version: "${flinkVersion}"
-    compileOnly group: "org.apache.flink", name: "flink-clients_${scalaVersion}", version: "${flinkVersion}"
-    compileOnly group: "org.apache.flink", name: "flink-walkthrough-common_${scalaVersion}", version: "${flinkVersion}"
     //lettuce
     implementation group: 'io.lettuce', name: 'lettuce-core', version: '6.1.4.RELEASE'
     //file-upload
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+    // https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper
+    implementation (group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.6.3'){
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    // https://mvnrepository.com/artifact/io.dropwizard.metrics/metrics-core
+    implementation group: 'io.dropwizard.metrics', name: 'metrics-core', version: '3.2.6'
+    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server
+    implementation (group: 'org.eclipse.jetty', name: 'jetty-server', version: '10.0.6') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
+    // https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet
+    implementation (group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '10.0.6'){
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    // https://mvnrepository.com/artifact/org.apache.kafka/kafka
+    implementation group: 'org.apache.kafka', name: 'kafka_2.13', version: '3.0.0'
+    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    // https://mvnrepository.com/artifact/io.micrometer/micrometer-core
+    implementation group: 'io.micrometer', name: 'micrometer-core', version: '1.7.4'
+    // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-jmx
+    implementation group: 'io.micrometer', name: 'micrometer-registry-jmx', version: '1.7.4'
+    // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.7.4'
+    // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '10.0.12'
+
+
+
     //just use in test to study grammar
     testImplementation "org.codehaus.groovy:groovy-all:3.0.4"
 
@@ -155,3 +196,5 @@ nexus {
     repositoryUrl = "http://localhost:8081/repository/maven-releases/"
     snapshotRepositoryUrl = "http://localhost:8081/repository/maven-snapshots/"
 }
+
+//  ./gradlew dependencyInsight --dependency slf4j-api
