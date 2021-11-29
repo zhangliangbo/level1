@@ -1,0 +1,42 @@
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "title": {
+        "type": "nested",
+        "properties": {
+          "code": {
+            "type": "keyword"
+          },
+          "value": {
+            "type": "text",
+            "analyzer": "ik_max_word"
+          }
+        }
+      },
+      "language": {
+        "type": "keyword"
+      },
+      "author": {
+        "type": "keyword"
+      },
+      "price": {
+        "type": "double"
+      },
+      "year": {
+        "type": "date",
+        "format": "yyy-MM-dd"
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "ik_max_word"
+      }
+    }
+  }
+}

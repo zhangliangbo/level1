@@ -12,7 +12,7 @@ class RedisTest extends GroovyTestCase {
 
     @Override
     void setUp() throws Exception {
-        RedisSource.use("redis://localhost:6379/0")
+        RedisSource.use("redis://localhost:6379/0", "civic")
     }
 
     void testRandomPort() {
