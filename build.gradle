@@ -15,7 +15,6 @@ targetCompatibility = "8"
 repositories {
     maven { url "https://maven.aliyun.com/repository/public/" }
     maven { url "https://repo.spring.io/plugins-release/" }
-    jcenter()
     mavenCentral()
     maven {
         url "http://localhost:8081/repository/maven-snapshots/"
@@ -116,7 +115,7 @@ dependencies {
     //ssh
     implementation group: "com.jcraft", name: "jsch", version: "0.1.55"
     //mybatis
-    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.3.2'
+    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.4.1'
     implementation group: 'org.apache.velocity', name: 'velocity', version: '1.7'
     //es,lucene
     implementation (group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: '7.11.2'){
@@ -129,7 +128,7 @@ dependencies {
     implementation group: 'org.elasticsearch', name: 'elasticsearch', version: '7.15.0'
 
     //lettuce
-    implementation group: 'io.lettuce', name: 'lettuce-core', version: '6.1.4.RELEASE'
+    implementation group: 'io.lettuce', name: 'lettuce-core', version: '6.2.0.RELEASE'
     //file-upload
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
     // https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper
@@ -165,6 +164,12 @@ dependencies {
     implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.7.4'
     // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core
     implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '10.0.12'
+    // https://mvnrepository.com/artifact/org.apache.shardingsphere/sharding-jdbc-core
+    implementation group: 'org.apache.shardingsphere', name: 'sharding-jdbc-core', version: '4.1.1'
+    // https://mvnrepository.com/artifact/com.alibaba.otter/canal.client
+    implementation group: 'com.alibaba.otter', name: 'canal.client', version: '1.1.5'
+    // https://mvnrepository.com/artifact/com.alibaba.otter/canal.protocol
+    implementation group: 'com.alibaba.otter', name: 'canal.protocol', version: '1.1.5'
 
 
 

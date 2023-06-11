@@ -27,7 +27,7 @@ import java.util.Scanner;
 public class LettuceMain {
 
     public static void main(String[] args) {
-        RedisClient redisClient = RedisClient.create("redis://:civic@localhost/0");
+        RedisClient redisClient = RedisClient.create("redis://:selectdev@redis.dfs-dev.svc.comall.bj.public:6379/0");
         redisClient.getResources().eventBus().get().subscribe(new CoreSubscriber<Event>() {
             Subscription subscription;
 
